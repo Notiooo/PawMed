@@ -1,0 +1,2 @@
+The document is created on an ongoing basis at the given link:
+[here](https://docs.google.com/document/d/1vyU5W8YSqXmY1hPowfAfRbclktKepngm/edit?usp=sharing&ouid=100136228169225905054&rtpof=true&sd=true).
