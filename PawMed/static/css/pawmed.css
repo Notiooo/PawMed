@@ -1,0 +1,129 @@
+
+/* ==== Colors ==== */
+.pm-background-darkblue
+{
+    background: #08415C;
+}
+
+.pm-background-lightblue
+{
+    background: #6B818C;
+}
+
+.pm-background-red
+{
+    background: #CC2936;
+}
+
+.pm-background-white
+{
+    background: #EEE5E9;
+}
+
+.pm-background-manhattan
+{
+    background: #F1Bf98;
+}
+
+
+/* ==== Buttons ==== */
+/* Use it together with uk-button */
+
+.pm-button-primary {
+    font-weight: 500;
+    background-color: #6B818C;
+    color: #ffffff;
+    border-radius: 8px;
+}
+
+.pm-button-primary:hover {
+    background-color: #3e5d6c;
+    color: #ffffff;
+}
+
+.pm-button-primary:active,
+.pm-button-primary.pm-active {
+    background-color: #08415C;
+    color: #ffffff;
+}
+
+.pm-button-secondary {
+    font-weight: 500;
+    background-color: #CC2936;
+    color: #ffffff;
+    border-radius: 8px;
+}
+
+.pm-button-secondary:hover {
+    background-color: #ab1f2c;
+    color: #ffffff;
+}
+
+.pm-button-secondary:active,
+.pm-button-secondary.pm-active {
+    background-color: #9d1d2a;
+    color: #ffffff;
+}
+
+.pm-button-manhattan {
+    font-weight: 500;
+    background-color: #F1Bf98;
+    color: #ffffff;
+    border-radius: 8px;
+}
+
+.pm-button-manhattan:hover {
+    background-color: #d3ad8d;
+    color: #ffffff;
+}
+
+.pm-button-manhattan:active,
+.pm-button-manhattan.pm-active {
+    background-color: #c2a084;
+    color: #ffffff;
+}
+
+/* ==== Forms ==== */
+/* Use it together with uk framework*/
+
+.pm-form-blue:checked
+{
+    background-color: #08415C!important;
+}
+
+.pm-form-blue:disabled
+{
+  background-color: #f8f8f8!important;
+  border-color: #e5e5e5!important;
+}
+
+.pm-form-lightblue:checked
+{
+    background-color: #6B818C!important;
+}
+.pm-form-lightblue:disabled
+{
+  background-color: #f8f8f8!important;
+  border-color: #e5e5e5!important;
+}
+
+.pm-form-red:checked
+{
+    background-color: #CC2936!important;
+}
+
+.pm-form-red:disabled
+{
+  background-color: #f8f8f8!important;
+  border-color: #e5e5e5!important;
+}
+
+.pm-form-manhattan:checked
+{
+    background-color: #F1Bf98!important;
+}
+.pm-form-manhattan:disabled
+{
+  background-color: #f8f8f8!important;
+  border-color: #e5e5e5!important;
+}
