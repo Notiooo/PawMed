@@ -1,6 +1,6 @@
 <template>
   <div class="header">
-    <h1 class="title">SAMPLE PAGE</h1>
+    <h1 class="title">PawMed - Sample Page</h1>
 
     <hr>
 
