@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+    <nav class="uk-navbar-container uk-navbar-transparent" uk-navbar>
+        <div class="uk-navbar-right">
+            <ul class="uk-navbar-nav">
+                <div class="uk-navbar-item uk-margin-xlarge-right">
+                    <span class="uk-icon pm-color-darkblue" uk-icon="icon: receiver; ratio: 1.8"></span>
+                    <span style="font-size: 21px" class="uk-text-bold uk-margin-right uk-margin-left">737 953 283</span>
+                    <span style="font-size: 21px" class="uk-text-bold pm-color-lightblue">IT support</span>
+                </div>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="uk-grid-collapse uk-margin-xlarge-top" uk-grid>
+        <!-- Promotion screen -->
+        <div class="uk-width-1-2 uk-visible@m">
+            <div class="">
+                <div class="tk-blob uk-position-absolute uk-width-xlarge uk-width-2xlarge@xl" style="--fill: #607d8b; left: -200px; --time: 40s; z-index: -999">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 412.3 354.7">
+                    <path d="M320.8 58.4c47.1 38.8 97.8 95 90.8 143s-71.7 87.7-138.3 117.2c-66.5 29.5-134.7 48.7-186.4 26.5C35.3 322.9.3 259.3 0 203.3-.3 147.4 34.1 99.2 71 62.8 107.9 26.3 147.2 1.7 188.7.1c41.4-1.7 84.9 19.6 132.1 58.3z"></path>
+                  </svg>
+                </div>
+                <div class="tk-blob uk-position-absolute uk-width-large uk-width-xlarge@xl" style="--fill: #607d8b; left: 150px; --time: 120s; --amount: 5; z-index: -999">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 425.9 377">
+                    <path d="M389.3 42c39.8 40.8 47.5 116.3 21.3 165.4-26.1 49.1-86 71.8-145.9 104.3-59.8 32.5-119.6 74.8-168.9 63.4C46.5 363.7 7.6 298.5 1 235.7-5.5 173 20.3 112.5 59.8 71.9 99.3 31.2 152.4 10.2 215 2.8 277.5-4.7 349.5 1.2 389.3 42z"></path>
+                  </svg>
+                </div>
+            </div>
+            <div class="uk-flex uk-flex-center uk-flex-middle uk-height-large">
+                <img class="uk-width-2-5@xl uk-width-1-2@m" src="{% static 'img/homepage/background-image.png' %}" alt="">
+            </div>
+        </div>
+        <div class="uk-width-expand">
+            <div class="uk-flex uk-flex-left uk-flex-middle uk-flex-column uk-height-large uk-text-center">
+                <div class="uk-margin-large-bottom">
+                    <p style="font-size: 80px" class="uk-margin-remove uk-text-bold pm-color-darkblue uk-text-uppercase">Pawmed</p>
+                    <p style="font-size: 24px; margin-top: -20px" class="uk-margin-medium-bottom uk-text-bolder pm-color-lightblue">Treatment within paw's reach</p>
+                    <a href="#"><button style="font-size: 21px" class="uk-button pm-button-primary uk-button-large uk-width-medium">Log in</button></a>
+                    <p class="uk-text-bold pm-color-darkblue">An internal system for employees.<br>No unauthorized persons allowed</p>
+                </div>
+                <div>
+                    <p style="font-size: 21px" class="uk-text-bold pm-color-darkblue">Your first day of work?</p>
+                    <a href="#"><button style="font-size: 21px" class="uk-button pm-button-darkblue uk-button-large uk-width-medium">Register</button></a>
+                    <p class="uk-width-medium uk-text-bold pm-color-darkblue">Sign up and send a ticket to the administrator with your information.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}
