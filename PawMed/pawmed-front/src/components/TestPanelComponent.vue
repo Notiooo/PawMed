@@ -3,7 +3,7 @@
     <div class="pmi-width-extra-small pm-background-darkblue uk-visible@m">
 
     </div>
-    <div class="uk-width-2-5 uk-margin-small uk-margin-small-left uk-margin-small-right ">
+    <div class="uk-width-2-5@m uk-width-expand@s uk-margin-small uk-margin-small-left uk-margin-small-right ">
       <p class="uk-margin-remove">ID: 000000</p>
       <table class="uk-table-small uk-width-expand uk-padding-small ">
 
@@ -28,7 +28,7 @@
         </tbody>
       </table>
     </div>
-    <div class=" uk-width-2-5 uk-margin-small uk-margin-small-left uk-margin-small-right uk-margin-auto-vertical pmi-border-left">
+    <div class="uk-width-2-5@m uk-width-expand@s uk-margin-small uk-margin-small-left uk-margin-small-right uk-margin-auto-vertical pmi-border-left">
       <table class="uk-margin-small-left uk-table-small uk-width-expand uk-padding-small">
         <caption style="font-size: 21px" class="uk-margin-remove pm-color-darkblue uk-text-bold uk-text-justify ">Jan Kowalski</caption>
           <tr>
@@ -45,7 +45,7 @@
           </tr>
       </table>
     </div>
-    <div class="uk-width-expand@m uk-text-center uk-margin-auto-vertical uk-margin-small uk-margin-small-left uk-margin-small-right ">
+    <div class="uk-width-1-6@m uk-text-center uk-margin-auto-vertical uk-margin-small uk-margin-small-left uk-margin-small-right ">
       <a href="#"><button style="font-size: 16px" class="uk-button pm-button-primary uk-button-small uk-width-small uk-margin-small-bottom uk-margin-small-top">View Details</button></a>
     </div>
   </div>
