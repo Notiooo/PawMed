@@ -25,6 +25,32 @@
     background: #F1Bf98;
 }
 
+.pm-color-darkblue
+{
+    color: #08415C;
+}
+
+.pm-color-lightblue
+{
+    color: #6B818C;
+}
+
+.pm-color-red
+{
+    color: #CC2936;
+}
+
+.pm-color-white
+{
+    color: #EEE5E9;
+}
+
+.pm-color-manhattan
+{
+    color: #F1Bf98;
+}
+
+
 
 /* ==== Buttons ==== */
 /* Use it together with uk-button */
