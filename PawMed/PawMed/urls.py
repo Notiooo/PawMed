@@ -18,10 +18,25 @@ from django.urls import path, include
 from django.contrib.staticfiles.urls import static
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from . import settings
+from django.urls import path, include
+from rest_framework import routers
+
+# The solution below is experimental and PyCharm's IntelliSense doesn't seem to like it.
+# Feel free to change it if you find a more elegant solution.
+# # # # # #
+import sys
+sys.path.append('..')
+
+from users.views import CustomUserViewSet
+# # # # # #
+
+router = routers.DefaultRouter()
+router.register(r'users', CustomUserViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('homepage.urls')),
+    path('', include(router.urls)),
 ]
 
 urlpatterns += staticfiles_urlpatterns()
