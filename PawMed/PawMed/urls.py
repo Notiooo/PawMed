@@ -18,7 +18,6 @@ from django.urls import path, include
 from django.contrib.staticfiles.urls import static
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from . import settings
-from django.urls import path, include
 from rest_framework import routers
 
 # The solution below is experimental and PyCharm's IntelliSense doesn't seem to like it.

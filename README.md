@@ -11,5 +11,12 @@ docker pull postgres
 ```
 docker run --name pawmed -e POSTGRES_PASSWORD=password -d -p 5432:5432 postgres:latest 
 ```
-4. Connect to database using preferred admin tool
-4. Run model creation script form db-scripts directory
+4. Configure the database by running one of the two scripts
+```
+pawmedEnv/databaseConfigurator.bat
+```
+```
+pawmedEnv/databaseConfigurator.sh
+```
+5. Connect to database using preferred admin tool
+6. Run model creation script form db-scripts directory

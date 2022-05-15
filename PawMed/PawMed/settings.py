@@ -88,10 +88,11 @@ WSGI_APPLICATION = 'PawMed.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'postgres',
-        'HOST': 'localhost',
-        'PORT': '5432',
-        'USER': 'postgres',
+        'NAME': str(getenv('DATABASE_NAME')),
+        'HOST': str(getenv('DATABASE_HOST')),
+        'PORT': str(getenv('DATABASE_PORT')),
+        'USER': str(getenv('DATABASE_USER')),
+        'PASSWORD': str(getenv('DATABASE_PASSWORD')),
     }
 }
 
