@@ -2,7 +2,13 @@
 {% load static %}
 
 {% block content %}
-    <nav class="uk-navbar-container uk-navbar-transparent" uk-navbar>
+    <style>
+    body
+    {
+        overflow: hidden;
+    }
+    </style>
+    <nav class="uk-navbar-container uk-navbar-transparent" uk-navbar uk-scrollspy="cls: uk-animation-slide-top;">
         <div class="uk-navbar-right">
             <ul class="uk-navbar-nav">
                 <div class="uk-navbar-item uk-margin-xlarge-right">
@@ -14,7 +20,7 @@
         </div>
     </nav>
 
-    <div class="uk-grid-collapse uk-margin-xlarge-top" uk-grid>
+    <div class="uk-grid-collapse uk-margin-large-top" uk-grid>
         <!-- Promotion screen -->
         <div class="uk-width-1-2 uk-visible@m">
             <div class="">
@@ -29,21 +35,21 @@
                   </svg>
                 </div>
             </div>
-            <div class="uk-flex uk-flex-center uk-flex-middle uk-height-large">
+            <div class="uk-flex uk-flex-center uk-flex-middle uk-height-large" uk-scrollspy="cls: uk-animation-scale-up;">
                 <img class="uk-width-2-5@xl uk-width-1-2@m" src="{% static 'img/homepage/background-image.png' %}" alt="">
             </div>
         </div>
         <div class="uk-width-expand">
             <div class="uk-flex uk-flex-left uk-flex-middle uk-flex-column uk-height-large uk-text-center">
-                <div class="uk-margin-large-bottom">
+                <div class="uk-margin-large-bottom" uk-scrollspy="cls: uk-animation-slide-top-medium;">
                     <p style="font-size: 80px" class="uk-margin-remove uk-text-bold pm-color-darkblue uk-text-uppercase">Pawmed</p>
                     <p style="font-size: 24px; margin-top: -20px" class="uk-margin-medium-bottom uk-text-bolder pm-color-lightblue">Treatment within paw's reach</p>
-                    <a href="#"><button style="font-size: 21px" class="uk-button pm-button-primary uk-button-large uk-width-medium">Log in</button></a>
+                    <a href="{% url 'login' %}"><button style="font-size: 21px" class="uk-button pm-button-primary uk-button-large uk-width-medium">Log in</button></a>
                     <p class="uk-text-bold pm-color-darkblue">An internal system for employees.<br>No unauthorized persons allowed</p>
                 </div>
-                <div>
+                <div uk-scrollspy="cls: uk-animation-slide-bottom-medium;">
                     <p style="font-size: 21px" class="uk-text-bold pm-color-darkblue">Your first day of work?</p>
-                    <a href="#"><button style="font-size: 21px" class="uk-button pm-button-darkblue uk-button-large uk-width-medium">Register</button></a>
+                    <a href="{% url 'signup' %}"><button style="font-size: 21px" class="uk-button pm-button-darkblue uk-button-large uk-width-medium">Register</button></a>
                     <p class="uk-width-medium uk-text-bold pm-color-darkblue">Sign up and send a ticket to the administrator with your information.</p>
                 </div>
             </div>

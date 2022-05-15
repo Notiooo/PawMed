@@ -46,6 +46,9 @@ INSTALLED_APPS = [
     # Our apps
     'users',
     'homepage',
+
+    # 3-rd party
+    'widget_tweaks',
 ]
 
 MIDDLEWARE = [
