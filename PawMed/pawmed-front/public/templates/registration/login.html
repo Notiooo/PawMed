@@ -54,16 +54,13 @@
                     <a href="#"><button type="submit" value="login" class="uk-button pm-button-primary uk-width-1-1">Login</button></a>
                 </div>
             </div>
+            {% if form.non_field_errors %}
+            <div class="uk-alert-danger" uk-alert>
+                {% for error in form.non_field_errors %}
+                    <p>{{ error }}</p>
+                {% endfor %}
+            </div>
+            {% endif %}
         </form>
     </div>
-    {% if form.non_field_errors %}
-    <div class="uk-alert-danger" uk-alert>
-        {% for error in form.non_field_errors %}
-            {{ error }}
-        {% endfor %}
-        {% for error in form.captcha.errors %}
-            <p>{{ error }}</p>
-        {% endfor %}
-    </div>
-    {% endif %}
 {% endblock content %}
