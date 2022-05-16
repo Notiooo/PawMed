@@ -43,12 +43,14 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'corsheaders',
+
     # Our apps
     'users',
     'homepage',
 
-    # 3-rd party
+    # 3rd party apps
     'widget_tweaks',
+    'phone_field',
 ]
 
 MIDDLEWARE = [
@@ -150,8 +152,15 @@ MEDIA_URL = '/uploads/'
 
 # User related settings
 AUTH_USER_MODEL = 'users.CustomUser'
+LOGIN_REDIRECT_URL = 'redirect'
+LOGOUT_REDIRECT_URL = 'homepage'
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',  # Authenticate with the username and password
+]

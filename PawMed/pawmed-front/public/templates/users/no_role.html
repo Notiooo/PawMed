@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% load widget_tweaks %}
+{% load static %}
+
+{% block content %}
+    <div class="uk-flex uk-flex-middle uk-flex-center uk-flex-column uk-height-viewport">
+        {% if user.is_authenticated %}
+        <p class="uk-article-title">Sorry, but you have no role</p>
+        <p class="uk-text-lead uk-margin-large-bottom">Wait for the administrator to assign you a role.</p>
+        <a href="{% url 'logout' %}"><button class="uk-button pm-button-darkblue">Logout</button></a>
+        {% else %}
+        <p class="uk-article-title">Sorry, but you're not logged in</p>
+        {% endif %}
+    </div>
+{% endblock content %}
