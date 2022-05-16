@@ -2,6 +2,10 @@
 {% load widget_tweaks %}
 {% load static %}
 
+{% block navbar %}
+    {% include 'registration/navbar.html' %}
+{% endblock navbar %}
+
 {% block content %}
     <style>
     body
@@ -9,18 +13,6 @@
         overflow-x: hidden;
     }
     </style>
-    <nav class="uk-navbar-container uk-navbar-transparent" uk-navbar uk-scrollspy="cls: uk-animation-slide-top;">
-        <div class="uk-navbar-right">
-            <ul class="uk-navbar-nav">
-                <div class="uk-navbar-item uk-margin-xlarge-right">
-                    <span class="uk-icon pm-color-darkblue" uk-icon="icon: receiver; ratio: 1.8"></span>
-                    <span style="font-size: 21px" class="uk-text-bold uk-margin-right uk-margin-left">737 953 283</span>
-                    <span style="font-size: 21px" class="uk-text-bold pm-color-lightblue">IT support</span>
-                </div>
-            </ul>
-        </div>
-    </nav>
-
     <div>
         <div class="tk-blob uk-position-absolute" style="--fill: #d7dcdf; --time: 120s; z-index: -999; width: 1500px; top: -600px; left: -800px">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 412.3 354.7">
@@ -42,42 +34,93 @@
                     <a class="uk-form-icon pm-color-lightblue" href="#" uk-icon="icon: user"></a>
                     {% render_field form.username|attr:"autofocus" class+="uk-input pm-input" placeholder="Login" %}
                 </div>
-            </div>
-            <div class="uk-margin">
-                <div class="uk-inline uk-width-1-1">
-                    <a class="uk-form-icon pm-color-lightblue" href="#" uk-icon="icon: user"></a>
-                    {% render_field form.first_name class+="uk-input pm-input" placeholder="First Name" %}
+                {% if form.username.errors %}
+                <div class="uk-alert-danger" uk-alert>
+                {% for error in form.username.errors %}
+                    <p>{{ error }}</p>
+                {% endfor %}
                 </div>
+                {% endif %}
             </div>
-            <div class="uk-margin">
-                <div class="uk-inline uk-width-1-1">
-                    <a class="uk-form-icon pm-color-lightblue" href="#" uk-icon="icon: user"></a>
-                    {% render_field form.last_name class+="uk-input pm-input" placeholder="Last name" %}
+            <div class="uk-margin uk-child-width-1-2 uk-grid-small" uk-grid>
+                <div>
+                    <div class="uk-inline">
+                        <a class="uk-form-icon pm-color-lightblue" href="#" uk-icon="icon: user"></a>
+                        {% render_field form.first_name class+="uk-input pm-input" placeholder="First Name" %}
+                    </div>
+                    {% if form.first_name.errors %}
+                    <div class="uk-alert-danger" uk-alert>
+                    {% for error in form.first_name.errors %}
+                        <p>{{ error }}</p>
+                    {% endfor %}
+                    </div>
+                    {% endif %}
+                </div>
+                <div>
+                    <div class="uk-inline">
+                        <a class="uk-form-icon pm-color-lightblue" href="#" uk-icon="icon: user"></a>
+                        {% render_field form.last_name class+="uk-input pm-input" placeholder="Last name" %}
+                    </div>
+                    {% if form.last_name.errors %}
+                    <div class="uk-alert-danger" uk-alert>
+                    {% for error in form.last_name.errors %}
+                        <p>{{ error }}</p>
+                    {% endfor %}
+                    </div>
+                    {% endif %}
                 </div>
             </div>
             <div class="uk-margin">
                 <div class="uk-inline uk-width-1-1">
                     <a class="uk-form-icon pm-color-lightblue" href="#" uk-icon="icon: receiver"></a>
-                    {% render_field form.username class+="uk-input pm-input" placeholder="Phone number" %}
+                    {% render_field form.phone_number class+="uk-input pm-input" placeholder="Phone number" %}
                 </div>
+                {% if form.phone_number.errors %}
+                <div class="uk-alert-danger" uk-alert>
+                {% for error in form.phone_number.errors %}
+                    <p>{{ error }}</p>
+                {% endfor %}
+                </div>
+                {% endif %}
             </div>
             <div class="uk-margin">
                 <div class="uk-inline uk-width-1-1">
                     <a class="uk-form-icon pm-color-lightblue" href="#" uk-icon="icon: mail"></a>
                     {% render_field form.email class+="uk-input pm-input" placeholder="Email Address" %}
                 </div>
+                {% if form.email.errors %}
+                <div class="uk-alert-danger" uk-alert>
+                {% for error in form.email.errors %}
+                    <p>{{ error }}</p>
+                {% endfor %}
+                </div>
+                {% endif %}
             </div>
             <div class="uk-margin">
                 <div class="uk-inline uk-width-1-1">
                     <a class="uk-form-icon pm-color-lightblue" href="#" uk-icon="icon: lock"></a>
                     {% render_field form.password1 class+="uk-input pm-input" placeholder="Password" %}
                 </div>
+                {% if form.password1.errors %}
+                <div class="uk-alert-danger" uk-alert>
+                {% for error in form.password1.errors %}
+                    <p>{{ error }}</p>
+                {% endfor %}
+                </div>
+                {% endif %}
             </div>
             <div class="uk-margin">
                 <div class="uk-inline uk-width-1-1">
                     <a class="uk-form-icon pm-color-lightblue" href="#" uk-icon="icon: lock"></a>
                     {% render_field form.password2 class+="uk-input pm-input" placeholder="Repeat Password" %}
                 </div>
+                {% if form.password2.errors %}
+                <div class="uk-alert-danger" uk-alert>
+                {% for error in form.password2.errors %}
+                    <p>{{ error }}</p>
+                {% endfor %}
+                </div>
+                {% endif %}
             </div>
             <div class="uk-flex-column uk-text-small uk-margin">
                 <div>Your password must not be too similar to your other personal information.</div>
@@ -89,14 +132,13 @@
             </div>
         </form>
     </div>
-    {% if form.non_field_errors %}
-    <div class="uk-alert-danger" uk-alert>
-        {% for error in form.non_field_errors %}
-            {{ error }}
-        {% endfor %}
-        {% for error in form.captcha.errors %}
-            <p>{{ error }}</p>
-        {% endfor %}
-    </div>
+    {% if form.errors %}
+       {% for field in form %}
+           {% for error in field.errors %}
+              <div class="uk-alert-danger" uk-alert>
+                   <strong>{{ error|escape }}</strong>
+              </div>
+           {% endfor %}
+       {% endfor %}
     {% endif %}
 {% endblock content %}

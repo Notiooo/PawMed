@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
-from phone_field import PhoneField
+from phonenumber_field.modelfields import PhoneNumberField
 
 
 class CustomUser(AbstractUser):
@@ -12,6 +12,5 @@ class CustomUser(AbstractUser):
     )
 
     email = models.EmailField(unique=True)
-    full_name = models.CharField(max_length=100, blank=True)
-    phone_number = PhoneField(blank=True, help_text='Contact phone number')
+    phone_number = PhoneNumberField(blank=True, help_text='Contact phone number')
     role = models.CharField(max_length=14, choices=ROLE_CHOICES,  blank=True, null=True)

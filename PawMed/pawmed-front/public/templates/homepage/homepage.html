@@ -1,6 +1,10 @@
 {% extends 'base.html' %}
 {% load static %}
 
+{% block navbar %}
+    {% include 'registration/navbar.html' %}
+{% endblock navbar %}
+
 {% block content %}
     <style>
     body
@@ -8,18 +12,6 @@
         overflow: hidden;
     }
     </style>
-    <nav class="uk-navbar-container uk-navbar-transparent" uk-navbar uk-scrollspy="cls: uk-animation-slide-top;">
-        <div class="uk-navbar-right">
-            <ul class="uk-navbar-nav">
-                <div class="uk-navbar-item uk-margin-xlarge-right">
-                    <span class="uk-icon pm-color-darkblue" uk-icon="icon: receiver; ratio: 1.8"></span>
-                    <span style="font-size: 21px" class="uk-text-bold uk-margin-right uk-margin-left">737 953 283</span>
-                    <span style="font-size: 21px" class="uk-text-bold pm-color-lightblue">IT support</span>
-                </div>
-            </ul>
-        </div>
-    </nav>
-
     <div class="uk-grid-collapse uk-margin-large-top" uk-grid>
         <!-- Promotion screen -->
         <div class="uk-width-1-2 uk-visible@m">
@@ -49,7 +41,7 @@
                 </div>
                 <div uk-scrollspy="cls: uk-animation-slide-bottom-medium;">
                     <p style="font-size: 21px" class="uk-text-bold pm-color-darkblue">Your first day of work?</p>
-                    <a href="{% url 'signup' %}"><button style="font-size: 21px" class="uk-button pm-button-darkblue uk-button-large uk-width-medium">Register</button></a>
+                    <a href="{% url 'register' %}"><button style="font-size: 21px" class="uk-button pm-button-darkblue uk-button-large uk-width-medium">Register</button></a>
                     <p class="uk-width-medium uk-text-bold pm-color-darkblue">Sign up and send a ticket to the administrator with your information.</p>
                 </div>
             </div>

@@ -50,7 +50,7 @@ INSTALLED_APPS = [
 
     # 3rd party apps
     'widget_tweaks',
-    'phone_field',
+    'phonenumber_field',
 ]
 
 MIDDLEWARE = [

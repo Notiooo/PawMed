@@ -2,6 +2,10 @@
 {% load widget_tweaks %}
 {% load static %}
 
+{% block navbar %}
+    {% include 'registration/navbar.html' %}
+{% endblock navbar %}
+
 {% block content %}
     <style>
     body
@@ -9,18 +13,6 @@
         overflow: hidden;
     }
     </style>
-    <nav class="uk-navbar-container uk-navbar-transparent" uk-navbar uk-scrollspy="cls: uk-animation-slide-top">
-        <div class="uk-navbar-right">
-            <ul class="uk-navbar-nav">
-                <div class="uk-navbar-item uk-margin-xlarge-right">
-                    <span class="uk-icon pm-color-darkblue" uk-icon="icon: receiver; ratio: 1.8"></span>
-                    <span style="font-size: 21px" class="uk-text-bold uk-margin-right uk-margin-left">737 953 283</span>
-                    <span style="font-size: 21px" class="uk-text-bold pm-color-lightblue">IT support</span>
-                </div>
-            </ul>
-        </div>
-    </nav>
-
     <div>
         <div class="tk-blob uk-position-absolute" style="--fill: #d7dcdf; --time: 120s; z-index: -999; width: 1500px; top: -900px; left: -800px">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 412.3 354.7">
