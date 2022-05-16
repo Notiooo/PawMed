@@ -1,52 +1,41 @@
-
 /* ==== Colors ==== */
-.pm-background-darkblue
-{
+.pm-background-darkblue {
     background: #08415C;
 }
 
-.pm-background-lightblue
-{
+.pm-background-lightblue {
     background: #6B818C;
 }
 
-.pm-background-red
-{
+.pm-background-red {
     background: #CC2936;
 }
 
-.pm-background-white
-{
+.pm-background-white {
     background: #EEE5E9;
 }
 
-.pm-background-manhattan
-{
+.pm-background-manhattan {
     background: #F1Bf98;
 }
 
-.pm-color-darkblue
-{
+.pm-color-darkblue {
     color: #08415C;
 }
 
-.pm-color-lightblue
-{
+.pm-color-lightblue {
     color: #6B818C;
 }
 
-.pm-color-red
-{
+.pm-color-red {
     color: #CC2936;
 }
 
-.pm-color-white
-{
+.pm-color-white {
     color: #EEE5E9;
 }
 
-.pm-color-manhattan
-{
+.pm-color-manhattan {
     color: #F1Bf98;
 }
 
@@ -118,44 +107,66 @@
 /* ==== Forms ==== */
 /* Use it together with uk framework*/
 
-.pm-form-blue:checked
-{
-    background-color: #08415C!important;
+.pm-form-blue:checked {
+    background-color: #08415C !important;
 }
 
-.pm-form-blue:disabled
-{
-  background-color: #f8f8f8!important;
-  border-color: #e5e5e5!important;
+.pm-form-blue:disabled {
+    background-color: #f8f8f8 !important;
+    border-color: #e5e5e5 !important;
 }
 
-.pm-form-lightblue:checked
-{
-    background-color: #6B818C!important;
-}
-.pm-form-lightblue:disabled
-{
-  background-color: #f8f8f8!important;
-  border-color: #e5e5e5!important;
+.pm-form-blue:focus {
+    border-color: #e5e5e5 !important;
 }
 
-.pm-form-red:checked
-{
-    background-color: #CC2936!important;
+.pm-form-lightblue:checked {
+    background-color: #6B818C !important;
 }
 
-.pm-form-red:disabled
-{
-  background-color: #f8f8f8!important;
-  border-color: #e5e5e5!important;
+.pm-form-lightblue:focus {
+    border-color: #e5e5e5 !important;
 }
 
-.pm-form-manhattan:checked
-{
-    background-color: #F1Bf98!important;
+.pm-form-lightblue:disabled {
+    background-color: #f8f8f8 !important;
+    border-color: #e5e5e5 !important;
 }
-.pm-form-manhattan:disabled
-{
-  background-color: #f8f8f8!important;
-  border-color: #e5e5e5!important;
+
+.pm-form-red:checked {
+    background-color: #CC2936 !important;
+}
+
+.pm-form-red:focus {
+    border-color: #e5e5e5 !important;
+}
+
+.pm-form-red:disabled {
+    background-color: #f8f8f8 !important;
+    border-color: #e5e5e5 !important;
+}
+
+.pm-form-manhattan:checked {
+    background-color: #F1Bf98 !important;
+}
+
+.pm-form-manhattan:focus {
+    border-color: #e5e5e5 !important;
+}
+
+.pm-form-manhattan:disabled {
+    background-color: #f8f8f8 !important;
+    border-color: #e5e5e5 !important;
+}
+
+/* ==== Forms ==== */
+/* Use it together with uk framework*/
+.pm-input {
+    background-color: #EEE5E9 !important;
+    border: 2px solid #6B818C !important;
+    color: #6B818C;
+}
+
+.pm-input:focus {
+    border: 2px solid #F1Bf98 !important;
 }

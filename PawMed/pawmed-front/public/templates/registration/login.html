@@ -2,21 +2,65 @@
 {% load widget_tweaks %}
 {% load static %}
 
+{% block navbar %}
+    {% include 'registration/navbar.html' %}
+{% endblock navbar %}
+
 {% block content %}
-    <form id="form" method="post">
-        {% csrf_token %}
-        {% render_field form.username|attr:"autofocus" class+="uk-input uk-border-rounded" placeholder="Login" %}
-        {% render_field form.password class+="uk-input uk-boder-rounded" placeholder="Password" %}
-        <button type="submit" class="uk-button" value="login">Login</button>
-    </form>
-    {% if form.non_field_errors %}
-        <div class="uk-alert-danger" uk-alert>
-            {% for error in form.non_field_errors %}
-                {{ error }}
-            {% endfor %}
-            {% for error in form.captcha.errors %}
-                <p>{{ error }}</p>
-            {% endfor %}
+    <style>
+    body
+    {
+        overflow: hidden;
+    }
+    </style>
+    <div>
+        <div class="tk-blob uk-position-absolute" style="--fill: #d7dcdf; --time: 120s; z-index: -999; width: 1500px; top: -900px; left: -800px">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 412.3 354.7">
+            <path d="m 334 47 c 57 28 97 39 85.2 111.6 s -33 63 -93 93 c -75.2 30.4 -100.2 26.4 -186.4 26.5 c -66.8 -10.1 -128.8 -29.1 -132.8 -74.1 c -3 -40 12 -54 74 -131 c 22 -20 21 -46 110 -53 c 62 1 41 11 92 17 z"></path>
+          </svg>
         </div>
-    {% endif %}
+         <div class="tk-blob uk-position-absolute" style="--fill: #d7dcdf; --time: 120s; z-index: -999; width: 800px; bottom: -400px; left: -200px">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 412.3 354.7">
+            <path d="m 334 47 c 57 28 97 39 85.2 111.6 s -33 63 -93 93 c -75.2 30.4 -100.2 26.4 -186.4 26.5 c -66.8 -10.1 -128.8 -29.1 -132.8 -74.1 c -3 -40 12 -54 74 -131 c 22 -20 21 -46 110 -53 c 62 1 41 11 92 17 z"></path>
+          </svg>
+        </div>
+    </div>
+    <div class="uk-container uk-width-large">
+        <div class="uk-text-center uk-margin-bottom" uk-scrollspy="cls: uk-animation-scale-up; target: > p, > img; delay: 100;">
+            <p style="font-size: 80px" class="uk-margin-remove uk-text-bold pm-color-darkblue uk-text-uppercase">Pawmed</p>
+            <p style="font-size: 24px; margin-top: -20px" class="uk-margin-medium-bottom uk-text-bolder pm-color-lightblue">Treatment within paw's reach</p>
+            <img src="{% static 'img/login/catWithMedbox.png' %}" width="200px"/>
+        </div>
+        <form id="form" method="post" uk-scrollspy="cls: uk-animation-slide-bottom; target: > div; delay: 300;">
+            {% csrf_token %}
+            <div class="uk-margin">
+                <div class="uk-inline uk-width-1-1">
+                    <a class="uk-form-icon pm-color-lightblue" href="#" uk-icon="icon: user"></a>
+                    {% render_field form.username|attr:"autofocus" class+="uk-input pm-input" placeholder="Login" %}
+                </div>
+            </div>
+            <div class="uk-margin">
+                <div class="uk-inline uk-width-1-1">
+                    <a class="uk-form-icon pm-color-lightblue" href="#" uk-icon="icon: lock"></a>
+                    {% render_field form.password class+="uk-input pm-input" placeholder="Password" %}
+                </div>
+            </div>
+            <div class="uk-flex uk-flex-center uk-flex-middle uk-grid-small" uk-grid>
+                <div class="uk-width-1-2">
+                    <input style="width: 25px; height: 25px" class="uk-checkbox pm-form-lightblue" type="checkbox" name="remember_me">
+                    <label class="uk-margin-small-left">Remember me</label>
+                </div>
+                <div class="uk-width-1-2">
+                    <a href="#"><button type="submit" value="login" class="uk-button pm-button-primary uk-width-1-1">Login</button></a>
+                </div>
+            </div>
+            {% if form.non_field_errors %}
+            <div class="uk-alert-danger" uk-alert>
+                {% for error in form.non_field_errors %}
+                    <p>{{ error }}</p>
+                {% endfor %}
+            </div>
+            {% endif %}
+        </form>
+    </div>
 {% endblock content %}

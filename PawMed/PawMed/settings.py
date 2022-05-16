@@ -50,7 +50,7 @@ INSTALLED_APPS = [
 
     # 3rd party apps
     'widget_tweaks',
-    'phone_field',
+    'phonenumber_field',
 ]
 
 MIDDLEWARE = [
@@ -163,5 +163,4 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',  # Authenticate with the username and password
-
 ]
