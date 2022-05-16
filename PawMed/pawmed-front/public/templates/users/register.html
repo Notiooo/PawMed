@@ -46,31 +46,37 @@
             <div class="uk-margin">
                 <div class="uk-inline uk-width-1-1">
                     <a class="uk-form-icon pm-color-lightblue" href="#" uk-icon="icon: user"></a>
-                    {% render_field form.username|attr:"autofocus" class+="uk-input pm-input" placeholder="Full name" %}
+                    {% render_field form.first_name class+="uk-input pm-input" placeholder="First Name" %}
+                </div>
+            </div>
+            <div class="uk-margin">
+                <div class="uk-inline uk-width-1-1">
+                    <a class="uk-form-icon pm-color-lightblue" href="#" uk-icon="icon: user"></a>
+                    {% render_field form.last_name class+="uk-input pm-input" placeholder="Last name" %}
                 </div>
             </div>
             <div class="uk-margin">
                 <div class="uk-inline uk-width-1-1">
                     <a class="uk-form-icon pm-color-lightblue" href="#" uk-icon="icon: receiver"></a>
-                    {% render_field form.username|attr:"autofocus" class+="uk-input pm-input" placeholder="Phone number" %}
+                    {% render_field form.username class+="uk-input pm-input" placeholder="Phone number" %}
                 </div>
             </div>
             <div class="uk-margin">
                 <div class="uk-inline uk-width-1-1">
                     <a class="uk-form-icon pm-color-lightblue" href="#" uk-icon="icon: mail"></a>
-                    {% render_field form.username|attr:"autofocus" class+="uk-input pm-input" placeholder="Email Address" %}
+                    {% render_field form.email class+="uk-input pm-input" placeholder="Email Address" %}
                 </div>
             </div>
             <div class="uk-margin">
                 <div class="uk-inline uk-width-1-1">
                     <a class="uk-form-icon pm-color-lightblue" href="#" uk-icon="icon: lock"></a>
-                    {% render_field form.username class+="uk-input pm-input" placeholder="Password" %}
+                    {% render_field form.password1 class+="uk-input pm-input" placeholder="Password" %}
                 </div>
             </div>
             <div class="uk-margin">
                 <div class="uk-inline uk-width-1-1">
                     <a class="uk-form-icon pm-color-lightblue" href="#" uk-icon="icon: lock"></a>
-                    {% render_field form.username class+="uk-input pm-input" placeholder="Repeat Password" %}
+                    {% render_field form.password2 class+="uk-input pm-input" placeholder="Repeat Password" %}
                 </div>
             </div>
             <div class="uk-flex-column uk-text-small uk-margin">
