@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     # Our apps
     'users',
     'homepage',
+    'doctor',
 
     # 3rd party apps
     'widget_tweaks',

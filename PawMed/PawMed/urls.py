@@ -37,6 +37,7 @@ urlpatterns = [
     path('', include('homepage.urls')),
     path('users/', include('django.contrib.auth.urls')),  # logout
     path('users/', include('users.urls')),
+    path('doctor/', include('doctor.urls')),
     path('', include(router.urls)),
 ]
 
