@@ -57,7 +57,7 @@ class Prescription(models.Model):
     visit = models.ForeignKey('Visit', models.DO_NOTHING, db_column='visit')
     date_of_issue = models.DateTimeField()
     expiration_date = models.DateTimeField()
-    remarks = models.TextField()
+    remarks = models.TextField(blank=True, null=True)
 
     class Meta:
         managed = False
@@ -88,29 +88,27 @@ class Test(models.Model):
     type = models.CharField(max_length=50)
     execution_date = models.DateTimeField()
     executive = models.ForeignKey(Technician, models.DO_NOTHING, db_column='executive')
-    remarks = models.TextField()
-    laboratory_room = models.ForeignKey(Laboratory, models.DO_NOTHING, db_column='laboratory_room')
+    remarks = models.TextField(blank=True, null=True)
+    laboratory_room = models.ForeignKey(Laboratory, models.DO_NOTHING, db_column='laboratory_room', blank=True, null=True)
     visit = models.ForeignKey('Visit', models.DO_NOTHING, db_column='visit')
 
     class Meta:
         managed = False
         db_table = 'test'
-
-
+        
 class Visit(models.Model):
     id = models.IntegerField(primary_key=True)
     doctor = models.ForeignKey(Doctor, models.DO_NOTHING, db_column='doctor')
     patient = models.ForeignKey(Patient, models.DO_NOTHING, db_column='patient')
     date = models.DateTimeField()
     room = models.IntegerField()
-    remarks = models.TextField()
-    diagnosis = models.TextField()
-    medical_interview = models.TextField()
-    examination = models.TextField()
-    recommendation = models.TextField()
+    remarks = models.TextField(blank=True, null=True)
+    diagnosis = models.TextField(blank=True, null=True)
+    medical_interview = models.TextField(blank=True, null=True)
+    examination = models.TextField(blank=True, null=True)
+    recommendation = models.TextField(blank=True, null=True)
     tookplace = models.BooleanField()
 
     class Meta:
         managed = False
         db_table = 'visit'
-  
