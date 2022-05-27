@@ -26,9 +26,10 @@ class DoctorHomepageView(ListView):
                                                 date__month=month, date__day=day).order_by('date__time')
 
         #current patient is the first query result
-        context['current_patient'] = self.query[0]
-        #Next visits are the rest of queries
-        context['visit_list'] = self.query[1:]
+        if(self.query.__len__() > 0):
+            context['current_patient'] = self.query[0]
+            #Next visits are the rest of queries
+            context['visit_list'] = self.query[1:]
         return context
 
 class DoctorEndVisitView(UpdateView):

@@ -5,10 +5,14 @@
 {% endblock navbar %}
 
 {% block content %}
-    <h2> Current patient:  </h2> 
-    Patient id: {{ current_patient.patient.id}} <br/>
-    Patient Name: {{current_patient.patient.name}} {{current_patient.patient.surname}} <br/>
-    Scheduled for: Now <br/>
+    {% if current_patient %}
+        <h2> Current patient:  </h2> 
+        Patient id: {{ current_patient.patient.id}} <br/>
+        Patient Name: {{current_patient.patient.name}} {{current_patient.patient.surname}} <br/>
+        Scheduled for: Now <br/>
+    {%else%}
+    <h2> No patients for today! </h2>
+    {%endif%}
 
     <h2> Next patients: </h2> 
     {% for visit in visit_list %}
