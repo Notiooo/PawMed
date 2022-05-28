@@ -6,19 +6,25 @@
 
 {% block content %}
     {% if current_patient %}
+    <p>
         <h2> Current patient:  </h2> 
         Patient id: {{ current_patient.patient.id}} <br/>
         Patient Name: {{current_patient.patient.name}} {{current_patient.patient.surname}} <br/>
         Scheduled for: Now <br/>
+        <a href="{% url 'doctor_endvisit' visit.id %}" class="btn"> End visit </a> <br/>
+    </p>
     {%else%}
     <h2> No patients for today! </h2>
     {%endif%}
 
     <h2> Next patients: </h2> 
     {% for visit in visit_list %}
+    <p>
         Patient id: {{ visit.patient.id}} <br/>
         Patient Name: {{visit.patient.name}} {{visit.patient.surname}} <br/>
         Scheduled for: {{visit.date}} <br/>
+        <a href="{% url 'doctor_endvisit' visit.id %}" class="btn"> End visit </a> <br/>
+    </p>
     {% endfor %}
 
 {% endblock content %}
