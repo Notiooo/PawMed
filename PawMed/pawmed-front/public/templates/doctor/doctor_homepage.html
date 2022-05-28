@@ -11,7 +11,8 @@
         Patient id: {{ current_patient.patient.id}} <br/>
         Patient Name: {{current_patient.patient.name}} {{current_patient.patient.surname}} <br/>
         Scheduled for: Now <br/>
-        <a href="{% url 'doctor_endvisit' visit.id %}" class="btn"> End visit </a> <br/>
+        <a href="{% url 'doctor_visit' current_patient.id %}" class="btn"> Appointment </a> <br/>
+        <a href="{% url 'doctor_endvisit' current_patient.id %}" class="btn"> End visit </a> <br/>
     </p>
     {%else%}
     <h2> No patients for today! </h2>

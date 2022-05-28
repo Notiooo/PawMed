@@ -39,3 +39,8 @@ class DoctorEndVisitView(UpdateView):
 
     # No way for getting back form this view now as get_absolute_url is not defined
     # but it makes the neccessary change in database
+
+class DoctorAppointmentView(UpdateView):
+    model = models.Visit
+    template_name = 'doctor/doctor_visit.html'
+    fields=['medical_interview', 'examination', 'remarks', 'recommendation', 'tookplace']
