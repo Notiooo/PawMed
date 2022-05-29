@@ -6,7 +6,7 @@ class Doctor(models.Model):
     id = models.IntegerField(primary_key=True)
     name = models.CharField(max_length=50)
     surname = models.CharField(max_length=50)
-    room = models.IntegerField()
+    room = models.CharField(max_length=10)
     phone_number = models.CharField(max_length=30)
 
     class Meta:
@@ -26,7 +26,7 @@ class DoctorSpecialization(models.Model):
 
 class Laboratory(models.Model):
     id = models.IntegerField(primary_key=True)
-    room = models.IntegerField()
+    room = models.CharField(max_length=10)
     type = models.CharField(max_length=50)
 
     class Meta:
@@ -43,7 +43,7 @@ class Patient(models.Model):
     phone_number = models.CharField(max_length=30)
     birth_date = models.DateTimeField()
     city = models.CharField(max_length=85)
-    zip_code = models.IntegerField()
+    zip_code = models.CharField(max_length=10)
     gender = models.CharField(max_length=1)
     personid = models.CharField(max_length=50)
 
@@ -95,13 +95,14 @@ class Test(models.Model):
     class Meta:
         managed = False
         db_table = 'test'
-        
+
+
 class Visit(models.Model):
     id = models.IntegerField(primary_key=True)
     doctor = models.ForeignKey(Doctor, models.DO_NOTHING, db_column='doctor')
     patient = models.ForeignKey(Patient, models.DO_NOTHING, db_column='patient')
     date = models.DateTimeField()
-    room = models.IntegerField()
+    room = models.CharField(max_length=10)
     remarks = models.TextField(blank=True, null=True)
     diagnosis = models.TextField(blank=True, null=True)
     medical_interview = models.TextField(blank=True, null=True)
