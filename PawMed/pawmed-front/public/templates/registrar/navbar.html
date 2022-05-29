@@ -1,0 +1,8 @@
+{% extends "base/navbar.html" %}
+
+{% block navbar-left %}
+    <ul class="uk-navbar-nav">
+        <li><a href="{% url 'registrar_patient_board' %}"><span uk-icon="users"></span>Patient Board</a></li>
+        <li><a href="#"><span uk-icon="plus-circle"></span>Add patient</a></li>
+    </ul>
+{% endblock %}

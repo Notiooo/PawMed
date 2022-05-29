@@ -9,3 +9,4 @@ psycopg2==2.9.3
 django-phonenumber-field==6.1.0
 django-widget-tweaks==1.4.12
 phonenumbers==8.12.48
+django-test-without-migrations==0.6
