@@ -1,15 +1,14 @@
 from django.shortcuts import render, get_object_or_404
 
 from django.views.generic import ListView, DetailView, UpdateView
-
 from datetime import datetime
 
+from registrar.models import Visit
 from . import models
 
-# Create your views here.
 
 class DoctorHomepageView(ListView):
-    model = models.Visit
+    model = Visit
     template_name = 'doctor/doctor_homepage.html'
 
     def get_context_data(self, **kwargs):
@@ -22,7 +21,7 @@ class DoctorHomepageView(ListView):
         day = today.day
 
         # Define a query for visits that are scheduled today and haven't took place, order by time 
-        self.query = models.Visit.objects.filter(tookplace=False, date__year = year,
+        self.query = Visit.objects.filter(took_place=False, date__year = year,
                                                 date__month=month, date__day=day).order_by('date__time')
 
         #current patient is the first query result
@@ -33,14 +32,14 @@ class DoctorHomepageView(ListView):
         return context
 
 class DoctorEndVisitView(UpdateView):
-    model = models.Visit
+    model = Visit
     template_name = 'doctor/doctor_endvisit.html'
-    fields=['tookplace']
+    fields=['took_place']
 
     # No way for getting back form this view now as get_absolute_url is not defined
     # but it makes the neccessary change in database
 
 class DoctorAppointmentView(UpdateView):
-    model = models.Visit
+    model = Visit
     template_name = 'doctor/doctor_visit.html'
-    fields=['medical_interview', 'examination', 'remarks', 'recommendation', 'tookplace']
+    fields=['medical_interview', 'examination', 'remarks', 'recommendation', 'took_place']
