@@ -30,6 +30,8 @@ class DoctorHomepageView(ListView):
             context['current_patient'] = self.query[0]
             #Next visits are the rest of queries
             context['visit_list'] = self.query[1:]
+        else:
+            context['visit_list'] = None
         return context
 
 class DoctorEndVisitView(UpdateView):
