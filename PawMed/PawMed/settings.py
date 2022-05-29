@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     'homepage',
     'doctor',
     'registrar',
+    'technician',
 
     # 3rd party apps
     'widget_tweaks',
