@@ -1,15 +1,15 @@
 CREATE TABLE public.patient (
     id integer NOT NULL,
-    name text NOT NULL,
-    surname text NOT NULL,
+    name Varchar(50) NOT NULL,
+    surname Varchar(50) NOT NULL,
     registration_date timestamp with time zone NOT NULL,
     age integer NOT NULL,
-    phone_number text NOT NULL,
+    phone_number Varchar(30) NOT NULL,
     birth_date timestamp with time zone NOT NULL,
-    city text NOT NULL,
+    city Varchar(85) NOT NULL,
     zip_code integer NOT NULL,
     gender char NOT NULL,
-    personid integer NOT NULL,
+    personid Varchar(50) NOT NULL,
     PRIMARY KEY (id)
 );
 
@@ -20,11 +20,12 @@ CREATE TABLE public.visit (
     patient integer NOT NULL,
     date timestamp with time zone NOT NULL,
     room integer NOT NULL,
-    remarks text NOT NULL,
-    diagnosis text NOT NULL,
-    medical_interview text NOT NULL,
-    examination text NOT NULL,
-    recommendation text NOT NULL,
+    remarks text,
+    diagnosis text,
+    medical_interview text,
+    examination text,
+    recommendation text,
+    tookPlace bool not null,
     PRIMARY KEY (id)
 );
 
@@ -39,7 +40,7 @@ CREATE TABLE public.prescription (
     visit integer NOT NULL,
     date_of_issue timestamp with time zone NOT NULL,
     expiration_date timestamp with time zone NOT NULL,
-    remarks text NOT NULL,
+    remarks text,
     PRIMARY KEY (id)
 );
 
@@ -49,28 +50,28 @@ CREATE INDEX ON public.prescription
 
 CREATE TABLE public.doctor (
     id integer NOT NULL,
-    name text NOT NULL,
-    surname text NOT NULL,
+    name Varchar(50) NOT NULL,
+    surname Varchar(50) NOT NULL,
     room integer NOT NULL,
-    phone_number text NOT NULL,
+    phone_number Varchar(30) NOT NULL,
     PRIMARY KEY (id)
 );
 
 
 CREATE TABLE public.specialization (
     id integer NOT NULL,
-    name text NOT NULL,
+    name Varchar(50) NOT NULL,
     PRIMARY KEY (id)
 );
 
 
 CREATE TABLE public.test (
     id integer NOT NULL,
-    type text NOT NULL,
+    type Varchar(50) NOT NULL,
     execution_date timestamp with time zone NOT NULL,
     executive integer NOT NULL,
-    remarks text NOT NULL,
-    laboratory_room integer NOT NULL,
+    remarks text,
+    laboratory_room integer,
     visit integer NOT NULL,
     PRIMARY KEY (id)
 );
@@ -86,15 +87,15 @@ CREATE INDEX ON public.test
 CREATE TABLE public.laboratory (
     id integer NOT NULL,
     room integer NOT NULL,
-    type text NOT NULL,
+    type Varchar(50) NOT NULL,
     PRIMARY KEY (id)
 );
 
 
 CREATE TABLE public.technician (
     id integer NOT NULL,
-    name text NOT NULL,
-    surname text NOT NULL,
+    name Varchar(50) NOT NULL,
+    surname Varchar(50) NOT NULL,
     PRIMARY KEY (id)
 );
 

@@ -16,6 +16,8 @@ from os import getenv
 from dotenv import load_dotenv
 load_dotenv()
 
+from .testrunner import ManagedModelTestRunner
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -47,11 +49,13 @@ INSTALLED_APPS = [
     # Our apps
     'users',
     'homepage',
+    'doctor',
     'registrar',
 
     # 3rd party apps
     'widget_tweaks',
     'phonenumber_field',
+    'test_without_migrations',
 ]
 
 MIDDLEWARE = [
@@ -165,3 +169,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',  # Authenticate with the username and password
 ]
+
+
+TEST_RUNNER = 'PawMed.settings.ManagedModelTestRunner'
