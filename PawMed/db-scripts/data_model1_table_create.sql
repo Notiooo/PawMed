@@ -20,11 +20,12 @@ CREATE TABLE public.visit (
     patient integer NOT NULL,
     date timestamp with time zone NOT NULL,
     room integer NOT NULL,
-    remarks text NOT NULL,
-    diagnosis text NOT NULL,
-    medical_interview text NOT NULL,
-    examination text NOT NULL,
-    recommendation text NOT NULL,
+    remarks text,
+    diagnosis text,
+    medical_interview text,
+    examination text,
+    recommendation text,
+    tookPlace bool not null,
     PRIMARY KEY (id)
 );
 
@@ -39,7 +40,7 @@ CREATE TABLE public.prescription (
     visit integer NOT NULL,
     date_of_issue timestamp with time zone NOT NULL,
     expiration_date timestamp with time zone NOT NULL,
-    remarks text NOT NULL,
+    remarks text,
     PRIMARY KEY (id)
 );
 
@@ -69,8 +70,8 @@ CREATE TABLE public.test (
     type Varchar(50) NOT NULL,
     execution_date timestamp with time zone NOT NULL,
     executive integer NOT NULL,
-    remarks text NOT NULL,
-    laboratory_room integer NOT NULL,
+    remarks text,
+    laboratory_room integer,
     visit integer NOT NULL,
     PRIMARY KEY (id)
 );
