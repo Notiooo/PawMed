@@ -170,3 +170,37 @@
 .pm-input:focus {
     border: 2px solid #F1Bf98 !important;
 }
+
+/* ==== Font ==== */
+.pm-font-size-small {
+    font-size: 16px;
+}
+
+.pm-font-size-medium {
+    font-size: 21px;
+}
+
+.pm-font-size-large {
+    font-size: 32px;
+}
+
+.pm-border-solid {
+    border-width: 2px !important;
+    border-style: solid !important;
+    border-color: #08415C !important;
+    border-radius: 15px;
+}
+
+.pm-border-dashed {
+    border-width: 2px;
+    border-style: dashed;
+    border-color: #6B818C;
+    border-radius: 15px;
+}
+
+.pm-indicator {
+    width: 30px;
+    border-width: 2px;
+    border-top-left-radius: 12px !important;
+    border-bottom-left-radius: 12px !important;
+}
