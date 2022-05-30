@@ -11,7 +11,7 @@ class Patient(models.Model):
     phone_number = models.CharField(max_length=30)
     birth_date = models.DateTimeField()
     city = models.CharField(max_length=85)
-    zip_code = models.IntegerField()
+    zip_code = models.CharField(max_length=10)
     gender = models.CharField(max_length=1)
     personid = models.CharField(max_length=50)
 
@@ -25,7 +25,7 @@ class Visit(models.Model):
     doctor = models.ForeignKey(Doctor, models.DO_NOTHING, db_column='doctor')
     patient = models.ForeignKey(Patient, models.DO_NOTHING, db_column='patient')
     date = models.DateTimeField()
-    room = models.IntegerField()
+    room = models.CharField(max_length=10)
     remarks = models.TextField(blank=True, null=True)
     diagnosis = models.TextField(blank=True, null=True)
     medical_interview = models.TextField(blank=True, null=True)
