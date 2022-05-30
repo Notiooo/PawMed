@@ -11,12 +11,12 @@
                 <p class="uk-text-bold pm-color-darkblue uk-margin-medium-left uk-margin-medium-top pm-font-size-medium">Current Patient:</p>
             </div>
             <div class="uk-grid-collaps uk-margin-medium-bottom" uk-grid>
-                <div class="uk-margin-small-left uk-margin-auto-vertical uk-grid-collaps uk-text-bold pm-color-darkblue" uk-grid>
+                <div class="uk-margin-small-left uk-margin-auto-vertical uk-grid-collaps uk-text-bold pm-color-darkblue uk-width-1-5" uk-grid>
                     <div class="uk-background-default uk-padding-small uk-border-rounded uk-margin-auto-vertical">
                         NOW
                     </div>
-                    <div class="uk-margin-medium-right uk-padding-small pm-font-size-large">
-                        &#8226;
+                    <div class="uk-margin-medium-right uk-padding-small">
+                         <span class="pm-dot-medium pm-background-darkblue"></span>
                     </div>
                 </div>
                 <div class="uk-width-expand uk-grid-collapse uk-background-default uk-padding-remove pm-border-solid" uk-grid>
@@ -59,12 +59,12 @@
                 <p class="uk-text-bold pm-color-darkblue uk-margin-medium-left uk-margin-medium-top pm-font-size-medium">Next Patient:</p>
             </div>
             <div class="uk-grid-collaps uk-margin-medium-bottom" uk-grid>
-                <div  class="uk-margin-small-left uk-margin-auto-vertical uk-grid-collaps" uk-grid>
-                    <div class="uk-padding-small">
-                        <p class="uk-padding-remove uk-margin-remove">{{visit.date}}</p>
+                <div  class="uk-margin-small-left uk-margin-auto-vertical uk-grid-collapse uk-width-1-5" uk-grid>
+                    <div class="uk-width-1-2 uk-margin-auto-vertical">
+                        <p class="uk-padding-remove uk-margin-remove uk-text-break">{{visit.date}}</p>
                     </div>
-                    <div class="uk-margin-medium-right uk-padding-small">
-                        &#8226;
+                    <div class="uk-width-expand uk-margin-auto-vertical uk-margin-small-left">
+                        <span class="pm-dot-small pm-background-lightblue"></span>
                     </div>
                 </div>
                 <div  class="uk-width-expand uk-grid-collapse pmi-border uk-border-rounded uk-background-default uk-padding-remove pm-border-solid" uk-grid>
