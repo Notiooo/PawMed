@@ -57,6 +57,7 @@ INSTALLED_APPS = [
     'widget_tweaks',
     'phonenumber_field',
     'test_without_migrations',
+    'macros',
 ]
 
 MIDDLEWARE = [
