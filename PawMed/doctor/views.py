@@ -63,6 +63,10 @@ class DoctorOrderTestView(CreateView):
         return context
 
     def form_valid(self, form):
-        form.instance.id = len(models.Test.objects.all())
+        allTests = models.Test.objects.all().order_by('id')
+        # for some reaseon negative indexing is not supported
+        # so that's why it is done this way
+        allTestSize = len(allTests) - 1
+        form.instance.id = allTests[allTestSize].id + 1
         form.instance.visit = models.Visit.objects.get(id=self.kwargs.get('pk'))
         return super(DoctorOrderTestView, self).form_valid(form)

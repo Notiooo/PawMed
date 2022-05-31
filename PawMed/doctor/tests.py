@@ -44,3 +44,16 @@ class DoctorAppointmentViewTest(TestCase):
         response = self.client.get('/doctor/1/visit/')
         self.assertTemplateUsed(response, 'doctor/doctor_visit.html')
 
+class DoctorOrderTestViewTest(TestCase):
+    def testOrderViewStatusCode(self):
+        response = self.client.get('/doctor/2/test/')
+        self.assertEqual(response.status_code, 200)
+
+    def testOrderViewUrlByName(self):
+        response = self.client.get(reverse('doctor_order_test', args=[1]))
+        self.assertEqual(response.status_code, 200)
+
+    def testOrderViewCorrectTemplate(self):
+        response = self.client.get(reverse('doctor_order_test', args=[1]))
+        self.assertTemplateUsed(response, 'doctor/doctor_order_test.html')
+
