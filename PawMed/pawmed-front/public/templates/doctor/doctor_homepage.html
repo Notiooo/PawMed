@@ -24,6 +24,7 @@
         Patient id: {{ visit.patient.id}} <br/>
         Patient Name: {{visit.patient.name}} {{visit.patient.surname}} <br/>
         Scheduled for: {{visit.date}} <br/>
+        <a href="{% url 'doctor_visit' visit.id %}" class="btn"> Appointment </a> <br/>
         <a href="{% url 'doctor_endvisit' visit.id %}" class="btn"> End visit </a> <br/>
     </p>
     {% endfor %}
