@@ -5,7 +5,7 @@ class Doctor(models.Model):
     id = models.IntegerField(primary_key=True)
     name = models.CharField(max_length=50)
     surname = models.CharField(max_length=50)
-    room = models.IntegerField()
+    room = models.CharField(max_length=10)
     phone_number = models.CharField(max_length=30)
 
     class Meta:
@@ -25,7 +25,7 @@ class DoctorSpecialization(models.Model):
 
 class Laboratory(models.Model):
     id = models.IntegerField(primary_key=True)
-    room = models.IntegerField()
+    room = models.CharField(max_length=10)
     type = models.CharField(max_length=50)
 
     class Meta:

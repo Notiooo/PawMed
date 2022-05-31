@@ -51,11 +51,13 @@ INSTALLED_APPS = [
     'homepage',
     'doctor',
     'registrar',
+    'technician',
 
     # 3rd party apps
     'widget_tweaks',
     'phonenumber_field',
     'test_without_migrations',
+    'macros',
 ]
 
 MIDDLEWARE = [

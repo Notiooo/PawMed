@@ -1,0 +1,128 @@
+{% extends 'technician/patient_information.html' %}
+{% load static %}
+
+{% block navbar %}
+    {% include 'base/navbar.html' %}
+{% endblock navbar %}
+
+{% block left_side_title %}Bone marrow{% endblock left_side_title %}
+{% block left_side %}
+<div class="uk-text-center" uk-grid>
+        <div class="uk-width-1-2@m uk-width-1-1@s">
+            <div class="uk-text-center">
+                <p class="uk-text-lead uk-margin-medium-bottom uk-text-bolder pm-color-lightblue">Test information</p>
+            </div>
+            <div style="font-size: 18px" uk-grid>
+                <div class="uk-width-1-2">
+                    <div class="uk-text-left uk-text-bold pm-color-lightblue">
+                        <div>Doctor</div>
+                        <div>Room</div>
+                        <div>Date</div>
+                        <div>Status</div>
+                    </div>
+                </div>
+                <div class="uk-width-1-2">
+                    <div class="uk-text-right pm-color-lightblue">
+                        <div>Robert Deniro</div>
+                        <div>001</div>
+                        <div>DD/MM/YYYY</div>
+                        <div>Active</div>
+                    </div>
+                </div>
+            </div>
+            <div class="uk-text-center uk-margin-medium">
+                <p class="uk-text-lead  uk-text-bolder pm-color-lightblue">Doctor remarks</p>
+            </div>
+            <div class="uk-text-left">
+                <div class="pm-color-lightblue">Doctor's additional information.</div>
+            </div>
+
+            <div class="uk-text-center uk-margin-medium">
+                <p class="uk-text-lead  uk-text-bolder pm-color-lightblue">Lab technician remarks</p>
+            </div>
+            <div class="uk-text-left">
+                <div class="pm-color-lightblue">Lab or lab technician remarks.</div>
+            </div>
+        </div>
+
+        <div class="uk-width-expand">
+            <div class="js-upload uk-placeholder uk-height-large uk-flex uk-flex-middle uk-flex-column uk-flex-center" style="border-color: #6B818C; border-width: 2px; border-radius: 8px">
+                    <span uk-icon="icon: cloud-upload"></span>
+                    <span class="uk-text-middle pm-color-lightblue">Attach report by dropping it here</span>
+                    <p class="uk-text-middle pm-color-lightblue uk-margin-remove">or</p>
+                    <div uk-form-custom class="uk-margin-small" >
+                        <input type="file" multiple>
+                        <a href="{% url "homepage" %}"><button style="font-size: 14px" class=" uk-button pm-button-primary uk-button-large uk-width-auto">Browse files</button></a>
+                    </div>
+            </div>
+            <progress id="js-progressbar" class="uk-progress" value="0" max="100" hidden></progress>
+            <div>
+                <div class="uk-margin">
+                    <textarea class="uk-textarea  uk-flex-wrap-middle pm-input" style="border-width: 2px" rows="5" placeholder="Additional notes from lab technician"></textarea>
+                </div>
+            </div>
+        </div>
+</div>
+<div class="uk-flex uk-flex-right">
+    <a href="{% url "homepage" %}"><button style="font-size: 14px" class="uk-button pm-button-darkblue uk-button-large uk-width-small">Submit</button></a>
+</div>
+{% endblock left_side %}
+
+{% block javascript %}<script>
+    var bar = document.getElementById('js-progressbar');
+
+    UIkit.upload('.js-upload', {
+
+        url: '',
+        multiple: true,
+
+        beforeSend: function () {
+            console.log('beforeSend', arguments);
+        },
+        beforeAll: function () {
+            console.log('beforeAll', arguments);
+        },
+        load: function () {
+            console.log('load', arguments);
+        },
+        error: function () {
+            console.log('error', arguments);
+        },
+        complete: function () {
+            console.log('complete', arguments);
+        },
+
+        loadStart: function (e) {
+            console.log('loadStart', arguments);
+
+            bar.removeAttribute('hidden');
+            bar.max = e.total;
+            bar.value = e.loaded;
+        },
+
+        progress: function (e) {
+            console.log('progress', arguments);
+
+            bar.max = e.total;
+            bar.value = e.loaded;
+        },
+
+        loadEnd: function (e) {
+            console.log('loadEnd', arguments);
+
+            bar.max = e.total;
+            bar.value = e.loaded;
+        },
+
+        completeAll: function () {
+            console.log('completeAll', arguments);
+
+            setTimeout(function () {
+                bar.setAttribute('hidden', 'hidden');
+            }, 1000);
+
+            alert('Upload Completed');
+        }
+
+    });</script>
+{% endblock javascript %}

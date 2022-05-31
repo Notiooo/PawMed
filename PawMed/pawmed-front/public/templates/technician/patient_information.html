@@ -1,0 +1,52 @@
+{% extends 'templates/base.html' %}
+{% load static %}
+
+{% block content %}
+    <div class="uk-container uk-margin-medium-top">
+        <div uk-grid>
+            <div class="uk-width-3-4@l uk-width-1-1@s uk-text-center">
+                        <p style="font-size: 36px;" class="uk-width-1-1 uk-margin-remove-bottom pm-background-white uk-text-bold pm-color-darkblue">{% block left_side_title %}Omg{% endblock left_side_title %}</p>
+                        <p class="uk-text-small uk-margin-remove-top uk-margin-medium-bottom uk-text-bolder pm-color-lightblue">ID: 0001</p>
+                {% block left_side %}
+                {% endblock left_side %}
+            </div>
+
+            <div class="uk-width-expand uk-flex uk-flex-center">
+                <div class="uk-width-1-1">
+                    <div class="uk-text-center">
+                        <p style="font-size: 36px;" class="uk-width-1-1 pm-background-white uk-text-bold pm-color-darkblue">Jan Kowalski</p>
+                        <p class="uk-text-lead uk-margin-small-bottom uk-text-bolder pm-color-lightblue">Patient information</p>
+                    </div>
+                    <div class="uk-text-left pm-color-lightblue" style="font-size: 18px">
+                        <div class="uk-display-block uk-margin">
+                            <div class="uk-text-bold">Personal ID number</div>
+                            <div>99082205934</div>
+                        </div>
+                        <div class="uk-display-block uk-margin">
+                            <div class="uk-text-bold">Age</div>
+                            <div>25 years</div>
+                        </div>
+                        <div class="uk-display-block uk-margin">
+                            <div class="uk-text-bold">Address</div>
+                            <div>62-302 Konin, ul. Agatowa 12</div>
+                        </div>
+                        <div class="uk-display-block uk-margin">
+                            <div class="uk-text-bold">Contact</div>
+                            <div>+48 799456789</div>
+                        </div>
+                    </div>
+                    <hr class="pm-color-darkblue">
+                    <div class="uk-text-center">
+                        <p class="uk-text-lead uk-margin-medium-small uk-text-bolder pm-color-lightblue">Privileges</p>
+                    </div>
+                    <div class="uk-text-left uk-margin-medium-bottom" style="font-size: 18px">
+                        <div class="uk-display-block pm-color-lightblue uk-margin-re">
+                            <div class="uk-text-bold">Prescription entitlements</div>
+                            <div>None</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}

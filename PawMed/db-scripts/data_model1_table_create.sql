@@ -7,7 +7,7 @@ CREATE TABLE public.patient (
     phone_number Varchar(30) NOT NULL,
     birth_date timestamp with time zone NOT NULL,
     city Varchar(85) NOT NULL,
-    zip_code integer NOT NULL,
+    zip_code Varchar(10) NOT NULL,
     gender char NOT NULL,
     personid Varchar(50) NOT NULL,
     PRIMARY KEY (id)
@@ -19,7 +19,7 @@ CREATE TABLE public.visit (
     doctor integer NOT NULL,
     patient integer NOT NULL,
     date timestamp with time zone NOT NULL,
-    room integer NOT NULL,
+    room Varchar(10) NOT NULL,
     remarks text,
     diagnosis text,
     medical_interview text,
@@ -52,7 +52,7 @@ CREATE TABLE public.doctor (
     id integer NOT NULL,
     name Varchar(50) NOT NULL,
     surname Varchar(50) NOT NULL,
-    room integer NOT NULL,
+    room Varchar(10) NOT NULL,
     phone_number Varchar(30) NOT NULL,
     PRIMARY KEY (id)
 );
@@ -86,7 +86,7 @@ CREATE INDEX ON public.test
 
 CREATE TABLE public.laboratory (
     id integer NOT NULL,
-    room integer NOT NULL,
+    room Varchar(10) NOT NULL,
     type Varchar(50) NOT NULL,
     PRIMARY KEY (id)
 );

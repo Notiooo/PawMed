@@ -1,0 +1,75 @@
+{% extends 'technician/patient_information.html' %}
+{% load static %}
+
+{% block navbar %}
+    {% include 'base/navbar.html' %}
+{% endblock navbar %}
+
+{% block left_side_title %}Bone marrow{% endblock left_side_title %}
+{% block left_side %}
+<div class="uk-text-center" uk-grid>
+        <div class="uk-width-1-2@m">
+            <div class="uk-text-center">
+                <p class="uk-text-lead uk-margin-medium-bottom uk-text-bolder pm-color-lightblue">Test information</p>
+            </div>
+            <div style="font-size: 18px" uk-grid>
+                <div class="uk-width-1-2">
+                    <div class="uk-text-left uk-text-bold pm-color-lightblue">
+                        <div>Doctor</div>
+                        <div>Room</div>
+                        <div>Date</div>
+                        <div>Status</div>
+                    </div>
+                </div>
+                <div class="uk-width-1-2">
+                    <div class="uk-text-right pm-color-lightblue">
+                        <div>Robert Deniro</div>
+                        <div>001</div>
+                        <div>DD/MM/YYYY</div>
+                        <div>Active</div>
+                    </div>
+                </div>
+            </div>
+            <div class="uk-text-center uk-margin-medium">
+                <p class="uk-text-lead  uk-text-bolder pm-color-lightblue">Doctor remarks</p>
+            </div>
+            <div class="uk-text-left">
+                <div class="pm-color-lightblue">Doctor's additional information.</div>
+            </div>
+
+            <div class="uk-text-center uk-margin-medium">
+                <p class="uk-text-lead  uk-text-bolder pm-color-lightblue">Lab technician remarks</p>
+            </div>
+            <div class="uk-text-left">
+                <div class="pm-color-lightblue">Lab or lab technician remarks.</div>
+            </div>
+        </div>
+
+        <div class="uk-width-expand">
+            <div class="js-upload uk-placeholder uk-height-large uk-flex uk-flex-middle uk-flex-column uk-flex-center" style="border-color: #6B818C; border-width: 2px; border-radius: 8px">
+             <div class="uk-inline">
+                <img src="{% static 'img/technician/receipt.jpg' %}" class="uk-width-2-3" style="opacity: 0.7">
+                <div class="uk-overlay  uk-position-center">
+                    <div uk-form-custom class="uk-margin-small" >
+                        <a href="{% url "homepage" %}"><button style="font-size: 14px" class=" uk-button pm-button-primary uk-button-large uk-width-auto">View</button></a>
+                    </div>
+                </div>
+            </div>
+
+            </div>
+        </div>
+</div>
+
+<hr>
+<div class="uk-margin">
+    <textarea class="uk-textarea  uk-flex-wrap-middle pm-input" style="border-width: 2px" rows="3" placeholder="This needs to be filled if you want to decline report"></textarea>
+</div>
+<div class="uk-flex-right" uk-grid>
+    <div>
+        <a href="{% url "homepage" %}"><button style="font-size: 14px" class="uk-button pm-button-primary uk-button-large uk-width-small">Accept</button></a>
+    </div>
+    <div>
+        <a href="{% url "homepage" %}"><button style="font-size: 14px" class="uk-button pm-button-secondary uk-button-large uk-width-small">Decline</button></a>
+    </div>
+</div>
+{% endblock left_side %}
