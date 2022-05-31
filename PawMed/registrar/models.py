@@ -6,7 +6,7 @@ class Patient(models.Model):
     id = models.IntegerField(primary_key=True)
     name = models.CharField(max_length=50)
     surname = models.CharField(max_length=50)
-    registration_date = models.DateTimeField()
+    registration_date = models.DateTimeField(auto_now_add=True, blank=True)
     age = models.IntegerField()
     phone_number = models.CharField(max_length=30)
     birth_date = models.DateTimeField()
