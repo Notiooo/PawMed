@@ -27,4 +27,4 @@ jobs:
         pip install -r pawmedEnv/requirements.txt
     - name: Run Tests
       run: |
-        python PawMed/manage.py test
+        python PawMed/manage.py test -n
