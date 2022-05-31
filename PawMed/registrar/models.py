@@ -22,7 +22,7 @@ class Patient(models.Model):
     gender = models.CharField(max_length=1, choices=GENDER)
 
     def __str__(self):
-        return self.name + self.surname
+        return self.name + " " + self.surname
 
     class Meta:
         managed = False

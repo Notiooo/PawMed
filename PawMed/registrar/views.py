@@ -1,5 +1,5 @@
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from django.http import HttpResponse, Http404
+from django.http import Http404
 from django.shortcuts import redirect
 from django.views.generic import TemplateView, FormView, DetailView
 from .forms import PatientBoardForm
@@ -21,7 +21,7 @@ class PatientBoardView(LoginRequiredMixin, UserPassesTestMixin, FormView):
         This ensures that only this profile can be viewed by
         the registrar and by no other id will the registrar get a profile view.
         """
-        user_id = form.find_patient().first().pk
+        user_id = form.find_patient().first().id
         self.request.session['patient-submitted-id'] = user_id
         return redirect('registrar_patient', pk=user_id)
 
@@ -54,7 +54,8 @@ class PatientView(DetailView, LoginRequiredMixin, UserPassesTestMixin):
         """
         context = super(PatientView, self).get_context_data(**kwargs)
 
-        if 'patient-submitted-id' not in self.request.session or self.request.session['patient-submitted-id'] != self.request.user.pk:
+        if 'patient-submitted-id' not in self.request.session \
+                or self.request.session['patient-submitted-id'] != self.kwargs['pk']:
             raise Http404
 
         return context
