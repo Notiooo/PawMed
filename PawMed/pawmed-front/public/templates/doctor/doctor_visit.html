@@ -5,8 +5,29 @@
 {% endblock navbar %}
 
 {% block content %}
-<a href="{% url 'doctor_order_test' visit.id %}" class="btn"> Order test </a>
+<a href="{% url 'doctor_order_test' visit.id %}"><button>  Order test </button> </a>
     <form action="" method="post">  {% csrf_token %}
-        {{ form.as_p }}
+        {{ form.non_field_errors }}
+
+        {{ form.source.errors }}
+        {{ form.source }}
+
+        {{ form.examination.label_tag }} </br>
+        {{ form.examination}}
+
+       <!-- {% for field in form.visible_fields %}
+            {{field.label_tag}}
+            {% if field.errors %}
+                {% for error in field.errors %}
+                    <p>{{ error }}</[]>
+                {% endfor %}
+            {% endif %}
+            {{ field }}
+            {% if field.help_text %}
+              <br />{{ field.help_text }}
+            {% endif %}
+                    </br>
+        {% endfor %} -->
     <button class="btn" type="submit"> End Visit </button>
+    <a href="{% url 'doctor_homepage' %}"><button> Back </button> </a>
 {% endblock content%}

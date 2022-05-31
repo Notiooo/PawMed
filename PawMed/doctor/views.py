@@ -39,14 +39,20 @@ class DoctorEndVisitView(UpdateView):
     fields=['tookplace']
     success_url = reverse_lazy('doctor_homepage')
 
-    # No way for getting back form this view now as get_absolute_url is not defined
-    # but it makes the neccessary change in database
+    def form_valid(self, form):
+        form.instance.tookplace = True
+        return super(DoctorEndVisitView, self).form_valid(form)
 
 class DoctorAppointmentView(UpdateView):
     model = models.Visit
     template_name = 'doctor/doctor_visit.html'
     fields=['medical_interview', 'examination', 'remarks', 'recommendation', 'tookplace']
     success_url = reverse_lazy('doctor_homepage')
+
+    def form_valid(self, form):
+        form.instance.tookplace = True
+        return super(DoctorAppointmentView, self).form_valid(form)
+
 
 class DoctorOrderTestView(CreateView):
     #There probably has to be some changes to test model
@@ -63,10 +69,12 @@ class DoctorOrderTestView(CreateView):
         return context
 
     def form_valid(self, form):
-        allTests = models.Test.objects.all().order_by('id')
         # for some reaseon negative indexing is not supported
         # so that's why it is done this way
-        allTestSize = len(allTests) - 1
-        form.instance.id = allTests[allTestSize].id + 1
+        lastTest = models.Test.objects.all().order_by('id').reverse()
+        if (len(lastTest) != 0):
+            form.instance.id = lastTest[0].id + 1
+        else:
+            form.instance.id = 1
         form.instance.visit = models.Visit.objects.get(id=self.kwargs.get('pk'))
         return super(DoctorOrderTestView, self).form_valid(form)
