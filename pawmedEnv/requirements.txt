@@ -1,5 +1,5 @@
 asgiref==3.5.0
-Django==4.0.3
+Django==3.2.13
 python-dotenv==0.19.2
 sqlparse==0.4.2
 tzdata==2021.5
@@ -10,3 +10,4 @@ django-phonenumber-field==6.1.0
 django-widget-tweaks==1.4.12
 phonenumbers==8.12.48
 django-test-without-migrations==0.6
+django-macros==0.4.0

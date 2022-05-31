@@ -1,6 +1,6 @@
 from django.test import TestCase
 from django.urls import reverse
-from .models import Visit, Patient, Doctor
+from registrar.models import Visit, Patient, Doctor
 # Create your tests here.
 
 class DoctorHomepageViewTest(TestCase):
