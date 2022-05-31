@@ -16,8 +16,6 @@ from os import getenv
 from dotenv import load_dotenv
 load_dotenv()
 
-from .testrunner import ManagedModelTestRunner
-
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -172,5 +170,4 @@ AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',  # Authenticate with the username and password
 ]
 
-
-TEST_RUNNER = 'PawMed.settings.ManagedModelTestRunner'
+TEST_RUNNER = 'PawMed.testrunner.UnManagedModelTestRunner'
