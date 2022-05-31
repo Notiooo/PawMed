@@ -20,26 +20,32 @@
           </svg>
         </div>
     </div>
-    <div class="uk-container uk-width-2xlarge uk-margin-large-bottom">
-        <div class="uk-margin-large-top" uk-scrollspy="cls: uk-animation-slide-bottom; target: > p;">
+    <div class="uk-container uk-container-small uk-margin-large-bottom" uk-scrollspy="cls: uk-animation-slide-bottom-medium; target: > form, > div, > p, > img; delay: 200;">
+        <div class="uk-margin-large-top">
             <p style="font-size: 26px;" class="uk-text-bolder pm-color-lightblue">Patient Board</p>
         </div>
-        <form id="form" method="post" uk-scrollspy="cls: uk-animation-slide-bottom; target: > div; delay: 200;">
+        <form id="form" method="post">
             {% csrf_token %}
             <div class="uk-grid-small" uk-grid>
-                <div class="uk-width-1-3@s">
+                <div class="uk-width-1-4@s">
                     <div class="uk-inline uk-width-1-1 ">
                         <span class="uk-form-icon" uk-icon="icon: search"></span>
-                        <input class="uk-input pm-input" placeholder="Patient Name" type="text">
+                        {% render_field form.name|attr:"autofocus" class+="uk-input pm-input" placeholder="Patient Name" %}
                     </div>
                 </div>
-                <div class="uk-width-1-3@s">
+                <div class="uk-width-1-4@s">
+                    <div class="uk-inline uk-width-1-1 ">
+                        <span class="uk-form-icon" uk-icon="icon: search"></span>
+                        {% render_field form.surname|attr:"autofocus" class+="uk-input pm-input" placeholder="Patient Surname" %}
+                    </div>
+                </div>
+                <div class="uk-width-1-4@s">
                     <div class="uk-inline uk-width-1-1 ">
                         <span class="uk-form-icon" uk-icon="icon: user"></span>
-                        <input class="uk-input pm-input" placeholder="ID Number" type="text">
+                        {% render_field form.personid|attr:"autofocus" class+="uk-input pm-input" placeholder="ID number" %}
                     </div>
                 </div>
-                <div class="uk-width-1-3@s">
+                <div class="uk-width-1-4@s">
                     <a href="#"><button type="submit" value="search" class="uk-button pm-button-primary uk-width-1-1">Show Patient</button></a>
                 </div>
             </div>
@@ -51,7 +57,7 @@
             {% endfor %}
         </div>
         {% endif %}
-       <div class="uk-text-center uk-margin-large-top uk-margin-medium-bottom" uk-scrollspy="cls: uk-animation-slide-bottom-medium; target: > p, > img; delay: 400;">
+       <div class="uk-text-center uk-margin-large-top uk-margin-medium-bottom">
             <img src="{% static 'img/registrar/required-information.png' %}" width="200px"/>
             <p style="font-size: 24px;" class="uk-margin-medium-top uk-text-bolder pm-color-lightblue">Required information</p>
         </div>

@@ -1,7 +1,8 @@
 from django.test import TestCase
 from django.urls import reverse
 from django.utils.datetime_safe import datetime
-from registrar.models import Visit, Patient, Doctor
+from registrar.models import Visit, Patient
+from .models import Doctor
 
 
 class DoctorTest(TestCase):
