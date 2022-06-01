@@ -5,6 +5,9 @@
 {% endblock navbar %}
 
 {% block content %}
+<a href = "{% url 'doctor_visit' visit.id %}"> <button> Examine </button> </a>
+<a href="{% url 'doctor_order_test' visit.id %}"><button>  Order test </button> </a>
+<a href=" {% url 'doctor_patient_history' visit.id %}"><button> History </button> </a>
     {% for visit in prev_visits %}
         <div class="uk-container uk-margin-medium-top pm-background-white uk-border-rounded uk-animation-toggle uk-animation-slide-bottom-medium">
             <div>

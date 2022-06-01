@@ -57,7 +57,7 @@ class DoctorEndVisitView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 class DoctorAppointmentView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     """View where doctor can write inofrmations about patients """
     model = Visit
-    template_name = 'doctor/doctor_visit.html'
+    template_name = 'doctor/doctor_visit_exam.html'
     fields=['medical_interview', 'examination', 'remarks', 'recommendation', 'took_place']
     success_url = reverse_lazy('doctor_homepage')
 
@@ -74,7 +74,7 @@ class DoctorAppointmentView(LoginRequiredMixin, UserPassesTestMixin, UpdateView)
 class DoctorOrderTestView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
     """View where doctors can order different types of tests """
     model = models.Test
-    template_name = 'doctor/doctor_order_test.html'
+    template_name = 'doctor/doctor_visit_test.html'
     fields = ['type', 'remarks']
     success_url = reverse_lazy('doctor_homepage')
 
@@ -101,7 +101,7 @@ class DoctorOrderTestView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
 class DoctorPatientHistoryView(LoginRequiredMixin, UserPassesTestMixin, ListView):
     """View where doctors can see all the previous visits of a given patient """
     model = Visit
-    template_name = 'doctor/doctor_patient_history.html'
+    template_name = 'doctor/doctor_visit_history.html'
 
     def test_func(self):
         return self.request.user.role == 'DOCTOR'
@@ -109,6 +109,7 @@ class DoctorPatientHistoryView(LoginRequiredMixin, UserPassesTestMixin, ListView
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         currentVisit = Visit.objects.get(id=self.kwargs['pk'])
+        context["visit"] = currentVisit
         context["prev_visits"] = Visit.objects.filter(took_place=True, patient=currentVisit.patient).order_by('date') 
         return context
     

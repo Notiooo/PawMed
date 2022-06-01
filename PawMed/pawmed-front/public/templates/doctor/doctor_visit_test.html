@@ -5,6 +5,9 @@
 {% endblock navbar %}
 
 {% block content %}
+<a href = "{% url 'doctor_visit' visit.id %}"> <button> Examine </button> </a>
+<a href="{% url 'doctor_order_test' visit.id %}"><button>  Order test </button> </a>
+<a href=" {% url 'doctor_patient_history' visit.id %}"><button> History </button> </a>
 <h2> Ordering test for patient: {{visit.patient.name}} {{visit.patient.surname}} </h2>
     <form action="" method="post">  {% csrf_token %}
         {{ form.as_p }}
