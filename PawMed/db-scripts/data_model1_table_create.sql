@@ -73,6 +73,7 @@ CREATE TABLE public.test (
     remarks text,
     laboratory_room integer,
     visit integer NOT NULL,
+    status char NOT NULL,
     PRIMARY KEY (id)
 );
 

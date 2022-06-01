@@ -6,6 +6,7 @@ from datetime import datetime
 
 from . import models
 from registrar.models import Visit, Patient
+from technician.models import Test
 
 # Create your views here.
 
@@ -73,7 +74,7 @@ class DoctorAppointmentView(LoginRequiredMixin, UserPassesTestMixin, UpdateView)
 
 class DoctorOrderTestView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
     """View where doctors can order different types of tests """
-    model = models.Test
+    model = Test
     template_name = 'doctor/doctor_visit_test.html'
     fields = ['type', 'remarks']
     success_url = reverse_lazy('doctor_homepage')
@@ -90,12 +91,13 @@ class DoctorOrderTestView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
     def form_valid(self, form):
         # for some reaseon negative indexing is not supported
         # so that's why it is done this way
-        lastTest = models.Test.objects.all().order_by('id').reverse()
+        lastTest = Test.objects.all().order_by('id').reverse()
         if (len(lastTest) != 0):
             form.instance.id = lastTest[0].id + 1
         else:
             form.instance.id = 1
         form.instance.visit = Visit.objects.get(id=self.kwargs.get('pk'))
+        form.instance.status = 'p'
         return super(DoctorOrderTestView, self).form_valid(form)
 
 class DoctorPatientHistoryView(LoginRequiredMixin, UserPassesTestMixin, ListView):
