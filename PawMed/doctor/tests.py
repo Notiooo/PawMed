@@ -1,12 +1,5 @@
 from django.test import TestCase
 from django.urls import reverse
-<<<<<<< HEAD
-from .models import Visit, Patient, Doctor
-# Create your tests here.
-
-class DoctorHomepageViewTest(TestCase):
-
-=======
 from django.utils.datetime_safe import datetime
 from registrar.models import Visit, Patient
 from .models import Doctor
@@ -54,7 +47,6 @@ class DoctorTest(TestCase):
         )
 
 class DoctorHomepageViewTest(TestCase):
->>>>>>> master
     def testHomepageStatusCode(self):
         response = self.client.get('/')
         self.assertEqual(response.status_code, 200)
@@ -67,13 +59,8 @@ class DoctorHomepageViewTest(TestCase):
         response = self.client.get(reverse('doctor_homepage'))
         self.assertTemplateUsed(response, 'doctor/doctor_homepage.html')
 
-<<<<<<< HEAD
-class DoctorEndVisitViewTest(TestCase):
-    # @note: there have to be some entries in the database for the test to pass
-=======
 
 class DoctorEndVisitViewTest(DoctorTest):
->>>>>>> master
     def testEndVisitStatusCode(self):
         response = self.client.get('/doctor/1/end/')
         self.assertEqual(response.status_code, 200)
@@ -86,12 +73,8 @@ class DoctorEndVisitViewTest(DoctorTest):
         response = self.client.get('/doctor/1/end/')
         self.assertTemplateUsed(response, 'doctor/doctor_endvisit.html')
 
-<<<<<<< HEAD
-class DoctorAppointmentViewTest(TestCase):
-=======
 
 class DoctorAppointmentViewTest(DoctorTest):
->>>>>>> master
     def testAppointmentViewStatusCode(self):
         response = self.client.get('/doctor/1/visit/')
         self.assertEqual(response.status_code, 200)
@@ -103,7 +86,6 @@ class DoctorAppointmentViewTest(DoctorTest):
     def testAppointmentViewCorrectTemplate(self):
         response = self.client.get('/doctor/1/visit/')
         self.assertTemplateUsed(response, 'doctor/doctor_visit.html')
-<<<<<<< HEAD
 
 class DoctorOrderTestViewTest(TestCase):
     def testOrderViewStatusCode(self):
@@ -118,5 +100,3 @@ class DoctorOrderTestViewTest(TestCase):
         response = self.client.get(reverse('doctor_order_test', args=[1]))
         self.assertTemplateUsed(response, 'doctor/doctor_order_test.html')
 
-=======
->>>>>>> master

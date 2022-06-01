@@ -25,11 +25,7 @@ CREATE TABLE public.visit (
     medical_interview text,
     examination text,
     recommendation text,
-<<<<<<< HEAD
-    tookPlace bool not null,
-=======
     took_place bool not null,
->>>>>>> master
     PRIMARY KEY (id)
 );
 
@@ -72,8 +68,8 @@ CREATE TABLE public.specialization (
 CREATE TABLE public.test (
     id integer NOT NULL,
     type Varchar(50) NOT NULL,
-    execution_date timestamp with time zone NOT NULL,
-    executive integer NOT NULL,
+    execution_date timestamp with time zone,
+    executive integer,
     remarks text,
     laboratory_room integer,
     visit integer NOT NULL,
