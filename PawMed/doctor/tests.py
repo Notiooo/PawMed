@@ -100,3 +100,16 @@ class DoctorOrderTestViewTest(TestCase):
         response = self.client.get(reverse('doctor_order_test', args=[1]))
         self.assertTemplateUsed(response, 'doctor/doctor_order_test.html')
 
+class DoctorPatientHistoryViewTest(TestCase):
+    def testHistoryViewStatusCode(self):
+        response = self.client.get('/doctor/1/history')
+        self.assertEqual(response.status_code, 200)
+
+    def testHistoryViewUrlByName(self):
+        response = self.client.get(reverse('doctor_patient_history', args=[1]))
+        self.assertAlmostEqual(response.status_code, 200)
+
+    def testHistoryViewCorrectTemplate(self):
+        response = self.client.get('/doctor/1/history')
+        self.assertTemplateUsed(response, 'doctor/doctor_patient_history.html')
+

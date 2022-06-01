@@ -25,7 +25,7 @@ class RedirectView(View):
     def dispatch(self, request, *args, **kwargs):
         role = CustomUser.objects.filter(username=request.user.username).get().role
         if role == 'DOCTOR':
-            return HttpResponseRedirect(reverse('doctor'))
+            return HttpResponseRedirect(reverse('doctor_homepage'))
         elif role == 'LAB_TECHNICIAN':
             return HttpResponseRedirect(reverse('lab_technician'))
         elif role == 'LAB_MANAGER':

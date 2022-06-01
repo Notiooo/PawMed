@@ -98,7 +98,7 @@ class DoctorOrderTestView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
         form.instance.visit = Visit.objects.get(id=self.kwargs.get('pk'))
         return super(DoctorOrderTestView, self).form_valid(form)
 
-class DoctorPatienHistoryView(LoginRequiredMixin, UserPassesTestMixin, ListView):
+class DoctorPatientHistoryView(LoginRequiredMixin, UserPassesTestMixin, ListView):
     """View where doctors can see all the previous visits of a given patient """
     model = Visit
     template_name = 'doctor/doctor_patient_history.html'
