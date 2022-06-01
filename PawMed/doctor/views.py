@@ -1,4 +1,5 @@
 from django.shortcuts import render, get_object_or_404
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.views.generic import ListView, DetailView, UpdateView, CreateView
 from django.urls import reverse_lazy
 from datetime import datetime
@@ -8,9 +9,14 @@ from registrar.models import Visit, Patient
 
 # Create your views here.
 
-class DoctorHomepageView(ListView):
+class DoctorHomepageView(LoginRequiredMixin, UserPassesTestMixin, ListView):
+    """View where doctors seee all the patients appointed at given day, sorted by appointment hour """
     model = Visit
     template_name = 'doctor/doctor_homepage.html'
+    login_url = 'login'
+
+    def test_func(self):
+        return self.request.user.role == 'DOCTOR'
 
     def get_context_data(self, **kwargs):
         # Call the base implementation first to get a context
@@ -34,34 +40,46 @@ class DoctorHomepageView(ListView):
             context['visit_list'] = None
         return context
 
-class DoctorEndVisitView(UpdateView):
+class DoctorEndVisitView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+    """View where doctor can simply mark that the visit has taken place """
     model = Visit
     template_name = 'doctor/doctor_endvisit.html'
     fields=['took_place']
     success_url = reverse_lazy('doctor_homepage')
 
+    def test_func(self):
+        return self.request.user.role == 'DOCTOR'
+
     def form_valid(self, form):
         form.instance.took_place = True
         return super(DoctorEndVisitView, self).form_valid(form)
 
-class DoctorAppointmentView(UpdateView):
+class DoctorAppointmentView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+    """View where doctor can write inofrmations about patients """
     model = Visit
     template_name = 'doctor/doctor_visit.html'
     fields=['medical_interview', 'examination', 'remarks', 'recommendation', 'took_place']
     success_url = reverse_lazy('doctor_homepage')
 
+    def test_func(self):
+        return self.request.user.role == 'DOCTOR'
+
     def form_valid(self, form):
+        #This thing dosen't work as it should
+        #But we'll worry 'bout it later!
         form.instance.took_place = True
         return super(DoctorAppointmentView, self).form_valid(form)
 
 
-class DoctorOrderTestView(CreateView):
-    #There probably has to be some changes to test model
-    #for now execution date and executive are in the form
+class DoctorOrderTestView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
+    """View where doctors can order different types of tests """
     model = models.Test
     template_name = 'doctor/doctor_order_test.html'
     fields = ['type', 'remarks']
     success_url = reverse_lazy('doctor_homepage')
+
+    def test_func(self):
+        return self.request.user.role == 'DOCTOR'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -80,9 +98,13 @@ class DoctorOrderTestView(CreateView):
         form.instance.visit = Visit.objects.get(id=self.kwargs.get('pk'))
         return super(DoctorOrderTestView, self).form_valid(form)
 
-class DoctorPatienHistoryView(ListView):
+class DoctorPatienHistoryView(LoginRequiredMixin, UserPassesTestMixin, ListView):
+    """View where doctors can see all the previous visits of a given patient """
     model = Visit
     template_name = 'doctor/doctor_patient_history.html'
+
+    def test_func(self):
+        return self.request.user.role == 'DOCTOR'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
