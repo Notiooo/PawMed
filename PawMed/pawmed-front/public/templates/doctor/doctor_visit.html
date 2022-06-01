@@ -6,6 +6,7 @@
 
 {% block content %}
 <a href="{% url 'doctor_order_test' visit.id %}"><button>  Order test </button> </a>
+<a href=" {% url 'doctor_patient_history' visit.id %}"><button> History </button> </a>
     <form action="" method="post">  {% csrf_token %}
         {{ form.non_field_errors }}
 
@@ -30,4 +31,5 @@
         {% endfor %} -->
     <button class="btn" type="submit"> End Visit </button>
     <a href="{% url 'doctor_homepage' %}"><button> Back </button> </a>
+    
 {% endblock content%}

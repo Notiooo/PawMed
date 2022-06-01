@@ -78,3 +78,14 @@ class DoctorOrderTestView(CreateView):
             form.instance.id = 1
         form.instance.visit = models.Visit.objects.get(id=self.kwargs.get('pk'))
         return super(DoctorOrderTestView, self).form_valid(form)
+
+class DoctorPatienHistoryView(ListView):
+    model = models.Visit
+    template_name = 'doctor/doctor_patient_history.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        currentVisit = models.Visit.objects.get(id=self.kwargs['pk'])
+        context["prev_visits"] = models.Visit.objects.filter(tookplace=True, patient=currentVisit.patient).order_by('date') 
+        return context
+    
