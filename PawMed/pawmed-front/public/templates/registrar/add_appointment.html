@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+{% load widget_tweaks %}
+{% load static %}
+
+{% block navbar %}
+    {% include 'registrar/navbar.html' %}
+{% endblock navbar %}
+
+{% block content %}
+    <style>
+    body
+    {
+        overflow-x: hidden;
+    }
+    </style>
+    <div>
+        <div class="tk-blob uk-position-absolute" style="--fill: #d7dcdf; --time: 120s; z-index: -999; width: 1500px; top: -600px; left: -800px">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 412.3 354.7">
+            <path d="m 334 47 c 57 28 97 39 85.2 111.6 s -33 63 -93 93 c -75.2 30.4 -100.2 26.4 -186.4 26.5 c -66.8 -10.1 -128.8 -29.1 -132.8 -74.1 c -3 -40 12 -54 74 -131 c 22 -20 21 -46 110 -53 c 62 1 41 11 92 17 z"></path>
+          </svg>
+        </div>
+        <img class="uk-position-absolute uk-width-1-6 uk-width-medium@xl uk-visible@m uk-margin-xlarge-left"
+             src="{% static 'img/registrar/registrar_cat.png' %}"
+             style="transform: rotate(-15deg); z-index: -999; top: 200px;"
+             uk-scrollspy="cls: uk-animation-slide-left-medium;"/>
+    </div>
+    <div class="uk-container uk-width-large">
+        <div class="uk-text-center uk-margin-medium-bottom uk-margin-large-top" uk-scrollspy="cls: uk-animation-scale-up; target: > p, > img, > ul; delay: 100;">
+            <ul class="uk-breadcrumb">
+                <li><a href="{% url 'registrar_patient_board' %}">Patient Board</a></li>
+                <li><a href="#">Jan Kowalski</a></li>
+                <li class="uk-text-bolder uk-disabled"><a href="#">Add appointment</a></li>
+            </ul>
+            <p style="font-size: 32px;" class="uk-margin-medium-bottom uk-text-bolder pm-color-lightblue">Search appointments</p>
+        </div>
+        <form id="form" method="post" uk-scrollspy="cls: uk-animation-slide-bottom; target: > div; delay: 200;">
+            {% csrf_token %}
+            <div class="uk-margin">
+                <select class="uk-select pm-input">
+                    <option value="" disabled selected>Select or enter a service name</option>
+                    <option>Option 01</option>
+                    <option>Option 02</option>
+                </select>
+            </div>
+            <div class="uk-margin">
+                <select class="uk-select pm-input">
+                    <option value="" disabled selected>Any or specific doctor</option>
+                    <option>Option 01</option>
+                    <option>Option 02</option>
+                </select>
+            </div>
+            <div class="uk-margin uk-child-width-1-2 uk-grid-small" uk-grid>
+                <div>
+                    <input class="uk-input pm-input" type="date"/>
+                    <p class="uk-text-meta uk-text-center uk-margin-remove-top">Earliest date</p>
+                </div>
+                <div>
+                    <input class="uk-input pm-input" type="date"/>
+                    <p class="uk-text-meta uk-text-center uk-margin-remove-top">Latest date</p>
+                </div>
+            </div>
+            <div class="uk-margin">
+                <a href="#"><button type="submit" value="search" class="uk-button pm-button-primary uk-width-1-1">Show Patient</button></a>
+            </div>
+        </form>
+        {% if form.non_field_errors %}
+        <div class="uk-alert-danger" uk-alert>
+            {% for error in form.non_field_errors %}
+                <p>{{ error }}</p>
+            {% endfor %}
+        </div>
+        {% endif %}
+    </div>
+{% endblock content %}

@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+{% load widget_tweaks %}
+{% load static %}
+
+{% block navbar %}
+    {% include 'registrar/navbar.html' %}
+{% endblock navbar %}
+
+{% block content %}
+    <style>
+    body
+    {
+        overflow-x: hidden;
+    }
+    </style>
+    <div>
+        <div class="tk-blob uk-position-absolute" style="--fill: #d7dcdf; --time: 120s; z-index: -999; width: 1500px; top: -600px; left: -800px">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 412.3 354.7">
+            <path d="m 334 47 c 57 28 97 39 85.2 111.6 s -33 63 -93 93 c -75.2 30.4 -100.2 26.4 -186.4 26.5 c -66.8 -10.1 -128.8 -29.1 -132.8 -74.1 c -3 -40 12 -54 74 -131 c 22 -20 21 -46 110 -53 c 62 1 41 11 92 17 z"></path>
+          </svg>
+        </div>
+    </div>
+    <div class="uk-container uk-container-small uk-margin-large-bottom" uk-scrollspy="cls: uk-animation-slide-bottom-medium; target: > form, > div, > p, > img; delay: 200;">
+        <div class="uk-margin-large-top">
+            <p style="font-size: 26px;" class="uk-text-bolder pm-color-lightblue">Patient Board</p>
+        </div>
+        <form id="form" method="post">
+            {% csrf_token %}
+            <div class="uk-grid-small" uk-grid>
+                <div class="uk-width-1-4@s">
+                    <div class="uk-inline uk-width-1-1 ">
+                        <span class="uk-form-icon" uk-icon="icon: search"></span>
+                        {% render_field form.name|attr:"autofocus" class+="uk-input pm-input" placeholder="Patient Name" %}
+                    </div>
+                </div>
+                <div class="uk-width-1-4@s">
+                    <div class="uk-inline uk-width-1-1 ">
+                        <span class="uk-form-icon" uk-icon="icon: search"></span>
+                        {% render_field form.surname|attr:"autofocus" class+="uk-input pm-input" placeholder="Patient Surname" %}
+                    </div>
+                </div>
+                <div class="uk-width-1-4@s">
+                    <div class="uk-inline uk-width-1-1 ">
+                        <span class="uk-form-icon" uk-icon="icon: user"></span>
+                        {% render_field form.personid|attr:"autofocus" class+="uk-input pm-input" placeholder="ID number" %}
+                    </div>
+                </div>
+                <div class="uk-width-1-4@s">
+                    <a href="#"><button type="submit" value="search" class="uk-button pm-button-primary uk-width-1-1">Show Patient</button></a>
+                </div>
+            </div>
+        </form>
+        {% if form.non_field_errors %}
+        <div class="uk-alert-danger" uk-alert>
+            {% for error in form.non_field_errors %}
+                <p>{{ error }}</p>
+            {% endfor %}
+        </div>
+        {% endif %}
+       <div class="uk-text-center uk-margin-large-top uk-margin-medium-bottom">
+            <img src="{% static 'img/registrar/required-information.png' %}" width="200px"/>
+            <p style="font-size: 24px;" class="uk-margin-medium-top uk-text-bolder pm-color-lightblue">Required information</p>
+        </div>
+    </div>
+{% endblock content %}

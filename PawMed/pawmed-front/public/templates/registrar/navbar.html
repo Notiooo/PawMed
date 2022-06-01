@@ -1,0 +1,6 @@
+{% extends "base/navbar.html" %}
+
+{% block navbar-left %}
+    <li><a href="{% url 'registrar_patient_board' %}"><span uk-icon="users"  style='margin-right:0.9em; display:inline-block;'></span>Patient Board</a></li>
+    <li><a href="{% url 'registrar_add_patient' %}"><span uk-icon="plus-circle" style='margin-right:0.9em; display:inline-block;'></span>Add patient</a></li>
+{% endblock %}

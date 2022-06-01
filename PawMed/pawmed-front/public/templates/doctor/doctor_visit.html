@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 
 {% block navbar %}
+<<<<<<< HEAD
     {% include 'registration/navbar.html' %}
 {% endblock navbar %}
 
@@ -32,4 +33,13 @@
     <button class="btn" type="submit"> End Visit </button>
     <a href="{% url 'doctor_homepage' %}"><button> Back </button> </a>
     
+=======
+    {% include 'base/navbar.html' %}
+{% endblock navbar %}
+
+{% block content %}
+    <form action="" method="post">  {% csrf_token %}
+        {{ form.as_p }}
+    <button class="btn" type="submit"> End Visit </button>
+>>>>>>> master
 {% endblock content%}

@@ -1,6 +1,9 @@
 from django.db import models
 
+<<<<<<< HEAD
 # Create your models here.
+=======
+>>>>>>> master
 
 class Doctor(models.Model):
     id = models.IntegerField(primary_key=True)
@@ -34,6 +37,7 @@ class Laboratory(models.Model):
         db_table = 'laboratory'
 
 
+<<<<<<< HEAD
 class Patient(models.Model):
     id = models.IntegerField(primary_key=True)
     name = models.CharField(max_length=50)
@@ -55,6 +59,11 @@ class Patient(models.Model):
 class Prescription(models.Model):
     id = models.IntegerField(primary_key=True)
     visit = models.ForeignKey('Visit', models.DO_NOTHING, db_column='visit')
+=======
+class Prescription(models.Model):
+    id = models.IntegerField(primary_key=True)
+    visit = models.ForeignKey('registrar.Visit', models.DO_NOTHING, db_column='visit')
+>>>>>>> master
     date_of_issue = models.DateTimeField()
     expiration_date = models.DateTimeField()
     remarks = models.TextField(blank=True, null=True)
@@ -90,6 +99,7 @@ class Test(models.Model):
     executive = models.ForeignKey(Technician, models.DO_NOTHING, db_column='executive')
     remarks = models.TextField(blank=True, null=True)
     laboratory_room = models.ForeignKey(Laboratory, models.DO_NOTHING, db_column='laboratory_room', blank=True, null=True)
+<<<<<<< HEAD
     visit = models.ForeignKey('Visit', models.DO_NOTHING, db_column='visit')
 
     class Meta:
@@ -113,3 +123,10 @@ class Visit(models.Model):
     class Meta:
         managed = False
         db_table = 'visit'
+=======
+    visit = models.ForeignKey('registrar.Visit', models.DO_NOTHING, db_column='visit')
+
+    class Meta:
+        managed = False
+        db_table = 'test'
+>>>>>>> master

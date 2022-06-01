@@ -50,11 +50,20 @@ INSTALLED_APPS = [
     'users',
     'homepage',
     'doctor',
+<<<<<<< HEAD
+=======
+    'registrar',
+    'technician',
+>>>>>>> master
 
     # 3rd party apps
     'widget_tweaks',
     'phonenumber_field',
     'test_without_migrations',
+<<<<<<< HEAD
+=======
+    'macros',
+>>>>>>> master
 ]
 
 MIDDLEWARE = [
@@ -169,5 +178,9 @@ AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',  # Authenticate with the username and password
 ]
 
+<<<<<<< HEAD
 
 TEST_RUNNER = 'PawMed.settings.ManagedModelTestRunner'
+=======
+TEST_RUNNER = 'PawMed.testrunner.UnManagedModelTestRunner'
+>>>>>>> master

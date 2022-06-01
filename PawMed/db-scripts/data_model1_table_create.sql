@@ -25,7 +25,11 @@ CREATE TABLE public.visit (
     medical_interview text,
     examination text,
     recommendation text,
+<<<<<<< HEAD
     tookPlace bool not null,
+=======
+    took_place bool not null,
+>>>>>>> master
     PRIMARY KEY (id)
 );
 
