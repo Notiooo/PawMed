@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>Users without role</h1>
+    <ul>
+    {% for user in object_list %}
+        <li>
+            <h3>{{ user.first_name }} {{ user.last_name }}</h3>
+            <p><b>Contact:</b> {{ user.email }} {{ user.phone_number }}</p>
+            <p><a href="#">Assign role</a></p>
+        </li>
+    {% endfor %}
+    </ul>
+{% endblock content %}
