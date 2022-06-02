@@ -32,8 +32,9 @@ class Test(models.Model):
 
     STATUS = (
         ('p', 'Pending'),
-        ('a', 'Active'),
-        ('c', 'Closed')
+        ('c', 'Closed'),
+        ('r', 'Rejected'),
+        ('a', 'Approved')
     )
 
     status = models.CharField(max_length=1, choices=STATUS)

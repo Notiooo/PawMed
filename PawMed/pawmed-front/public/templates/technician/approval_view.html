@@ -5,7 +5,7 @@
     {% include 'base/navbar.html' %}
 {% endblock navbar %}
 
-{% block left_side_title %}Bone marrow{% endblock left_side_title %}
+{% block left_side_title %}{{test.type}}{% endblock left_side_title %}
 {% block left_side %}
 <div class="uk-text-center" uk-grid>
         <div class="uk-width-1-2@m">
@@ -23,10 +23,10 @@
                 </div>
                 <div class="uk-width-1-2">
                     <div class="uk-text-right pm-color-lightblue">
-                        <div>Robert Deniro</div>
-                        <div>001</div>
-                        <div>DD/MM/YYYY</div>
-                        <div>Active</div>
+                        <div>{{doctor.name}} {{doctor.surname}}</div>
+                        <div>{{doctor.room}}</div>
+                        <div>{{visit.date}}</div>
+                        <div>{{test.get_status_display}}</div>
                     </div>
                 </div>
             </div>
@@ -34,7 +34,7 @@
                 <p class="uk-text-lead  uk-text-bolder pm-color-lightblue">Doctor remarks</p>
             </div>
             <div class="uk-text-left">
-                <div class="pm-color-lightblue">Doctor's additional information.</div>
+                <div class="pm-color-lightblue">{{test.remarks}}</div>
             </div>
 
             <div class="uk-text-center uk-margin-medium">
@@ -51,7 +51,7 @@
                 <img src="{% static 'img/technician/receipt.jpg' %}" class="uk-width-2-3" style="opacity: 0.7">
                 <div class="uk-overlay  uk-position-center">
                     <div uk-form-custom class="uk-margin-small" >
-                        <a href="{% url "homepage" %}"><button style="font-size: 14px" class=" uk-button pm-button-primary uk-button-large uk-width-auto">View</button></a>
+                        <a href="{% url 'head_home' %}"><button style="font-size: 14px" class=" uk-button pm-button-primary uk-button-large uk-width-auto">View</button></a>
                     </div>
                 </div>
             </div>
@@ -66,10 +66,10 @@
 </div>
 <div class="uk-flex-right" uk-grid>
     <div>
-        <a href="{% url "homepage" %}"><button style="font-size: 14px" class="uk-button pm-button-primary uk-button-large uk-width-small">Accept</button></a>
+        <a href="{% url 'head_home' %}"><button style="font-size: 14px" class="uk-button pm-button-primary uk-button-large uk-width-small">Accept</button></a>
     </div>
     <div>
-        <a href="{% url "homepage" %}"><button style="font-size: 14px" class="uk-button pm-button-secondary uk-button-large uk-width-small">Decline</button></a>
+        <a href="{% url 'head_home' %}"><button style="font-size: 14px" class="uk-button pm-button-secondary uk-button-large uk-width-small">Decline</button></a>
     </div>
 </div>
 {% endblock left_side %}

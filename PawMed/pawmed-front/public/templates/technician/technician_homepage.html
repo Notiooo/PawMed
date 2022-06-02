@@ -5,10 +5,20 @@
 {% endblock navbar %}
 
 {% block content %}
-    {% for test in test_list %}
-    <p> {{test.status}} </p>
-    <p> {{ test.visit.patient.name}} {{ test.visit.patient.surname}} </p>
-    <p> {{test.type}} </p>
+    <h2> Pending tests: </h2>
+    {% for test in pending_tests %}
+        <p> {{test.status}} </p>
+        <p> {{ test.visit.patient.name}} {{ test.visit.patient.surname}} </p>
+        <p> {{test.type}} </p>
+        <a href="{% url 'technician_submit_result' test.id %}"><button> Submit </button> </a>
+    </br>
+    {% endfor %}
+    <h2> Recently closed tests: </h2>
+    {% for test in recently_closed %}
+        <p> {{test.status}} </p>
+        <p> {{ test.visit.patient.name}} {{ test.visit.patient.surname}} </p>
+        <p> {{test.type}} </p>
+        
     </br>
     {% endfor %}
 {% endblock content %}

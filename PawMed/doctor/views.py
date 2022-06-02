@@ -56,7 +56,7 @@ class DoctorEndVisitView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         return super(DoctorEndVisitView, self).form_valid(form)
 
 class DoctorAppointmentView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
-    """View where doctor can write inofrmations about patients """
+    """View where doctor can write informations about patients """
     model = Visit
     template_name = 'doctor/doctor_visit_exam.html'
     fields=['medical_interview', 'examination', 'remarks', 'recommendation', 'took_place']
