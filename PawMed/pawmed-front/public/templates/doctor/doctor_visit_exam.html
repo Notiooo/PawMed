@@ -2,5 +2,149 @@
 {% load static %}
 
 {% block left_side %}
-<p>?</p>
+    <div class="uk-width-1-1">
+        <ul uk-tab>
+            <li class="uk-active"><a href="#">Examine</a></li>
+            <li><a href="#">Order Test</a></li>
+            <li><a href="#">History</a></li>
+        </ul>
+        <ul uk-accordion="multiple: true">
+            <li>
+                <div class="uk-text-left pm-background-white uk-accordion-title">
+                    <p href="#" style="font-size: 24px;" class="uk-text-bold pm-color-darkblue uk-margin-medium-left uk-margin-remove-bottom">General examination</p>
+                </div>
+                <div class="uk-accordion-content">
+                    <div class="uk-text-left">
+                        <p style="font-size: 18px;" class="pm-color-darkblue uk-margin-medium-left uk-margin-remove-bottom">Medical interview</p>
+                    </div>
+                     <div>
+                        <textarea class="uk-textarea  uk-flex-wrap-middle pm-input uk-margin-small-bottom" style="border-width: 2px" rows="3" placeholder="..."></textarea>
+                    </div>
+                    <div class="uk-text-left">
+                        <p style="font-size: 18px;" class="pm-color-darkblue uk-margin-medium-left uk-margin-remove-bottom">Examination</p>
+                    </div>
+                     <div>
+                        <textarea class="uk-textarea  uk-flex-wrap-middle pm-input uk-margin-small-bottom" style="border-width: 2px" rows="3" placeholder="..."></textarea>
+                    </div>
+                    <div class="uk-text-left">
+                        <p style="font-size: 18px;" class="pm-color-darkblue uk-margin-medium-left uk-margin-remove-bottom">Recommendation</p>
+                    </div>
+                     <div>
+                        <textarea class="uk-textarea  uk-flex-wrap-middle pm-input uk-margin-small-bottom" style="border-width: 2px" rows="3" placeholder="..."></textarea>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div class="uk-text-left pm-background-white uk-accordion-title">
+                    <p href="#" style="font-size: 24px;" class="uk-text-bold pm-color-darkblue uk-margin-medium-left uk-margin-remove-bottom">Diagnosis of disease</p>
+                </div>
+                <div class="uk-accordion-content">
+                    <ul class="uk-subnav uk-subnav-pill" uk-switcher>
+                        <li><a class="pm-button-primary" href="#">Diagnosis</a></li>
+                        <li><a class="pm-button-primary" href="#">History</a></li>
+                    </ul>
+                    <ul class="uk-switcher uk-margin">
+                        <li>
+                            <div class="uk-width-1-1" uk-grid>
+                                <div class="uk-inline uk-width-5-6">
+                                    <div>
+                                        <input class="uk-input pm-input" type="text" placeholder="Name of disease"/>
+                                    </div>
+                                    <div class="uk-margin-small-top">
+                                        <input class="uk-input pm-input" type="text" placeholder="Remarks"/>
+                                    </div>
+                                </div>
+                                <div class="uk-inline  uk-width-expand">
+                                    <a href="{% url "homepage" %}"><button style="font-size: 14px" class="uk-button pm-button-primary uk-position-bottom-right">Add</button></a>
+                                </div>
+                            </div>
+                        </li>
+                        <li>TO DO !!!</li>
+                    </ul>
+                </div>
+            </li>
+            <li>
+                <div class="uk-text-left pm-background-white uk-accordion-title">
+                    <p href="#" style="font-size: 24px;" class="uk-text-bold pm-color-darkblue uk-margin-medium-left uk-margin-remove-bottom">Laboratory tests</p>
+                </div>
+                <div class="uk-accordion-content">
+                    <ul class="uk-subnav uk-subnav-pill" uk-switcher>
+                        <li><a class="pm-button-primary" href="#">Results</a></li>
+                        <li><a class="pm-button-primary" href="#">History</a></li>
+                    </ul>
+                    <ul class="uk-switcher uk-margin">
+                        <li>
+                            <div class="uk-width-1-1" uk-grid>
+                                <div class="uk-inline uk-width-5-6 uk-text-left">
+                                     <span class=>Choose test result</span>
+                                    <select class="uk-select pm-input">
+                                        <option>Option 01</option>
+                                        <option>Option 02</option>
+                                    </select>
+                                </div>
+                                <div class="uk-inline uk-width-expand">
+                                    <a href="{% url "homepage" %}"><button style="font-size: 14px" class="uk-button pm-button-primary uk-position-bottom-right">View</button></a>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            TO DO!!!
+                        </li>
+                    </ul>
+                </div>
+            </li>
+            <li>
+                <div class="uk-text-left pm-background-white uk-accordion-title">
+                    <p href="#" style="font-size: 24px;" class="uk-text-bold pm-color-darkblue uk-margin-medium-left uk-margin-remove-bottom">Prescription</p>
+                </div>
+                <div class="uk-accordion-content">
+                    <ul class="uk-subnav uk-subnav-pill" uk-switcher>
+                        <li><a class="pm-button-primary" href="#">Refundable</a></li>
+                        <li><a class="pm-button-primary" href="#">History</a></li>
+                    </ul>
+                    <ul class="uk-switcher uk-margin">
+                        <li>
+                            <div class="uk-width-1-1" uk-grid>
+                                <div class="uk-inline uk-width-1-2">
+                                    <div class="uk-text-left">
+                                        <span class=>Name</span><input class="uk-input pm-input" type="text" placeholder="Name/Active substance"/>
+                                    </div>
+                                    <div class="uk-margin-small-top uk-text-left">
+                                        <span>Drug form</span><input class="uk-input pm-input" type="text" placeholder="Form of drug application"/>
+                                    </div>
+                                    <div class="uk-margin-small-top uk-text-left">
+                                        <span>Number of packages</span><input class="uk-input pm-input" type="text" placeholder="Amount"/>
+                                    </div>
+                                </div>
+                                <div class="uk-inline uk-width-expand uk-text-left">
+                                    <span>Percent of refund</span>
+                                    <select class="uk-select pm-input">
+                                        <option>Option 01</option>
+                                        <option>Option 02</option>
+                                    </select>
+                                    <a href="{% url "homepage" %}"><button style="font-size: 14px" class="uk-button pm-button-primary uk-position-bottom-right">Add</button></a>
+                                </div>
+                            </div>
+
+                        </li>
+                        <li>
+                            TO DO!!!
+                        </li>
+                    </ul>
+                    <hr class="pm-color-darkblue">
+                </div>
+            </li>
+        </ul>
+        <div class="uk-flex-right uk-child-width-auto" uk-grid>
+            <div class="uk-margin-small-top">
+                <a href="{% url "homepage" %}"><button style="font-size: 14px" class="uk-button pm-button-primary uk-button-large">Clear</button></a>
+            </div>
+            <div class="uk-margin-small-top">
+                <a href="{% url "homepage" %}"><button style="font-size: 14px" class="uk-button pm-button-primary uk-button-large">Submit</button></a>
+            </div>
+            <div  class="uk-margin-small-top">
+                <a href="{% url "homepage" %}"><button style="font-size: 14px" class="uk-button pm-button-secondary uk-button-large">End visit</button></a>
+            </div>
+        </div>
+    </div>
 {% endblock left_side %}

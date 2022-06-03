@@ -208,15 +208,27 @@
 }
 
 .pm-dot-small{
-  height: 5px;
-  width: 5px;
-  border-radius: 50%;
-  display: inline-block;
+    height: 5px;
+    width: 5px;
+    border-radius: 50%;
+    display: inline-block;
 }
 
 .pm-dot-medium{
-  height: 10px;
-  width: 10px;
-  border-radius: 50%;
-  display: inline-block;
+    height: 10px;
+    width: 10px;
+    border-radius: 50%;
+    display: inline-block;
+}
+
+.uk-subnav-pill>.uk-active>a
+{
+    background-color: #08415C;
+    color: #ffffff;
+}
+
+.uk-subnav-pill>*>a:hover
+{
+    background-color: #6B818C !important;
+    color: #ffffff;
 }

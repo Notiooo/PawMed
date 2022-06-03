@@ -4,30 +4,36 @@
 {% block left_side %}
     <div class="uk-width-1-1">
         <ul uk-tab>
-            <li><a href="#">Examine</a></li>
-            <li class="uk-active"><a href="#">Order Test</a></li>
+            <li class="uk-active"><a href="#">Examine</a></li>
+            <li><a href="#">Order Test</a></li>
             <li><a href="#">History</a></li>
         </ul>
-        <div class="uk-text-left pm-background-white">
-            <p style="font-size: 24px;" class="uk-text-bold pm-color-darkblue uk-margin-medium-left">Order test</p>
-        </div>
-        <div class="uk-text-left uk-margin-medium-top">
-            <p style="font-size: 18px;" class="pm-color-darkblue uk-margin-medium-left uk-text-bold uk-margin-remove-bottom">Test Type</p>
-            <hr class="pm-color-darkblue uk-margin-remove-top">
-        </div>
-        <div>
-            <select class="uk-select pm-input">
-                <option>Option 01</option>
-                <option>Option 02</option>
-            </select>
-        </div>
-        <div class="uk-text-left uk-margin-medium-top">
-            <p style="font-size: 18px;" class="pm-color-darkblue uk-margin-medium-left uk-text-bold uk-margin-remove-bottom">Information regarding the test</p>
-            <hr class="pm-color-darkblue uk-margin-remove-top">
-        </div>
-        <div>
-        <textarea class="uk-textarea  uk-flex-wrap-middle pm-input" style="border-width: 2px" rows="3" placeholder="Provide information regarding the test"></textarea>
-        </div>
+        <ul uk-accordion>
+            <li>
+                <div class="uk-text-left pm-background-white uk-accordion-title">
+                    <p style="font-size: 24px;" class="uk-text-bold pm-color-darkblue uk-margin-medium-left uk-margin-remove-bottom">Order test</p>
+                </div>
+                <div class="uk-accordion-content">
+                    <div class="uk-text-left">
+                        <p style="font-size: 18px;" class="pm-color-darkblue uk-margin-medium-left uk-text-bold uk-margin-remove-bottom">Test Type</p>
+                        <hr class="pm-color-darkblue uk-margin-remove-top">
+                    </div>
+                    <div>
+                        <select class="uk-select pm-input">
+                            <option>Option 01</option>
+                            <option>Option 02</option>
+                        </select>
+                    </div>
+                    <div class="uk-text-left uk-margin-medium-top">
+                        <p style="font-size: 18px;" class="pm-color-darkblue uk-margin-medium-left uk-text-bold uk-margin-remove-bottom">Information regarding the test</p>
+                        <hr class="pm-color-darkblue uk-margin-remove-top">
+                    </div>
+                    <div>
+                        <textarea class="uk-textarea  uk-flex-wrap-middle pm-input" style="border-width: 2px" rows="3" placeholder="Provide information regarding the test"></textarea>
+                    </div>
+                </div>
+            </li>
+        </ul>
         <div class="uk-flex-right uk-child-width-auto" uk-grid>
             <div class="uk-margin-small-top">
                 <a href="{% url "homepage" %}"><button style="font-size: 14px" class="uk-button pm-button-primary uk-button-large">Clear</button></a>
