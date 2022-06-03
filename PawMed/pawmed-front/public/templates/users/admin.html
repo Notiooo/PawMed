@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="uk-container uk-container-small uk-margin-large-top" uk-scrollspy="cls: uk-animation-slide-bottom-medium; target: > h2, li; delay: 200; repeat: true">
+        <h2>Users without role</h2>
+        <ul class="uk-list uk-list-striped">
+        {% for user in object_list %}
+            <li>
+                <h3>{{ user.first_name }} {{ user.last_name }}</h3>
+                <div><b>Email: </b>{{ user.email }}</div>
+                <div><b>Phone Number: </b>{{ user.phone_number }}</div>
+                <div class="uk-margin">
+                    <a href="{% url 'admin_roles_update' user.id %}">
+                        <button class="uk-button pm-button-primary">Assign Role</button>
+                    </a>
+                </div>
+            </li>
+        {% endfor %}
+        </ul>
+    </div>
+{% endblock content %}
