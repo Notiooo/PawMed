@@ -54,7 +54,7 @@ CREATE TABLE public.doctor (
     surname Varchar(50) NOT NULL,
     room Varchar(10) NOT NULL,
     phone_number Varchar(30) NOT NULL,
-    custom_user_id integer NOT NULL,
+    custom_user_id integer,
     PRIMARY KEY (id)
 );
 
@@ -97,7 +97,7 @@ CREATE TABLE public.technician (
     id integer NOT NULL,
     name Varchar(50) NOT NULL,
     surname Varchar(50) NOT NULL,
-    custom_user_id integer NOT NULL,
+    custom_user_id integer,
     PRIMARY KEY (id)
 );
 

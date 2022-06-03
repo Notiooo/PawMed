@@ -52,10 +52,11 @@ class NoRoleView(generic.TemplateView):
         return super().dispatch(request, args, kwargs)
 
 
-class AdminAssigningRolesListView(generic.ListView, LoginRequiredMixin, UserPassesTestMixin):
+class AdminAssigningRolesListView(LoginRequiredMixin, UserPassesTestMixin, generic.ListView):
     """Displays a list of users without a role to whom the admin can assign a role."""
     model = CustomUser
     template_name = 'users/admin.html'
+    login_url = 'login'
 
     def test_func(self):
         return self.request.user.is_superuser
@@ -64,11 +65,12 @@ class AdminAssigningRolesListView(generic.ListView, LoginRequiredMixin, UserPass
         return CustomUser.objects.filter(role__isnull=True, is_superuser=False)
 
 
-class AdminAssigningRolesUpdateView(generic.UpdateView, LoginRequiredMixin, UserPassesTestMixin):
+class AdminAssigningRolesUpdateView(LoginRequiredMixin, UserPassesTestMixin, generic.UpdateView):
     """View allowing to assign a role to particular user"""
     model = CustomUser
     template_name = 'users/admin_update_role.html'
     form_class = CustomUserAssignRole
+    login_url = 'login'
 
     def test_func(self):
         return self.request.user.is_superuser

@@ -13,7 +13,6 @@ class Patient(models.Model):
     city = models.CharField(max_length=85)
     zip_code = models.CharField(max_length=10)
     personid = models.CharField(max_length=50)
-    custom_user_id = models.IntegerField()
 
     GENDER = (
         ('f', 'Female'),
