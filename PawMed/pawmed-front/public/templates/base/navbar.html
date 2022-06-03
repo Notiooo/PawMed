@@ -27,6 +27,7 @@
                         <li><a href="#">Your profile</a></li>
                         <li class="uk-nav-divider"></li>
                         {% if user.is_superuser %}
+                            <li class="uk-nav-header">Admin options</li>
                             <li><a href="{% url 'admin_roles' %}">Assign roles panel</a></li>
                             <li><a href="{% url 'admin_roles_update' user.pk %}">Change your role</a></li>
                         <li class="uk-nav-divider"></li>
