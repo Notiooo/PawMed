@@ -3,7 +3,11 @@
 {% load static %}
 
 {% block content %}
-    <div class="uk-flex uk-flex-middle uk-flex-center uk-flex-column uk-height-viewport">
+    <div class="uk-position-center uk-text-center">
+        {% if user.is_superuser %}
+            <p>You are an administrator, you can assign roles <a href="{% url 'admin_roles' %}">here</a></p>.
+            <hr>
+        {% endif %}
         {% if user.is_authenticated %}
         <p class="uk-article-title">Sorry, but you have no role</p>
         <p class="uk-text-lead uk-margin-large-bottom">Wait for the administrator to assign you a role.</p>

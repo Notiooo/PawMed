@@ -7,6 +7,7 @@ class Doctor(models.Model):
     surname = models.CharField(max_length=50)
     room = models.CharField(max_length=10)
     phone_number = models.CharField(max_length=30)
+    custom_user_id = models.IntegerField()
 
     class Meta:
         managed = False
@@ -58,6 +59,7 @@ class Technician(models.Model):
     id = models.IntegerField(primary_key=True)
     name = models.CharField(max_length=50)
     surname = models.CharField(max_length=50)
+    custom_user_id = models.IntegerField()
 
     class Meta:
         managed = False
