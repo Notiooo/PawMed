@@ -232,3 +232,16 @@
     background-color: #6B818C !important;
     color: #ffffff;
 }
+
+.uk-tab>.uk-active>a {
+    color: #08415C;
+    border-color: #08415C !important;
+    font-size: 18px !important;
+    font-weight: bold;
+}
+
+.uk-tab>*>a {
+    color: #6B818C;
+    font-size: 18px !important;
+
+}
