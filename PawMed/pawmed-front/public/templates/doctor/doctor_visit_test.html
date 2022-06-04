@@ -14,21 +14,15 @@
                     <p style="font-size: 24px;" class="uk-text-bold pm-color-darkblue uk-margin-medium-left uk-margin-remove-bottom">Order test</p>
                 </div>
                 <div class="uk-accordion-content">
-                    <div class="uk-text-left">
-                        <p style="font-size: 18px;" class="pm-color-darkblue uk-margin-medium-left uk-text-bold uk-margin-remove-bottom">Test Type</p>
-                        <hr class="pm-color-darkblue uk-margin-remove-top">
-                    </div>
-                    <div>
+                    <div class="uk-inline uk-width-expand uk-text-left uk-margin-small-bottom">
+                        <span>Test type</span>
                         <select class="uk-select pm-input">
                             <option>Option 01</option>
                             <option>Option 02</option>
                         </select>
                     </div>
-                    <div class="uk-text-left uk-margin-medium-top">
-                        <p style="font-size: 18px;" class="pm-color-darkblue uk-margin-medium-left uk-text-bold uk-margin-remove-bottom">Information regarding the test</p>
-                        <hr class="pm-color-darkblue uk-margin-remove-top">
-                    </div>
-                    <div>
+                    <div class="uk-inline uk-width-expand uk-text-left uk-margin-small-bottom">
+                        <span>Information regarding the test</span>
                         <textarea class="uk-textarea  uk-flex-wrap-middle pm-input" style="border-width: 2px" rows="3" placeholder="Provide information regarding the test"></textarea>
                     </div>
                 </div>
@@ -42,7 +36,7 @@
                 <a href="{% url "homepage" %}"><button style="font-size: 14px" class="uk-button pm-button-primary uk-button-large">Submit</button></a>
             </div>
             <div  class="uk-margin-small-top">
-                <a href="{% url "homepage" %}"><button style="font-size: 14px" class="uk-button pm-button-secondary uk-button-large">End visit</button></a>
+                <a href="#modal-end-appointment" uk-toggle><button style="font-size: 14px" class="uk-button pm-button-secondary uk-button-large">End visit</button></a>
             </div>
         </div>
     </div>

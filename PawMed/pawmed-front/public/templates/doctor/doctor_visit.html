@@ -48,4 +48,16 @@
             </div>
         </div>
     </div>
+
+    <div id="modal-end-appointment" uk-modal>
+        <div class="uk-modal-dialog uk-modal-body">
+            <h2 class="uk-modal-title">Are you sure you want to end the appointment?</h2>
+            <div class="uk-text-right">
+               <form action="" method="post">  {% csrf_token %}
+                   <a class="uk-modal-close"><button class="uk-button pm-button-primary"> Back </button> </a>
+                   <a><button class="btn uk-button pm-button-secondary" type="submit"> End Visit </button></a>
+               </form>
+            </div>
+        </div>
+    </div>
 {% endblock content %}
