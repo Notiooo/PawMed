@@ -2,5 +2,50 @@
 {% load static %}
 
 {% block left_side %}
-<p>?</p>
+<div class="uk-width-1-1">
+        <ul uk-tab>
+            <li><a href="#">Examine</a></li>
+            <li><a href="#">Order Test</a></li>
+            <li class="uk-active"><a href="#">History</a></li>
+        </ul>
+        <ul uk-accordion>
+            <li>
+                <div class="uk-text-left pm-background-white uk-accordion-title">
+                    <p style="font-size: 24px;" class="uk-text-bold pm-color-darkblue uk-margin-medium-left uk-margin-remove-bottom">Visit history</p>
+                </div>
+                <div class="uk-accordion-content">
+                    <table class="uk-table uk-table-striped uk-text-left">
+                        <thead>
+                            <tr>
+                                <th class="uk-width-small">Date of visit</th>
+                                <th>Name of disease</th>
+                                <th class="uk-table-expand">Medical interview</th>
+                                <th>Link</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>2022-03-01</td>
+                                <td>Brucellosis</td>
+                                <td>Patient has a high temperature, loss of appetite, sweating, headaches, extreme tiredness.</td>
+                                <td><a href=""><button style="font-size: 14px" class="uk-button pm-button-primary uk-button-small uk-align-center">View</button></a></td>
+                            </tr>
+                            <tr>
+                                <td>2022-02-01</td>
+                                <td>Coronavirus disease</td>
+                                <td>Patient not looking good, lost sense of smell and taste. Lungs in good condition.</td>
+                                <td><a href=""><button style="font-size: 14px" class="uk-button pm-button-primary uk-button-small uk-align-center">View</button></a></td>
+                            </tr>
+                            <tr>
+                                <td>2022-01-11</td>
+                                <td>Lassa fever</td>
+                                <td>Big headaches and body temperature up to 39.6C</td>
+                                <td><a href=""><button style="font-size: 14px" class="uk-button pm-button-primary uk-button-small uk-align-center">View</button></a></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </li>
+        </ul>
+</div>
 {% endblock left_side %}

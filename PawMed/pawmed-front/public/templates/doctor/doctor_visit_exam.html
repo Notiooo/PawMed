@@ -89,32 +89,13 @@
                     <p href="#" style="font-size: 24px;" class="uk-text-bold pm-color-darkblue uk-margin-medium-left uk-margin-remove-bottom">Laboratory tests</p>
                 </div>
                 <div class="uk-accordion-content">
-                    <ul class="uk-subnav uk-subnav-pill" uk-switcher>
-                        <li><a class="pm-button-primary" href="#">Results</a></li>
-                        <li><a class="pm-button-primary" href="#">History</a></li>
-                    </ul>
-                    <ul class="uk-switcher uk-margin">
-                        <li>
-                            <div class="uk-width-1-1" uk-grid>
-                                <div class="uk-inline uk-width-5-6 uk-text-left">
-                                     <span class=>Choose test result</span>
-                                    <select class="uk-select pm-input">
-                                        <option>Option 01</option>
-                                        <option>Option 02</option>
-                                    </select>
-                                </div>
-                                <div class="uk-inline uk-width-expand">
-                                    <a href="{% url "homepage" %}"><button style="font-size: 14px" class="uk-button pm-button-primary uk-position-bottom-right">View</button></a>
-                                </div>
-                            </div>
-                        </li>
-                        <li>
-                            <table class="uk-table uk-table-striped uk-text-left">
+                    <table class="uk-table uk-table-striped uk-text-left">
                             <thead>
                                 <tr>
                                     <th class="uk-width-small">Date of visit</th>
                                     <th>Test name</th>
                                     <th class="uk-table-expand">Lab technician remarks</th>
+                                    <th class="uk-width-small">Link</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -122,21 +103,22 @@
                                     <td>2022-03-01</td>
                                     <td>Bone marrow examination</td>
                                     <td>Patient has everything within norm</td>
+                                    <td><a href=""><button style="font-size: 14px" class="uk-button pm-button-primary uk-button-small uk-align-center">View</button></a></td>
                                 </tr>
                                 <tr>
                                     <td>2022-02-01</td>
                                     <td>Lungs X-Ray</td>
                                     <td>Not visible any changes</td>
+                                     <td><a href=""><button style="font-size: 14px" class="uk-button pm-button-primary uk-button-small uk-align-center">View</button></a></td>
                                 </tr>
                                 <tr>
                                     <td>2018-01-11</td>
                                     <td>Leg X-Ray</td>
                                     <td>Fibula in tact. Tibia bone fracture detection as oblique fracture. </td>
+                                     <td><a href=""><button style="font-size: 14px" class="uk-button pm-button-primary uk-button-small uk-align-center">View</button></a></td>
                                 </tr>
                             </tbody>
                         </table>
-                        </li>
-                    </ul>
                 </div>
             </li>
             <li>
