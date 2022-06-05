@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% load widget_tweaks %}
+{% load static %}
+
+{% block navbar %}
+    {% include 'registrar/navbar.html' %}
+{% endblock navbar %}
+
+{% block content %}
+    <h1>{{ patient.name }} {{ patient.surname }}</h1>
+    <p><b>Age: </b>{{ patient.age }}</p>
+    <p><b>Birh Date: </b>{{ patient.birth_date }}</p>
+    <p><b>City: </b>{{ patient.city }}</p>
+    <p><b>Gender: </b>{{ patient.get_gender_display }}</p>
+    <p><b>Id: </b>{{ patient.id }}</p>
+    <p><b>Person Id: </b>{{ patient.personid }}</p>
+    <p><b>Phone Number: </b>{{ patient.phone_number }}</p>
+    <p><b>Registration Date: </b>{{ patient.registration_date }}</p>
+    <p><b>Zip code: </b>{{ patient.zip_code }}</p>
+{% endblock content %}
