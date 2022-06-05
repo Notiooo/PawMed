@@ -75,8 +75,7 @@ class Test(models.Model):
     execution_date = models.DateTimeField()
     executive = models.ForeignKey(Technician, models.DO_NOTHING, db_column='executive')
     remarks = models.TextField(blank=True, null=True)
-    laboratory_room = models.ForeignKey(Laboratory, models.DO_NOTHING, db_column='laboratory_room', blank=True,
-                                        null=True)
+    laboratory_room = models.ForeignKey(Laboratory, models.DO_NOTHING, db_column='laboratory_room', blank=True, null=True)
     visit = models.ForeignKey('registrar.Visit', models.DO_NOTHING, db_column='visit')
 
     class Meta:

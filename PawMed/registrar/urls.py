@@ -1,7 +1,7 @@
 from django.urls import path
 
-from .views import PatientBoardView, AddAppointmentView, AddPatientView, PatientView, load_doctors, \
-    AppointmentDoctorFreeVisitsView
+from .views import PatientBoardView, AddAppointmentView, AddPatientView, PatientView, load_doctors
+from .views import AppointmentDoctorFreeVisitsView
 
 urlpatterns = [
     path('', PatientBoardView.as_view(), name="registrar_patient_board"),
