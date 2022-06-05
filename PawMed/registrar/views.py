@@ -71,6 +71,14 @@ class AppointmentDoctorFreeVisitsView(LoginRequiredMixin, UserPassesTestMixin, T
     """Displays free visits based on specified filters"""
     template_name = 'registrar/appointment_doctor_list.html'
 
+    def dispatch(self, request, *args, **kwargs):
+        """If someone has refreshed the page it will go back to adding appointment view"""
+
+        if 'add_appointment_view_redirect' not in self.request.session and 'patient-submitted-id' in self.request.session:
+            return redirect('registrar_add_appointment', patient_pk=self.request.session['patient-submitted-id'])
+
+        return super(AppointmentDoctorFreeVisitsView, self).dispatch(request, *args, **kwargs)
+
     def test_func(self):
         return self.request.user.role == 'REGISTRAR' and 'add_appointment_view_redirect' in self.request.session
 
