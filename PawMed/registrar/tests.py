@@ -2,7 +2,7 @@ from django.test import TestCase
 from django.urls import reverse
 from django.utils.datetime_safe import datetime
 from .models import Visit, Patient
-from doctor.models import Doctor
+from doctor.models import Doctor, Specialization
 
 from users.models import CustomUser
 
@@ -93,3 +93,70 @@ class RegistrarPatientViewLoggedInTest(RegistrarTest):
     def testIncorrectPatientDisplayStatusCode(self):
         response = self.client.get('/registrar/patient/1/')
         self.assertEqual(response.status_code, 404)
+
+
+class AddAppointmentViewLoggedOutTest(TestCase):
+    def testAppointmentViewStatusCode(self):
+        response = self.client.get('/registrar/appointment/1/')
+        self.assertEqual(response.status_code, 302)
+
+    def testAppointmentViewUrlByName(self):
+        response = self.client.get(reverse('registrar_add_appointment', kwargs={'patient_pk': 1}))
+        self.assertEqual(response.status_code, 302)
+
+
+class AddAppointmentViewLoggedInTest(RegistrarTest):
+    def setUp(self):
+        super(AddAppointmentViewLoggedInTest, self).setUp()
+        user = CustomUser.objects.create_user(username='username', password='password', role='REGISTRAR')
+        self.client.login(username='username', password='password')
+
+    def testAppointmentViewStatusCode(self):
+        response = self.client.get('/registrar/appointment/1/')
+        self.assertEqual(response.status_code, 200)
+
+    def testAppointmentViewUrlByName(self):
+        response = self.client.get(reverse('registrar_add_appointment', kwargs={'patient_pk': 1}))
+        self.assertEqual(response.status_code, 200)
+
+
+class AppointmentDoctorFreeVisitsLoggedOutTest(TestCase):
+    def testAppointmentViewStatusCode(self):
+        response = self.client.get('/registrar/appointment/doctor_list/')
+        self.assertEqual(response.status_code, 302)
+
+    def testAppointmentViewUrlByName(self):
+        response = self.client.get(reverse('registrar_appointment_doctor_list'))
+        self.assertEqual(response.status_code, 302)
+
+
+class AppointmentDoctorFreeVisitsLoggedInTest(RegistrarTest):
+    def setUp(self):
+        super(AppointmentDoctorFreeVisitsLoggedInTest, self).setUp()
+        user = CustomUser.objects.create_user(username='username', password='password', role='REGISTRAR')
+        self.client.login(username='username', password='password')
+
+    def testAppointmentViewStatusCode(self):
+        response = self.client.get('/registrar/appointment/doctor_list/')
+        self.assertEqual(response.status_code, 403)
+
+    def testAppointmentViewUrlByName(self):
+        response = self.client.get(reverse('registrar_appointment_doctor_list'))
+        self.assertEqual(response.status_code, 403)
+
+    def testAppointmentCorrectSession(self):
+        Specialization.objects.create(
+            id=1,
+            name="TestSpec"
+        )
+
+        session = self.client.session
+        session["add_appointment_view_redirect"] = True
+        session["specialization_id"] = 1
+        session["patient_pk"] = 1
+        session["earliest_date"] = datetime(year=2022, month=1, day=1).strftime('%Y-%m-%d')
+        session["latest_date"] = datetime(year=2022, month=1, day=28).strftime('%Y-%m-%d')
+        session.save()
+
+        response = self.client.get(reverse('registrar_appointment_doctor_list'))
+        self.assertEqual(response.status_code, 200)
