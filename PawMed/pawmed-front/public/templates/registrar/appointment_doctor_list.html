@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% load widget_tweaks %}
+{% load static %}
+
+{% block navbar %}
+    {% include 'registrar/navbar.html' %}
+{% endblock navbar %}
+
+{% block content %}
+    <p>Looking for a visit for {{ patient.name }} {{ patient.surname }}</p>
+    <p>With specialization {{ specialization.name }}</p>
+    {% if doctor %}
+        <p>With doctor {{ doctor.name }} {{ doctor.surname }}</p>
+    {% else %}
+        <p>With any doctor</p>
+    {% endif %}
+    <p>Between {{ earliest_date }} and {{ latest_date }}</p>
+{% endblock content %}

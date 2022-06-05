@@ -11,6 +11,7 @@
     body
     {
         overflow-x: hidden;
+        overflow-y: hidden;
     }
     </style>
     <div>
@@ -24,51 +25,95 @@
              style="transform: rotate(-15deg); z-index: -999; top: 200px;"
              uk-scrollspy="cls: uk-animation-slide-left-medium;"/>
     </div>
-    <div class="uk-container uk-width-large">
-        <div class="uk-text-center uk-margin-medium-bottom uk-margin-large-top" uk-scrollspy="cls: uk-animation-scale-up; target: > p, > img, > ul; delay: 100;">
+    <div class="uk-container uk-flex uk-flex-middle uk-flex-column">
+        <div class="uk-text-center uk-margin-large-top uk-width-2xlarge" uk-scrollspy="cls: uk-animation-scale-up; target: > p, > img, > ul; delay: 100;">
             <ul class="uk-breadcrumb">
                 <li><a href="{% url 'registrar_patient_board' %}">Patient Board</a></li>
-                <li><a href="#">Jan Kowalski</a></li>
+                <li><a href="{% url 'registrar_patient' patient.pk %}">{{ patient.name }} {{ patient.surname }}</a></li>
                 <li class="uk-text-bolder uk-disabled"><a href="#">Add appointment</a></li>
             </ul>
-            <p style="font-size: 32px;" class="uk-margin-medium-bottom uk-text-bolder pm-color-lightblue">Search appointments</p>
+            <p style="font-size: 32px;" class="uk-margin-medium-top uk-text-bolder pm-color-lightblue">Search appointments</p>
         </div>
-        <form id="form" method="post" uk-scrollspy="cls: uk-animation-slide-bottom; target: > div; delay: 200;">
-            {% csrf_token %}
-            <div class="uk-margin">
-                <select class="uk-select pm-input">
-                    <option value="" disabled selected>Select or enter a service name</option>
-                    <option>Option 01</option>
-                    <option>Option 02</option>
-                </select>
-            </div>
-            <div class="uk-margin">
-                <select class="uk-select pm-input">
-                    <option value="" disabled selected>Any or specific doctor</option>
-                    <option>Option 01</option>
-                    <option>Option 02</option>
-                </select>
-            </div>
-            <div class="uk-margin uk-child-width-1-2 uk-grid-small" uk-grid>
-                <div>
-                    <input class="uk-input pm-input" type="date"/>
-                    <p class="uk-text-meta uk-text-center uk-margin-remove-top">Earliest date</p>
+        <div class="uk-width-large">
+            <form id="form" method="post" id="form" data-doctors-url="{% url 'ajax_load_doctors' %}" uk-scrollspy="cls: uk-animation-slide-bottom; target: > div; delay: 200;" novalidate>
+                {% csrf_token %}
+                <div class="uk-margin">
+                    {% render_field form.specialization class+="uk-select pm-input" %}
+                    {% if form.specialization.errors %}
+                    <div class="uk-alert-danger" uk-alert>
+                    {% for error in form.specialization.errors %}
+                        <p>{{ error }}</p>
+                    {% endfor %}
+                    </div>
+                    {% endif %}
                 </div>
-                <div>
-                    <input class="uk-input pm-input" type="date"/>
-                    <p class="uk-text-meta uk-text-center uk-margin-remove-top">Latest date</p>
+                <div class="uk-margin">
+                    {% render_field form.doctor|attr:"disabled" class+="uk-select pm-input" %}
+                    {% if form.doctor.errors %}
+                    <div class="uk-alert-danger" uk-alert>
+                    {% for error in form.doctor.errors %}
+                        <p>{{ error }}</p>
+                    {% endfor %}
+                    </div>
+                    {% endif %}
                 </div>
+                <div class="uk-margin uk-child-width-1-2 uk-grid-small" uk-grid>
+                    <div>
+                        {% render_field form.earliest_date class+="uk-input pm-input" type="date" %}
+                        <p class="uk-text-meta uk-text-center uk-margin-remove-top">Earliest date</p>
+                        {% if form.earliest_date.errors %}
+                        <div class="uk-alert-danger" uk-alert>
+                        {% for error in form.earliest_date.errors %}
+                            <p>{{ error }}</p>
+                        {% endfor %}
+                        </div>
+                        {% endif %}
+                    </div>
+                    <div>
+                        {% render_field form.latest_date class+="uk-input pm-input" type="date" %}
+                        <p class="uk-text-meta uk-text-center uk-margin-remove-top">Latest date</p>
+                        {% if form.latest_date.errors %}
+                        <div class="uk-alert-danger" uk-alert>
+                        {% for error in form.latest_date.errors %}
+                            <p>{{ error }}</p>
+                        {% endfor %}
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="uk-margin">
+                    <a href="#"><button type="submit" value="search" class="uk-button pm-button-primary uk-width-1-1">Show available dates</button></a>
+                </div>
+            </form>
+            {% if form.non_field_errors %}
+            <div class="uk-alert-danger" uk-alert>
+                {% for error in form.non_field_errors %}
+                    <p>{{ error }}</p>
+                {% endfor %}
             </div>
-            <div class="uk-margin">
-                <a href="#"><button type="submit" value="search" class="uk-button pm-button-primary uk-width-1-1">Show Patient</button></a>
-            </div>
-        </form>
-        {% if form.non_field_errors %}
-        <div class="uk-alert-danger" uk-alert>
-            {% for error in form.non_field_errors %}
-                <p>{{ error }}</p>
-            {% endfor %}
+            {% endif %}
         </div>
-        {% endif %}
     </div>
+
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+  <script>
+    $('#id_specialization').prepend("<option value='' disabled selected='selected' hidden>Select or enter a service name</option>");
+    $('#id_doctor').prepend("<option value='' disabled selected='selected' hidden>Select doctor</option>");
+    $("#id_specialization").change(function () {
+      var url = $("#form").attr("data-doctors-url");
+      console.log(url);
+        var id_specialization = $(this).val();
+
+      $.ajax({
+        url: url,
+        data: {
+          'specialization': id_specialization
+        },
+        success: function (data) {
+          $("#id_doctor").html(data).attr("disabled", false);
+        }
+      });
+
+    });
+  </script>
 {% endblock content %}

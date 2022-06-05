@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 import os
+import sys
 from pathlib import Path
 
 from os import getenv
@@ -99,6 +100,7 @@ WSGI_APPLICATION = 'PawMed.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
@@ -109,6 +111,12 @@ DATABASES = {
         'PASSWORD': str(getenv('DATABASE_PASSWORD')),
     }
 }
+
+if 'test' in sys.argv:
+    DATABASES['default'] = {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': 'testDatabase'
+    }
 
 
 # Password validation
