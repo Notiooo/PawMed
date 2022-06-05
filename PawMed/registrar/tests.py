@@ -160,3 +160,16 @@ class AppointmentDoctorFreeVisitsLoggedInTest(RegistrarTest):
 
         response = self.client.get(reverse('registrar_appointment_doctor_list'))
         self.assertEqual(response.status_code, 200)
+
+    def testAppointmentRefreshedSession(self):
+        Specialization.objects.create(
+            id=1,
+            name="TestSpec"
+        )
+
+        session = self.client.session
+        session['patient-submitted-id'] = 1
+        session.save()
+
+        response = self.client.get(reverse('registrar_appointment_doctor_list'))
+        self.assertEqual(response.status_code, 302)
