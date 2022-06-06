@@ -1,0 +1,141 @@
+{% extends 'base.html' %}
+{% load widget_tweaks %}
+{% load static %}
+
+
+{% block navbar %}
+    {% include 'registrar/navbar.html' %}
+{% endblock navbar %}
+
+{% block content %}
+<div class="uk-container uk-margin-medium-top">
+    <div class="uk-margin-medium-bottom" uk-grid>
+        <div class="uk-width-2-3@m">
+                <div class="uk-flex uk-flex-middle uk-flex-center pm-background-white uk-padding-small" style="border-radius: 12px;">
+                    <div class="uk-margin-small-bottom uk-margin-small-top uk-width-1-1@s uk-grid-collapse uk-background-default uk-width-3-4@m pm-border-solid" uk-grid>
+                        <div class="pm-indicator pm-background-darkblue"></div>
+                        <div class="uk-width-expand uk-padding-small">
+                            <p class="pm-color-darkblue  uk-margin-small-left uk-text-bold pm-font-size-medium">Jan Kowalski</p>
+                            <div class="uk-padding-small uk-padding-remove-vertical" uk-grid>
+                                <div class="uk-width-1-2">
+                                    <div>
+                                        <div>Personal ID</div>
+                                        <div>Birthday</div>
+                                    </div>
+                                </div>
+                                <div class="uk-width-1-2">
+                                    <div class="uk-text-right">
+                                        <div>Robert Deniro</div>
+                                        <div>001</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="uk-padding-small uk-padding-remove-vertical" uk-grid>
+                                <div class="uk-width-1-2">
+                                    <div>
+                                        <div class="uk-text-bold pm-color-darkblue">Contact</div>
+                                        <div>Phone number</div>
+                                        <div>City</div>
+                                        <div>Zip code</div>
+                                        <div>Address</div>
+                                    </div>
+                                </div>
+                                <div class="uk-width-1-2">
+                                    <div class="uk-text-right">
+                                        <div style="visibility: hidden">.</div>
+                                        <div>788034231</div>
+                                        <div>Cracov</div>
+                                        <div>32-500</div>
+                                        <div>Kujawska</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="uk-padding-small uk-padding-remove-vertical"uk-grid>
+                                <div class="uk-width-1-2">
+                                    <div>
+                                        <div class="uk-text-bold pm-color-darkblue">Member info</div>
+                                        <div>Registration date</div>
+                                        <div>Member status</div>
+                                    </div>
+                                </div>
+                                <div class="uk-width-1-2">
+                                    <div class="uk-text-right">
+                                        <div style="visibility: hidden">.</div>
+                                        <div>31.02.2022</div>
+                                        <div>Active</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        </div>
+        <div class="uk-width-1-3@m">
+            <div class="uk-padding-large pm-background-white uk-height-1-1" style="border-radius: 12px;">
+                <p class="pm-color-darkblue uk-text-bold pm-font-size-medium uk-margin-medium-bottom">Actions</p>
+                <div class="uk-flex uk-flex-column uk-flex-middle uk-flex-center">
+                        <p href="{% url "homepage" %}"><button style="font-size: 14px; width: 215px" class="uk-button pm-button-primary uk-button-large">Edit patient</button></p>
+                        <p href="{% url "homepage" %}"><button style="font-size: 14px; width: 215px" class="uk-button pm-button-primary uk-button-large">Add appointment</button></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bottom part -->
+    <div class="uk-margin-medium-bottom uk-padding-large pm-background-white" style="border-radius: 12px;">
+        <p class="uk-margin-small pm-color-darkblue uk-text-bold pm-font-size-medium">Patient history</p>
+
+        <!-- Table Headers -->
+        <div class="uk-visible@m pm-color-lightblue uk-grid-column-collapse uk-width-1-1 uk-text-bold uk-text-center uk-child-width-1-5" uk-grid>
+            <div><!-- Empty --></div>
+            <div>Type</div>
+            <div>Doctor</div>
+            <div>Status</div>
+        </div>
+        <!-- End Table Headers -->
+
+
+        <!-- Row 1 -->
+        <div class="uk-grid-column-collapse" uk-grid>
+            <div class="uk-flex uk-flex-middle uk-flex-center uk-grid-collapse pm-color-darkblue uk-width-1-5@m" uk-grid>
+                <div class="uk-width-2-3@s uk-width-1-1 uk-text-center">
+                    <p class="uk-padding-remove uk-visible@m uk-margin-remove uk-text-break">Thursday 21 Apr 2022</p>
+                    <p class="uk-padding-small uk-text-center uk-text-middle uk-text-bold uk-hidden@m uk-margin-remove uk-text-break">Thursday 21 Apr 2022</p>
+                </div>
+                <div class="uk-padding-small uk-visible@m uk-width-1-3">
+                    <span class="pm-dot-small pm-background-darkblue"></span>
+                    <div style="height: 60px; border-left: 1px solid; margin-left: 2px" class="uk-position-absolute uk-height-small"></div>
+                </div>
+            </div>
+            <div style="border-radius: 12px;" class="uk-flex uk-flex-center uk-flex-middle uk-width-5-5@s uk-width-4-5@m  uk-padding-remove uk-margin-remove uk-background-default uk-child-width-expand@s uk-text-center pm-color-darkblue" uk-grid>
+                    <div style="border-right: solid 1px #EEE5E9" class="uk-padding-small uk-margin-remove">Consultation</div>
+                    <div style="border-right: solid 1px #EEE5E9" class="uk-padding-small uk-margin-remove">Dr. Andy</div>
+                    <div style="border-right: solid 1px #EEE5E9" class="uk-padding-small uk-margin-remove">Visited</div>
+                    <a class="pm-color-darkblue uk-padding-small uk-margin-remove" href="#"><span uk-icon="info"  class="pm-color-darkblue" style='margin-right:0.5em; display:inline-block;'></span>Info</a>
+            </div>
+        </div>
+        <!-- End Row 1 -->
+
+        <!-- Row 2 -->
+        <div class="uk-grid-column-collapse" uk-grid>
+            <div class="uk-flex uk-flex-middle uk-flex-center uk-grid-collapse pm-color-darkblue uk-width-1-5@m" uk-grid>
+                <div class="uk-width-2-3@s uk-width-1-1 uk-text-center">
+                    <p class="uk-padding-remove uk-visible@m uk-margin-remove uk-text-break">Thursday 21 Apr 2022</p>
+                    <p class="uk-padding-small uk-text-bold uk-hidden@m uk-margin-remove uk-text-break">Thursday 21 Apr 2022</p>
+                </div>
+                <div class="uk-padding-small uk-visible@m uk-width-1-3">
+                    <span class="pm-dot-small pm-background-darkblue"></span>
+                    <div style="border-left: 1px solid; margin-left: 2px" class="uk-position-absolute"></div>
+                </div>
+            </div>
+            <div style="border-radius: 12px;" class="uk-flex uk-flex-center uk-flex-middle uk-width-5-5@s uk-width-4-5@m uk-padding-remove uk-margin-remove uk-background-default uk-child-width-expand@s uk-text-center pm-color-darkblue" uk-grid>
+                    <div style="border-right: solid 1px #EEE5E9" class="uk-padding-small uk-margin-remove">Consultation</div>
+                    <div style="border-right: solid 1px #EEE5E9" class="uk-padding-small uk-margin-remove">Dr. Andy</div>
+                    <div style="border-right: solid 1px #EEE5E9" class="uk-padding-small uk-margin-remove">Visited</div>
+                    <a class="pm-color-darkblue uk-padding-small uk-margin-remove" href="#"><span uk-icon="pencil"  class="pm-color-darkblue" style='margin-right:0.5em; display:inline-block;'></span>Modify</a>
+            </div>
+        </div>
+        <!-- End Row 2 -->
+    </div>
+</div>
+{% endblock content %}

@@ -6,14 +6,23 @@ class Patient(models.Model):
     id = models.IntegerField(primary_key=True)
     name = models.CharField(max_length=50)
     surname = models.CharField(max_length=50)
-    registration_date = models.DateTimeField()
+    registration_date = models.DateTimeField(auto_now_add=True, blank=True)
     age = models.IntegerField()
     phone_number = models.CharField(max_length=30)
     birth_date = models.DateTimeField()
     city = models.CharField(max_length=85)
     zip_code = models.CharField(max_length=10)
-    gender = models.CharField(max_length=1)
     personid = models.CharField(max_length=50)
+
+    GENDER = (
+        ('f', 'Female'),
+        ('m', 'Male')
+    )
+
+    gender = models.CharField(max_length=1, choices=GENDER)
+
+    def __str__(self):
+        return self.name + " " + self.surname
 
     class Meta:
         managed = False
@@ -36,3 +45,6 @@ class Visit(models.Model):
     class Meta:
         managed = False
         db_table = 'visit'
+
+    def __str__(self):
+        return str(self.date) + " at " + self.room

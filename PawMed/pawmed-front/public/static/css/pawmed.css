@@ -243,5 +243,9 @@
 .uk-tab>*>a {
     color: #6B818C;
     font-size: 18px !important;
+}
 
+.pm-padding-verysmall
+{
+    padding: 5px;
 }

@@ -10,13 +10,12 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 import os
+import sys
 from pathlib import Path
 
 from os import getenv
 from dotenv import load_dotenv
 load_dotenv()
-
-from .testrunner import ManagedModelTestRunner
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -101,6 +100,7 @@ WSGI_APPLICATION = 'PawMed.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
@@ -111,6 +111,12 @@ DATABASES = {
         'PASSWORD': str(getenv('DATABASE_PASSWORD')),
     }
 }
+
+if 'test' in sys.argv:
+    DATABASES['default'] = {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': 'testDatabase'
+    }
 
 
 # Password validation
@@ -172,5 +178,4 @@ AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',  # Authenticate with the username and password
 ]
 
-
-TEST_RUNNER = 'PawMed.settings.ManagedModelTestRunner'
+TEST_RUNNER = 'PawMed.testrunner.UnManagedModelTestRunner'

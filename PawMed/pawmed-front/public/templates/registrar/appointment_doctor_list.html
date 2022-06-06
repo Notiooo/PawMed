@@ -1,0 +1,106 @@
+{% extends 'base.html' %}
+{% load widget_tweaks %}
+{% load static %}
+
+{% block navbar %}
+    {% include 'registrar/navbar.html' %}
+{% endblock navbar %}
+
+{% block content %}
+
+    <div class="uk-container uk-container-small uk-margin-large-top" uk-scrollspy="cls: uk-animation-slide-bottom-small; target: > div, > ul; delay: 100;" style="border-radius: 12px;">
+        <ul class="uk-breadcrumb">
+            <li><a href="{% url 'registrar_patient_board' %}">Patient Board</a></li>
+            <li><a href="{% url 'registrar_patient' patient.pk %}">{{ patient.name }} {{ patient.surname }}</a></li>
+            <li class="uk-text-bolder uk-disabled"><a href="#">Add appointment</a></li>
+        </ul>
+         <!-- Start Filters -->
+        <div class="uk-width-1-1 uk-grid-small uk-margin" uk-grid>
+            <div class="uk-flex uk-flex-middle">
+                <div>Used filters:</div>
+            </div>
+            <div class="uk-margin-small">
+                <div class="pm-background-white uk-border-rounded pm-padding-verysmall">Earliest date: 25-04-2022</div>
+            </div>
+            <div class="uk-margin-small">
+                <div class="pm-background-white uk-border-rounded pm-padding-verysmall">Latest date: 28-04-2022</div>
+            </div>
+            <div class="uk-margin-small">
+                <div class="pm-background-white uk-border-rounded pm-padding-verysmall">Speciality: Gynecologist</div>
+            </div>
+        </div>
+         <!-- End Filters -->
+        <div class="uk-padding-small pm-background-white uk-border-rounded">
+            <div class="uk-grid-column-collapse" uk-grid>
+                <!-- Table Headers -->
+                <div class="uk-visible@m uk-margin-small uk-width-1-1 uk-child-width-1-5 uk-grid-collapse uk-text-bold pm-color-darkblue" style="margin-left: 60px" uk-grid>
+                    <div>Doctor</div>
+                    <div>Speciality</div>
+                    <div>Contact</div>
+                    <div>Appointment</div>
+                    <div></div>
+                </div>
+                <!-- End Table Headers -->
+                <!-- Start row -->
+                <div class="uk-margin-small uk-width-1-1 uk-grid-collapse uk-background-default" uk-grid>
+                    <div class="pm-indicator pm-background-darkblue"></div>
+                    <div class="uk-padding-small uk-flex uk-flex-center uk-flex-middle uk-width-1-1 uk-child-width-1-5@m" uk-grid>
+                        <div class="uk-flex-middle uk-grid-collapse" uk-grid>
+                            <div class="uk-hidden@m uk-padding-small uk-text-bold uk-width-1-2">
+                                <p>Doctor:</p>
+                            </div>
+                            <div>
+                                <p class="pm-color-darkblue uk-text-bold pm-font-size-medium uk-margin-remove-bottom">Jan Kowalski</p>
+                                <p class="uk-text-meta uk-margin-remove-top">Male, 46 yr</p>
+                            </div>
+                        </div>
+                        <div class="uk-flex-middle uk-grid-collapse" uk-grid>
+                            <div class="uk-hidden@m uk-padding-small uk-text-bold uk-width-1-2">
+                                <p>Speciality:</p>
+                            </div>
+                            <div>
+                                <p class="uk-text-meta uk-margin-remove-top">Gynecologist</p>
+                            </div>
+                        </div>
+                        <div class="uk-flex-middle uk-grid-collapse" uk-grid>
+                            <div class="uk-hidden@m uk-padding-small uk-text-bold uk-width-1-2">
+                                <p>Contact:</p>
+                            </div>
+                            <div>
+                                <p class="uk-text-meta uk-margin-remove-top">765294684</p>
+                            </div>
+                        </div>
+                        <div class="uk-flex-middle uk-grid-collapse" uk-grid>
+                            <div class="uk-hidden@m uk-padding-small uk-text-bold uk-width-1-2">
+                                <p>Appointment:</p>
+                            </div>
+                            <div>
+                                <p class="pm-color-darkblue uk-text-bold pm-font-size-small uk-margin-remove-bottom">25.04.2022</p>
+                                <p class="uk-text-meta uk-margin-remove-top">16:30 - 17:00</p>
+                            </div>
+                        </div>
+                        <div class="uk-text-center">
+                            <button class="uk-button uk-button-small pm-button-primary">Make an appointment</button>
+                        </div>
+                    </div>
+                </div>
+                <!-- End row -->
+            </div>
+        </div>
+        <div class="uk-margin uk-text-center uk-align-right@s">
+            <button class="uk-button pm-button-primary">Change filters</button>
+        </div>
+    </div>
+
+    <div class="uk-margin-xlarge-top uk-hidden">
+        <h3>Helpful reference</h3>
+        <p>Looking for a visit for {{ patient.name }} {{ patient.surname }}</p>
+        <p>With specialization {{ specialization.name }}</p>
+        {% if doctor %}
+            <p>With doctor {{ doctor.name }} {{ doctor.surname }}</p>
+        {% else %}
+            <p>With any doctor</p>
+        {% endif %}
+        <p>Between {{ earliest_date }} and {{ latest_date }}</p>
+    </div>
+{% endblock content %}
