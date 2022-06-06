@@ -1,11 +1,63 @@
-{% extends 'base.html' %}
-
-{% block navbar %}
-    {% include 'base/navbar.html' %}
-{% endblock navbar %}
+{% extends 'templates/base.html' %}
+{% load static %}
 
 {% block content %}
-    <form action="" method="post">  {% csrf_token %}
-        {{ form.as_p }}
-    <button class="btn" type="submit"> End Visit </button>
-{% endblock content%}
+    <div class="uk-container uk-margin-medium-top">
+        <div uk-grid>
+            <div class="uk-width-3-4@l uk-width-1-1@s uk-text-center">
+                <div class="uk-width-1-1">
+                    {% block left_side %}
+                    {%  endblock left_side %}
+                </div>
+            </div>
+            <div class="uk-width-expand uk-flex uk-flex-center">
+                <div class="uk-width-1-1">
+                    <div class="uk-text-center">
+                        <p style="font-size: 36px;" class="uk-width-1-1 pm-background-white uk-text-bold pm-color-darkblue">{{ visit.patient.name }} {{ visit.patient.surname }}</p>
+                        <p class="uk-text-lead uk-margin-small-bottom uk-text-bolder pm-color-lightblue">Patient information</p>
+                    </div>
+                    <div class="uk-text-left pm-color-lightblue" style="font-size: 18px">
+                        <div class="uk-display-block uk-margin">
+                            <div class="uk-text-bold">Personal ID number</div>
+                            <div>{{ visit.patient.personid }}</div>
+                        </div>
+                        <div class="uk-display-block uk-margin">
+                            <div class="uk-text-bold">Age</div>
+                            <div>{{ visit.patient.age }} years</div>
+                        </div>
+                        <div class="uk-display-block uk-margin">
+                            <div class="uk-text-bold">Address</div>
+                            <div>{{ visit.patient.zip_code }} {{ visit.patient.city }}</div>
+                        </div>
+                        <div class="uk-display-block uk-margin">
+                            <div class="uk-text-bold">Contact</div>
+                            <div>+48 {{ visit.patient.phone_number }}</div>
+                        </div>
+                    </div>
+                    <hr class="pm-color-darkblue">
+                    <div class="uk-text-center">
+                        <p class="uk-text-lead uk-margin-medium-small uk-text-bolder pm-color-lightblue">Privileges</p>
+                    </div>
+                    <div class="uk-text-left uk-margin-medium-bottom" style="font-size: 18px">
+                        <div class="uk-display-block pm-color-lightblue uk-margin-re">
+                            <div class="uk-text-bold">Prescription entitlements</div>
+                            <div>??</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="modal-end-appointment" uk-modal>
+        <div class="uk-modal-dialog uk-modal-body">
+            <h2 class="uk-modal-title">Are you sure you want to end the appointment?</h2>
+            <div class="uk-text-right">
+               <form action="" method="post">  {% csrf_token %}
+                   <a class="uk-modal-close"><button class="uk-button pm-button-primary"> Back </button> </a>
+                   <a><button class="btn uk-button pm-button-secondary" type="submit"> End Visit </button></a>
+               </form>
+            </div>
+        </div>
+    </div>
+{% endblock content %}

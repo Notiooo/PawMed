@@ -1,0 +1,89 @@
+{% extends 'doctor/doctor_visit.html' %}
+{% load static %}
+
+{% block left_side %}
+<div class="uk-width-1-1">
+        <ul class="uk-subnav uk-subnav-pill" uk-margin>
+            <li><a href="#" class="pm-button-secondary">Examine</a></li>
+            <li class="uk-active"><a href="#" class="pm-button-secondary">Prescription</a></li>
+            <li><a href="#" class="pm-button-secondary">Order Test</a></li>
+            <li><a href="#" class="pm-button-secondary">History</a></li>
+        </ul>
+        <ul uk-accordion>
+            <li>
+                <div class="uk-text-left pm-background-white uk-accordion-title">
+                    <p href="#" style="font-size: 24px;" class="uk-text-bold pm-color-darkblue uk-margin-medium-left uk-margin-remove-bottom">Prescribe a prescription</p>
+                </div>
+                <div class="uk-accordion-content">
+                    <ul class="uk-subnav uk-subnav-pill" uk-switcher>
+                        <li><a class="pm-button-primary" href="#">Refundable</a></li>
+                        <li><a class="pm-button-primary" href="#">History</a></li>
+                    </ul>
+                    <ul class="uk-switcher uk-margin">
+                        <li>
+                            <div class="uk-width-1-1" uk-grid>
+                                <div class="uk-inline uk-width-1-2">
+                                    <div class="uk-text-left">
+                                        <span class=>Name</span><input class="uk-input pm-input" type="text" placeholder="Name/Active substance"/>
+                                    </div>
+                                    <div class="uk-margin-small-top uk-text-left">
+                                        <span>Drug form</span><input class="uk-input pm-input" type="text" placeholder="Form of drug application"/>
+                                    </div>
+                                    <div class="uk-margin-small-top uk-text-left">
+                                        <span>Number of packages</span><input class="uk-input pm-input" type="text" placeholder="Amount"/>
+                                    </div>
+                                </div>
+                                <div class="uk-inline uk-width-expand uk-text-left">
+                                    <span>Percent of refund</span>
+                                    <select class="uk-select pm-input">
+                                        <option>Option 01</option>
+                                        <option>Option 02</option>
+                                    </select>
+                                    <a href="{% url "homepage" %}"><button style="font-size: 14px" class="uk-button pm-button-primary uk-position-bottom-right">Add</button></a>
+                                </div>
+                            </div>
+
+                        </li>
+                         <li>
+                            <table class="uk-table uk-table-striped uk-text-left">
+                            <thead>
+                                <tr>
+                                    <th class="uk-width-small">Date of visit</th>
+                                    <th class="uk-table-expand">Name of drug</th>
+                                    <th class="uk-width-small">Drug form</th>
+                                    <th class="uk-width-small">Number of packages</th>
+                                    <th class="uk-width-small">Percent of refund</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>2022-03-01</td>
+                                    <td>Raphacholin Forte</td>
+                                    <td>syrup</td>
+                                    <td>250 mg</td>
+                                    <td>5%</td>
+                                </tr>
+                                <tr>
+                                    <td>2022-02-01</td>
+                                    <td>Methocarbamol</td>
+                                    <td>pill</td>
+                                    <td>300 mg</td>
+                                    <td>5%</td>
+                                </tr>
+                                <tr>
+                                    <td>2018-01-11</td>
+                                    <td>Methocarbamol</td>
+                                    <td>pill</td>
+                                    <td>150 mg</td>
+                                    <td>5%</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        </li>
+                    </ul>
+                    <hr class="pm-color-darkblue">
+                </div>
+            </li>
+        </ul>
+</div>
+{% endblock left_side %}
