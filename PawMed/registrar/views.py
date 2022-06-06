@@ -2,9 +2,9 @@ from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.http import Http404
 from django.shortcuts import redirect, render, get_object_or_404
 from django.utils.datetime_safe import datetime
-from django.views.generic import TemplateView, FormView, DetailView, ListView
+from django.views.generic import TemplateView, FormView, DetailView, UpdateView
 from .forms import PatientBoardForm, AppointmentForm
-from .models import Patient
+from .models import Patient, Visit
 from doctor.models import Doctor, DoctorSpecialization, Specialization
 
 
@@ -107,15 +107,29 @@ class AddPatientView(TemplateView):
     template_name = 'registrar/add_patient.html'
 
 
-class PatientView(DetailView, LoginRequiredMixin, UserPassesTestMixin):
-    """View in which the registrant can see patients data"""
-    model = Patient
-    template_name = 'registrar/patient_profile.html'
-    context_object_name = 'patient'
+class RegistrarOnlyAuthorizedView(LoginRequiredMixin, UserPassesTestMixin):
+    """View in which a role of registrant is tested"""
     login_url = 'login'
 
     def test_func(self):
         return self.request.user.role == 'REGISTRAR'
+
+
+class RegistrarOnlyAuthorizedPatientView(RegistrarOnlyAuthorizedView):
+    patient_pk = 'pk'
+
+    def test_func(self):
+        return super(RegistrarOnlyAuthorizedPatientView, self).test_func() \
+               and 'patient-submitted-id' in self.request.session\
+               and self.request.session['patient-submitted-id'] == self.kwargs[self.patient_pk]
+
+
+class PatientView(RegistrarOnlyAuthorizedPatientView, DetailView):
+    """View in which the registrant can see patients data"""
+    model = Patient
+    template_name = 'registrar/patient_profile.html'
+    login_url = 'login'
+    context_object_name = 'patient'
 
     def get_context_data(self, **kwargs):
         """
@@ -124,9 +138,42 @@ class PatientView(DetailView, LoginRequiredMixin, UserPassesTestMixin):
         to display it will also return a 404.
         """
         context = super(PatientView, self).get_context_data(**kwargs)
-
-        if 'patient-submitted-id' not in self.request.session \
-                or self.request.session['patient-submitted-id'] != self.kwargs['pk']:
-            raise Http404
+        context['visit_list'] = Visit.objects.filter(patient__id=self.get_object().id)
 
         return context
+
+
+class EditPatientView(RegistrarOnlyAuthorizedPatientView, UpdateView):
+    """View in which the registrant can edit the patients data"""
+    model = Patient
+    template_name = 'registrar/edit_patient.html'
+    login_url = 'login'
+    context_object_name = 'patient'
+    fields = '__all__'
+
+
+class ModifyVisitView(RegistrarOnlyAuthorizedView, UpdateView):
+    """View in which the registrant can modify the visit data"""
+    model = Visit
+    template_name = 'registrar/modify_appointment.html'
+    login_url = 'login'
+    context_object_name = 'visit'
+    fields = '__all__'
+
+    def test_func(self):
+        return super(ModifyVisitView, self).test_func() \
+               and 'patient-submitted-id' in self.request.session\
+               and self.request.session['patient-submitted-id'] == self.get_object().patient.pk
+
+
+class InfoVisitView(RegistrarOnlyAuthorizedView, DetailView):
+    """View in which the registrant can check the details of the visit"""
+    model = Visit
+    template_name = 'registrar/appointment_info.html'
+    login_url = 'login'
+    context_object_name = 'visit'
+
+    def test_func(self):
+        return super(InfoVisitView, self).test_func() \
+               and 'patient-submitted-id' in self.request.session\
+               and self.request.session['patient-submitted-id'] == self.get_object().patient.pk
