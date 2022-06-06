@@ -110,7 +110,7 @@ class AddPatientView(TemplateView):
 class PatientView(DetailView, LoginRequiredMixin, UserPassesTestMixin):
     """View in which the registrant can see patients data"""
     model = Patient
-    template_name = 'registrar/patient.html'
+    template_name = 'registrar/patient_profile.html'
     context_object_name = 'patient'
     login_url = 'login'
 
