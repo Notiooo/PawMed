@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% load widget_tweaks %}
+{% load static %}
+
+{% block navbar %}
+    {% include 'registrar/navbar.html' %}
+{% endblock navbar %}
+
+{% block content %}
+    <p>Appointment info</p>
+    <p class="pm-color-darkblue  uk-margin-small-left uk-text-bold pm-font-size-medium">{{ visit.doctor.name }} {{ visit.doctor.surname }}</p>
+{% endblock %}

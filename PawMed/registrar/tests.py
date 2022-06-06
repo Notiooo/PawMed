@@ -92,10 +92,10 @@ class RegistrarPatientViewLoggedInTest(RegistrarTest):
 
     def testIncorrectPatientDisplayStatusCode(self):
         response = self.client.get('/registrar/patient/1/')
-        self.assertEqual(response.status_code, 404)
+        self.assertEqual(response.status_code, 403)
 
 
-class AddAppointmentViewLoggedOutTest(TestCase):
+class AddAppointmenViewLoggedOutTest(TestCase):
     def testAppointmentViewStatusCode(self):
         response = self.client.get('/registrar/appointment/1/')
         self.assertEqual(response.status_code, 302)

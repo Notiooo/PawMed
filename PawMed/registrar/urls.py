@@ -1,6 +1,6 @@
 from django.urls import path
 
-from .views import PatientBoardView, AddAppointmentView, AddPatientView, PatientView, load_doctors
+from .views import PatientBoardView, AddAppointmentView, AddPatientView, PatientView, EditPatientView, ModifyVisitView, InfoVisitView, load_doctors
 from .views import AppointmentDoctorFreeVisitsView
 
 urlpatterns = [
@@ -9,6 +9,8 @@ urlpatterns = [
     path('appointment/<int:patient_pk>/', AddAppointmentView.as_view(), name="registrar_add_appointment"),
     path('appointment/doctor_list/', AppointmentDoctorFreeVisitsView.as_view(), name="registrar_appointment_doctor_list"),
     path('patient/<int:pk>/', PatientView.as_view(), name="registrar_patient"),
-
+    path('modify/<int:pk>/', ModifyVisitView.as_view(), name="modify_appointment"),
+    path('info/<int:pk>/', InfoVisitView.as_view(), name="appointment_info"),
+    path('edit_patient/<int:pk>/', EditPatientView.as_view(), name="edit_patient"),
     path('ajax/load-doctors/', load_doctors, name='ajax_load_doctors')
 ]
