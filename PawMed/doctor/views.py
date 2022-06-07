@@ -8,7 +8,6 @@ from datetime import datetime
 from . import models
 from registrar.models import Visit, Patient
 from technician.models import Test
-from . import forms
 
 # Create your views here.
 
