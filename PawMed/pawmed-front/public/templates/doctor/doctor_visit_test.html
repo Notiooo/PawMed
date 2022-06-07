@@ -1,4 +1,5 @@
 {% extends 'doctor/doctor_visit.html' %}
+<<<<<<< HEAD
 {% load widget_tweaks %}
 {% load static %}
 
@@ -10,6 +11,17 @@
             <li class="uk-active"><a href="" class="pm-button-secondary">Order Test</a></li>
             <li><a href="{% url "doctor_patient_history" visit.id %}" class="pm-button-secondary">History</a></li>
             <li><a href="{% url "doctor_prescription" visit.id%}" class="pm-button-secondary">Prescription</a></li>
+=======
+{% load static %}
+
+{% block left_side %}
+    <div class="uk-width-1-1">
+        <ul class="uk-subnav uk-subnav-pill" uk-margin>
+            <li><a href="#" class="pm-button-secondary">Examine</a></li>
+            <li><a href="#" class="pm-button-secondary">Prescription</a></li>
+            <li class="uk-active"><a href="#" class="pm-button-secondary">Order Test</a></li>
+            <li><a href="#" class="pm-button-secondary">History</a></li>
+>>>>>>> master
         </ul>
         <ul uk-accordion>
             <li>
@@ -19,21 +31,41 @@
                 <div class="uk-accordion-content">
                     <div class="uk-inline uk-width-expand uk-text-left uk-margin-small-bottom">
                         <span>Test type</span>
+<<<<<<< HEAD
                         {% render_field form.type|attr:"autofocus" class="uk-textarea  uk-flex-wrap-middle pm-input" style="border-width: 2px" rows="3" placeholder="Test type" %}
                     </div>
                     <div class="uk-inline uk-width-expand uk-text-left uk-margin-small-bottom">
                         <span>Information regarding the test</span>
                         {% render_field form.remarks|attr:"autofocus" class="uk-textarea  uk-flex-wrap-middle pm-input" style="border-width: 2px" rows="3" placeholder="Provide information regarding the test" %}
+=======
+                        <select class="uk-select pm-input">
+                            <option>Option 01</option>
+                            <option>Option 02</option>
+                        </select>
+                    </div>
+                    <div class="uk-inline uk-width-expand uk-text-left uk-margin-small-bottom">
+                        <span>Information regarding the test</span>
+                        <textarea class="uk-textarea  uk-flex-wrap-middle pm-input" style="border-width: 2px" rows="3" placeholder="Provide information regarding the test"></textarea>
+>>>>>>> master
                     </div>
                 </div>
             </li>
         </ul>
+<<<<<<< HEAD
         <div class="uk-flex-right uk-child-width-auto" uk-grid>
             <div class="uk-margin-small-top">
                 <button style="font-size: 14px" class="uk-button pm-button-primary uk-button-large">Clear</button></a>
             </div>
             <div class="uk-margin-small-top">
                 <button type="submit" style="font-size: 14px" class="uk-button pm-button-primary uk-button-large">Submit</button></a>
+=======
+        <div class="uk-flex-center@s uk-flex-right@m uk-child-width-1-3@s uk-child-width-auto@m" uk-grid>
+            <div class="uk-margin-small-top">
+                <a href="{% url "homepage" %}"><button style="font-size: 14px" class="uk-button pm-button-primary uk-button-large">Clear</button></a>
+            </div>
+            <div class="uk-margin-small-top">
+                <a href="{% url "homepage" %}"><button style="font-size: 14px" class="uk-button pm-button-primary uk-button-large">Submit</button></a>
+>>>>>>> master
             </div>
             <div  class="uk-margin-small-top">
                 <a href="#modal-end-appointment" uk-toggle><button style="font-size: 14px" class="uk-button pm-button-secondary uk-button-large">End visit</button></a>

@@ -3,12 +3,21 @@
 
 {% block left_side %}
 <div class="uk-width-1-1">
+<<<<<<< HEAD
     <ul class="uk-subnav uk-subnav-pill" uk-margin>
         <li><a href="{% url "doctor_visit" visit.id%}" class="pm-button-secondary">Examine</a></li>
         <li><a href="{% url "doctor_order_test" visit.id %}" class="pm-button-secondary">Order Test</a></li>
         <li class="uk-active"><a href="#" class="pm-button-secondary">History</a></li>
         <li><a href="{% url "doctor_prescription" visit.id%}" class="pm-button-secondary">Prescription</a></li>
     </ul>
+=======
+        <ul class="uk-subnav uk-subnav-pill" uk-margin>
+            <li><a href="#" class="pm-button-secondary">Examine</a></li>
+            <li><a href="#" class="pm-button-secondary">Prescription</a></li>
+            <li><a href="#" class="pm-button-secondary">Order Test</a></li>
+            <li class="uk-active"><a href="#" class="pm-button-secondary">History</a></li>
+        </ul>
+>>>>>>> master
         <ul uk-accordion>
             <li>
                 <div class="uk-text-left pm-background-white uk-accordion-title">
@@ -25,6 +34,7 @@
                             </tr>
                         </thead>
                         <tbody>
+<<<<<<< HEAD
                             {%for visit in prev_visits%}
                             <tr>
                                 <td>{{visit.date}}</td>
@@ -33,6 +43,26 @@
                                 <td><a href="{% url "doctor_visit" visit.id%}"><button style="font-size: 14px" class="uk-button pm-button-primary uk-button-small uk-align-center">View</button></a></td>
                             </tr>
                             {% endfor %}
+=======
+                            <tr>
+                                <td>2022-03-01</td>
+                                <td>Brucellosis</td>
+                                <td>Patient has a high temperature, loss of appetite, sweating, headaches, extreme tiredness.</td>
+                                <td><a href=""><button style="font-size: 14px" class="uk-button pm-button-primary uk-button-small uk-align-center">View</button></a></td>
+                            </tr>
+                            <tr>
+                                <td>2022-02-01</td>
+                                <td>Coronavirus disease</td>
+                                <td>Patient not looking good, lost sense of smell and taste. Lungs in good condition.</td>
+                                <td><a href=""><button style="font-size: 14px" class="uk-button pm-button-primary uk-button-small uk-align-center">View</button></a></td>
+                            </tr>
+                            <tr>
+                                <td>2022-01-11</td>
+                                <td>Lassa fever</td>
+                                <td>Big headaches and body temperature up to 39.6C</td>
+                                <td><a href=""><button style="font-size: 14px" class="uk-button pm-button-primary uk-button-small uk-align-center">View</button></a></td>
+                            </tr>
+>>>>>>> master
                         </tbody>
                     </table>
                 </div>
