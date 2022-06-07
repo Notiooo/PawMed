@@ -10,7 +10,8 @@ from .models import CustomUser
 from .serializers import CustomUserSerializer
 from django.contrib.auth.decorators import login_required
 
-from doctor.models import Doctor, Technician
+from doctor.models import Doctor
+from technician.models import Technician
 
 
 class RegisterView(generic.CreateView):
