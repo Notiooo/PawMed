@@ -8,4 +8,5 @@ urlpatterns = [
     path('<int:pk>/visit/', views.DoctorAppointmentView.as_view(), name='doctor_visit'),
     path('<int:pk>/test/', views.DoctorOrderTestView.as_view(), name='doctor_order_test'),
     path('<int:pk>/history/', views.DoctorPatientHistoryView.as_view(),name='doctor_patient_history'),
+    path('<int:pk>/prescription/', views.DoctorCreatePrescriptionView.as_view(), name='doctor_prescription'),
 ]

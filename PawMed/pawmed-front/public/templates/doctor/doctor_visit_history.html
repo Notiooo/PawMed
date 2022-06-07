@@ -1,53 +1,42 @@
-{% extends 'base.html' %}
+{% extends 'doctor/doctor_visit.html' %}
+{% load static %}
 
-{% block navbar %}
-    {% include 'registration/navbar.html' %}
-{% endblock navbar %}
-
-{% block content %}
-<a href = "{% url 'doctor_visit' visit.id %}"> <button> Examine </button> </a>
-<a href="{% url 'doctor_order_test' visit.id %}"><button>  Order test </button> </a>
-<a href=" {% url 'doctor_patient_history' visit.id %}"><button> History </button> </a>
-    {% for visit in prev_visits %}
-        <div class="uk-container uk-margin-medium-top pm-background-white uk-border-rounded uk-animation-toggle uk-animation-slide-bottom-medium">
-            <div>
-                <p class="uk-text-bold pm-color-darkblue uk-margin-medium-left uk-margin-medium-top pm-font-size-medium">Patients visit history:</p>
-            </div>
-            <div class="uk-grid-collaps uk-margin-medium-bottom" uk-grid>
-                <div  class="uk-margin-small-left uk-margin-auto-vertical uk-grid-collapse uk-width-1-5" uk-grid>
-                    <div class="uk-width-1-2 uk-margin-auto-vertical">
-                        <p class="uk-padding-remove uk-margin-remove uk-text-break">{{visit.date}}</p>
-                    </div>
-                    <div class="uk-width-expand uk-margin-auto-vertical uk-margin-small-left">
-                        <span class="pm-dot-small pm-background-lightblue"></span>
-                    </div>
+{% block left_side %}
+<div class="uk-width-1-1">
+    <ul class="uk-subnav uk-subnav-pill" uk-margin>
+        <li><a href="{% url "doctor_visit" visit.id%}" class="pm-button-secondary">Examine</a></li>
+        <li><a href="{% url "doctor_order_test" visit.id %}" class="pm-button-secondary">Order Test</a></li>
+        <li class="uk-active"><a href="#" class="pm-button-secondary">History</a></li>
+        <li><a href="{% url "doctor_prescription" visit.id%}" class="pm-button-secondary">Prescription</a></li>
+    </ul>
+        <ul uk-accordion>
+            <li>
+                <div class="uk-text-left pm-background-white uk-accordion-title">
+                    <p style="font-size: 24px;" class="uk-text-bold pm-color-darkblue uk-margin-medium-left uk-margin-remove-bottom">Visit history</p>
                 </div>
-                <div  class="uk-width-expand uk-grid-collapse pmi-border uk-border-rounded uk-background-default uk-padding-remove pm-border-solid" uk-grid>
-                    <div class="uk-width-2-5@m uk-width-1-1@s uk-margin-small uk-margin-small-left uk-margin-small-right uk-margin-auto-vertical">
-                        <table class="uk-margin-small-left uk-table-small uk-width-expand uk-padding-small uk-margin-top">
-                            <caption class="uk-margin-remove pm-color-darkblue uk-text-bold uk-text-justify pm-font-size-medium">{{visit.patient.name}} {{visit.patient.surname}}</caption>
+                <div class="uk-accordion-content">
+                    <table class="uk-table uk-table-striped uk-text-left">
+                        <thead>
                             <tr>
-                                <td class="uk-padding-remove">ID: </td>
-                                <td class="uk-padding-remove uk-text-right">{{visit.patient.personid}}</td>
+                                <th class="uk-width-small">Date of visit</th>
+                                <th>Name of disease</th>
+                                <th class="uk-table-expand">Medical interview</th>
+                                <th>Link</th>
                             </tr>
+                        </thead>
+                        <tbody>
+                            {%for visit in prev_visits%}
                             <tr>
-                                <td class="uk-padding-remove">Age: </td>
-                                <td class="uk-padding-remove uk-text-right">{{visit.patient.age}}</td>
+                                <td>{{visit.date}}</td>
+                                <td>{{visit.diagnosis}}</td>
+                                <td>{{visit.remarks}}</td>
+                                <td><a href="{% url "doctor_visit" visit.id%}"><button style="font-size: 14px" class="uk-button pm-button-primary uk-button-small uk-align-center">View</button></a></td>
                             </tr>
-                            <tr>
-                                <td class="uk-padding-remove">Contact: </td>
-                                <td class="uk-padding-remove uk-text-right">{{visit.patient.phone_number}}</td>
-                            </tr>
-                        </table>
-                    </div>
-                    <div class="uk-width-1-5@m uk-width-expand@s uk-text-center uk-margin-auto-vertical uk-margin-small uk-margin-small-left uk-margin-small-right ">
-                        <a href="{% url 'doctor_visit' visit.id %}"><button class="uk-button pm-button-primary pm-font-size-small">Appointment</button></a>
-                    </div>
-                    <div class="uk-width-1-5@m uk-width-expand@s uk-text-center uk-margin-auto-vertical uk-margin-small uk-margin-small-left uk-margin-small-right ">
-                        <a href="{% url 'doctor_endvisit' visit.id %}"><button class="uk-button pm-button-primary uk-margin-top uk-margin-bottom pm-font-size-small">End visit</button></a>
-                    </div>
+                            {% endfor %}
+                        </tbody>
+                    </table>
                 </div>
-            </div>
-        </div>
-    {% endfor %}
-{% endblock content %}
+            </li>
+        </ul>
+</div>
+{% endblock left_side %}

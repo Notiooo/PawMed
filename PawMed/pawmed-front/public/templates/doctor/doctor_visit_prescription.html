@@ -1,0 +1,79 @@
+{% extends 'doctor/doctor_visit.html' %}
+{% load widget_tweaks %}
+{% load static %}
+
+{% block left_side %}
+<form action="" method="post"> {% csrf_token %}
+<div class="uk-width-1-1">
+        <ul class="uk-subnav uk-subnav-pill" uk-margin>
+            <li><a href="{% url "doctor_visit" visit.id%}" class="pm-button-secondary">Examine</a></li>
+            <li><a href="{% url "doctor_order_test" visit.id %}" class="pm-button-secondary">Order Test</a></li>
+            <li><a href="{% url "doctor_patient_history" visit.id %}" class="pm-button-secondary">History</a></li>
+            <li class="uk-active"><a href="#" class="pm-button-secondary">Prescription</a></li>
+        </ul>
+        <ul uk-accordion>
+            <li>
+                <div class="uk-text-left pm-background-white uk-accordion-title">
+                    <p href="#" style="font-size: 24px;" class="uk-text-bold pm-color-darkblue uk-margin-medium-left uk-margin-remove-bottom">Prescribe a prescription</p>
+                </div>
+                <div class="uk-accordion-content">
+                    <ul class="uk-subnav uk-subnav-pill" uk-switcher>
+                        <li><a class="pm-button-primary" href="#">Refundable</a></li>
+                        <li><a class="pm-button-primary" href="#">History</a></li>
+                    </ul>
+                    <ul class="uk-switcher uk-margin">
+                        <li>
+                            <div class="uk-width-1-1" uk-grid>
+                                
+                                <div class="uk-inline uk-width-1-2">
+                                    <div class="uk-text-left">
+                                        <span class=>Name</span>
+                                        {% render_field form.name|attr:"autofocus" class+="uk-input pm-input" placeholder+="Name/Active substance" %}
+                                    </div>
+                                    <div class="uk-margin-small-top uk-text-left">
+                                        <span>Drug form</span>
+                                        {% render_field form.drug_form|attr:"autofocus" class="uk-input pm-input" type="text" placeholder="Form of drug application" %}
+                                    </div>
+                                    <div class="uk-margin-small-top uk-text-left">
+                                        <span>Number of packages</span>
+                                        {% render_field form.num_of_packages|attr:"autofocus" class="uk-input pm-input" type="text" placeholder="Amount" %}
+                                    </div>
+                                </div>
+                                <div class="uk-inline uk-width-expand uk-text-left">
+                                    <span>Percent of refund</span>
+                                    {% render_field form.refound_percentage|attr:"autofocus" class="uk-input pm-input" placeholder="Amount" %}
+                                    <button type="submit" style="font-size: 14px" class="uk-button pm-button-primary uk-position-bottom-right">Add</button>
+                                </div>
+                            </div>
+                        </li>
+                         <li>
+                            <table class="uk-table uk-table-striped uk-text-left">
+                            <thead>
+                                <tr>
+                                    <th class="uk-width-small">Date of visit</th>
+                                    <th class="uk-table-expand">Name of drug</th>
+                                    <th class="uk-width-small">Drug form</th>
+                                    <th class="uk-width-small">Number of packages</th>
+                                    <th class="uk-width-small">Percent of refund</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for presc in prev_presc %}
+                                <tr>
+                                    <td>{{presc.date_of_issue}}</td>
+                                    <td>{{presc.name}}</td>
+                                    <td>{{presc.drug_form}}</td>
+                                    <td>{{presc.num_of_packages}}</td>
+                                    <td>{{presc.refound_percentage}}%</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                        </li>
+                    </ul>
+                    <hr class="pm-color-darkblue">
+                </div>
+            </li>
+        </ul>
+</div>
+{% endblock left_side %}

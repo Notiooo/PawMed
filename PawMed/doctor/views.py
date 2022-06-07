@@ -1,12 +1,14 @@
 from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from django.views.generic import ListView, DetailView, UpdateView, CreateView
+from django.views.generic import ListView, DetailView, UpdateView, CreateView, TemplateView
+from django.http import HttpResponseRedirect
 from django.urls import reverse_lazy
 from datetime import datetime
 
 from . import models
 from registrar.models import Visit, Patient
 from technician.models import Test
+from . import forms
 
 # Create your views here.
 
@@ -57,19 +59,31 @@ class DoctorEndVisitView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 
 class DoctorAppointmentView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     """View where doctor can write informations about patients """
-    model = Visit
     template_name = 'doctor/doctor_visit_exam.html'
-    fields=['medical_interview', 'examination', 'remarks', 'recommendation', 'took_place']
+    model = Visit
+    fields=['medical_interview', 'diagnosis', 'examination', 'remarks', 'recommendation', 'took_place']
     success_url = reverse_lazy('doctor_homepage')
 
     def test_func(self):
         return self.request.user.role == 'DOCTOR'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        visit = get_object_or_404(Visit, pk=self.kwargs['pk'])
+
+        context["visit"] = visit
+        context["visit_form"] = forms.VisitForm(instance=visit)
+        context["prev_visits"] = Visit.objects.filter(took_place=True, patient=visit.patient).order_by('date')
+        context["prev_lab_tests"] = Test.objects.filter(status='a', visit__patient = visit.patient).order_by('execution_date')
+        return context
+    
 
     def form_valid(self, form):
         #This thing dosen't work as it should
         #But we'll worry 'bout it later!
         form.instance.took_place = True
         return super(DoctorAppointmentView, self).form_valid(form)
+
 
 
 class DoctorOrderTestView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
@@ -114,4 +128,38 @@ class DoctorPatientHistoryView(LoginRequiredMixin, UserPassesTestMixin, ListView
         context["visit"] = currentVisit
         context["prev_visits"] = Visit.objects.filter(took_place=True, patient=currentVisit.patient).order_by('date') 
         return context
+    
+class DoctorCreatePrescriptionView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
+    model = models.Prescription
+    template_name = 'doctor/doctor_visit_prescription.html'
+    success_url = reverse_lazy('doctor_homepage')
+    fields = ['name', 'drug_form', 
+            'num_of_packages', 'refound_percentage', 'remarks']
+
+    def test_func(self):
+        return self.request.user.role == 'DOCTOR'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        self.query = Visit.objects.get(pk=self.kwargs['pk'])
+        context['visit'] = self.query
+        context['prev_presc'] = models.Prescription.objects.filter(visit__patient=self.query.patient).order_by('date_of_issue')
+        return context
+
+    def form_valid(self, form):
+        expirationDate = datetime.today()
+        expirationDate.replace(year = expirationDate.year + 1)
+
+        form.instance.date_of_issue = datetime.today()
+        form.instance.expiration_date = expirationDate
+
+        lastPresc = models.Prescription.objects.all().order_by('id').reverse()
+        if len(lastPresc) != 0:
+            form.instance.id = lastPresc[0].id + 1
+        else:
+            form.instance.id = 0
+
+        form.instance.visit = Visit.objects.get(id=self.kwargs.get('pk'))
+        return super(DoctorCreatePrescriptionView, self).form_valid(form)
+
     
