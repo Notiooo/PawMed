@@ -7,8 +7,7 @@
 {% endblock navbar %}
 
 {% block content %}
-
-    <div class="uk-container uk-container-small uk-margin-large-top" uk-scrollspy="cls: uk-animation-slide-bottom-small; target: > div, > ul; delay: 100;" style="border-radius: 12px;">
+    <div class="uk-container uk-container-small uk-margin-large-top uk-margin-large-bottom" uk-scrollspy="cls: uk-animation-slide-bottom-small; target: > div, > ul; delay: 100;" style="border-radius: 12px;">
         <ul class="uk-breadcrumb">
             <li><a href="{% url 'registrar_patient_board' %}">Patient Board</a></li>
             <li><a href="{% url 'registrar_patient' patient.pk %}">{{ patient.name }} {{ patient.surname }}</a></li>
@@ -20,14 +19,19 @@
                 <div>Used filters:</div>
             </div>
             <div class="uk-margin-small">
-                <div class="pm-background-white uk-border-rounded pm-padding-verysmall">Earliest date: 25-04-2022</div>
+                <div class="pm-background-white uk-border-rounded pm-padding-verysmall">Earliest date: {{ earliest_date }}</div>
             </div>
             <div class="uk-margin-small">
-                <div class="pm-background-white uk-border-rounded pm-padding-verysmall">Latest date: 28-04-2022</div>
+                <div class="pm-background-white uk-border-rounded pm-padding-verysmall">Latest date: {{ latest_date }}</div>
             </div>
             <div class="uk-margin-small">
-                <div class="pm-background-white uk-border-rounded pm-padding-verysmall">Speciality: Gynecologist</div>
+                <div class="pm-background-white uk-border-rounded pm-padding-verysmall">Speciality: {{ specialization.name }}</div>
             </div>
+            {% if doctor %}
+            <div class="uk-margin-small">
+                <div class="pm-background-white uk-border-rounded pm-padding-verysmall">Doctor: {{ doctor.name }} {{ doctor.surname }}</div>
+            </div>
+            {% endif %}
         </div>
          <!-- End Filters -->
         <div class="uk-padding-small pm-background-white uk-border-rounded">
@@ -42,6 +46,7 @@
                 </div>
                 <!-- End Table Headers -->
                 <!-- Start row -->
+                {% for visit in possible_visits %}
                 <div class="uk-margin-small uk-width-1-1 uk-grid-collapse uk-background-default" uk-grid>
                     <div class="pm-indicator pm-background-darkblue"></div>
                     <div class="uk-padding-small uk-flex uk-flex-center uk-flex-middle uk-width-1-1 uk-child-width-1-5@m" uk-grid>
@@ -50,7 +55,7 @@
                                 <p>Doctor:</p>
                             </div>
                             <div>
-                                <p class="pm-color-darkblue uk-text-bold pm-font-size-medium uk-margin-remove-bottom">Jan Kowalski</p>
+                                <p class="pm-color-darkblue uk-text-bold pm-font-size-medium uk-margin-remove-bottom">{{ visit.doctor.name }} {{ visit.doctor.surname }}</p>
                                 <p class="uk-text-meta uk-margin-remove-top">Male, 46 yr</p>
                             </div>
                         </div>
@@ -59,7 +64,7 @@
                                 <p>Speciality:</p>
                             </div>
                             <div>
-                                <p class="uk-text-meta uk-margin-remove-top">Gynecologist</p>
+                                <p class="uk-text-meta uk-margin-remove-top">Unknown</p>
                             </div>
                         </div>
                         <div class="uk-flex-middle uk-grid-collapse" uk-grid>
@@ -67,7 +72,7 @@
                                 <p>Contact:</p>
                             </div>
                             <div>
-                                <p class="uk-text-meta uk-margin-remove-top">765294684</p>
+                                <p class="uk-text-meta uk-margin-remove-top">Unknown</p>
                             </div>
                         </div>
                         <div class="uk-flex-middle uk-grid-collapse" uk-grid>
@@ -75,8 +80,8 @@
                                 <p>Appointment:</p>
                             </div>
                             <div>
-                                <p class="pm-color-darkblue uk-text-bold pm-font-size-small uk-margin-remove-bottom">25.04.2022</p>
-                                <p class="uk-text-meta uk-margin-remove-top">16:30 - 17:00</p>
+                                <p class="pm-color-darkblue uk-text-bold pm-font-size-small uk-margin-remove-bottom">{{ visit.visit_start|date:"d.m.y (D)" }}</p>
+                                <p class="uk-text-meta uk-margin-remove-top">{{ visit.visit_start|date:"H:i" }} - {{ visit.visit_end|date:"H:i" }}</p>
                             </div>
                         </div>
                         <div class="uk-text-center">
@@ -84,23 +89,35 @@
                         </div>
                     </div>
                 </div>
+                {% endfor %}
                 <!-- End row -->
             </div>
         </div>
-        <div class="uk-margin uk-text-center uk-align-right@s">
+        <div class="uk-margin uk-flex uk-flex-right">
             <button class="uk-button pm-button-primary">Change filters</button>
         </div>
-    </div>
-
-    <div class="uk-margin-xlarge-top uk-hidden">
-        <h3>Helpful reference</h3>
-        <p>Looking for a visit for {{ patient.name }} {{ patient.surname }}</p>
-        <p>With specialization {{ specialization.name }}</p>
-        {% if doctor %}
-            <p>With doctor {{ doctor.name }} {{ doctor.surname }}</p>
-        {% else %}
-            <p>With any doctor</p>
+        {% if is_paginated %}
+        <div class="uk-flex uk-flex-center">
+            <ul class="uk-pagination">
+                {% if page_obj.has_previous %}
+                <li><a href="?page={{ page_obj.previous_page_number }}"><span uk-pagination-previous></a></li>
+                {% else %}
+                <li class="uk-disabled"></li>
+                {% endif %}
+                {% for i in page_obj.paginator.page_range %}
+                {% if page_obj.number == i %}
+                <li class="uk-active"><span>{{ i }}</span></li>
+                {% elif i > page_obj.number|add:'-3' and i < page_obj.number|add:'3' %}
+                <li><a href="?page={{ i }}">{{ i }}</a></li>
+                {% endif %}
+                {% endfor %}
+                {% if page_obj.has_next %}
+                <li><a href="?page={{ page_obj.next_page_number }}"><span uk-pagination-next></a></li>
+                {% else %}
+                <li class="uk-disabled"></li>
+                {% endif %}
+            </ul>
+        </div>
         {% endif %}
-        <p>Between {{ earliest_date }} and {{ latest_date }}</p>
     </div>
 {% endblock content %}

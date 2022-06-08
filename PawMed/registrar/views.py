@@ -1,8 +1,15 @@
+from datetime import timedelta
+
+from dateutil.rrule import rrule, DAILY, MINUTELY
+from datetime import timedelta
+
+
+
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.http import JsonResponse
 from django.shortcuts import redirect, render, get_object_or_404
 from django.utils.datetime_safe import datetime
-from django.views.generic import TemplateView, FormView, DetailView, UpdateView, CreateView
+from django.views.generic import TemplateView, FormView, DetailView, UpdateView, ListView, CreateView
 from .forms import PatientBoardForm, AppointmentForm
 from .models import Patient, Visit
 from doctor.models import Doctor, DoctorSpecialization, Specialization
@@ -67,20 +74,50 @@ def load_doctors(request):
     return render(request, 'registrar/hr/doctors_dropdown_list_options.html', {'doctors': doctors})
 
 
-class AppointmentDoctorFreeVisitsView(LoginRequiredMixin, UserPassesTestMixin, TemplateView):
+class AppointmentDoctorFreeVisitsView(LoginRequiredMixin, UserPassesTestMixin, ListView):
     """Displays free visits based on specified filters"""
     template_name = 'registrar/appointment_doctor_list.html'
+    paginate_by = 10
+    context_object_name = 'possible_visits'
 
-    def dispatch(self, request, *args, **kwargs):
-        """If someone has refreshed the page it will go back to adding appointment view"""
+    def get_queryset(self):
+        earliest_date = datetime.strptime(self.request.session['earliest_date'], '%Y-%m-%d').date()
+        latest_date = datetime.strptime(self.request.session['latest_date'], '%Y-%m-%d').date()
+        specialization_id = self.request.session['specialization_id']
+        found_doctor_ids = DoctorSpecialization.objects.filter(specialization_id=specialization_id).values_list('doctorid', flat=True)
 
-        if 'add_appointment_view_redirect' not in self.request.session and 'patient-submitted-id' in self.request.session:
-            return redirect('registrar_add_appointment', patient_pk=self.request.session['patient-submitted-id'])
+        found_visits = Visit.objects.filter(
+            date__gte=earliest_date,
+            date__lte=latest_date,
+            doctor__in=found_doctor_ids
+        )
 
-        return super(AppointmentDoctorFreeVisitsView, self).dispatch(request, *args, **kwargs)
+        if 'doctor_id' in self.request.session:
+            found_doctor_ids = self.request.session['doctor_id']
+            found_visits = found_visits.filter(doctor=self.request.session['doctor_id'])
+
+        possible_visits = ()
+
+        for day in rrule(freq=DAILY, dtstart=earliest_date, until=latest_date):
+
+            start_day = day.replace(hour=8, minute=0)
+            end_day = day.replace(hour=16, minute=0)
+            for visit_time in rrule(freq=MINUTELY, interval=30, dtstart=start_day, until=end_day):
+                for doctor_id in found_doctor_ids:
+                    if found_visits.filter(
+                            doctor=doctor_id,
+                            date=visit_time,
+                            took_place=False).count() == 0:
+                        possible_visits += ({'doctor': get_object_or_404(Doctor, pk=doctor_id),
+                                             'visit_start': visit_time,
+                                             'visit_end': (visit_time + timedelta(minutes=30))}, )
+        return possible_visits
 
     def test_func(self):
-        return self.request.user.role == 'REGISTRAR' and 'add_appointment_view_redirect' in self.request.session
+        return self.request.user.role == 'REGISTRAR' \
+               and all(elem in self.request.session
+                       for elem in ['patient-submitted-id', 'specialization_id', 'patient_pk',
+                                    'earliest_date', 'latest_date'])
 
     def get_context_data(self, **kwargs):
         """
@@ -90,12 +127,12 @@ class AppointmentDoctorFreeVisitsView(LoginRequiredMixin, UserPassesTestMixin, T
         context = super(AppointmentDoctorFreeVisitsView, self).get_context_data(**kwargs)
         del self.request.session['add_appointment_view_redirect']
 
-        context['specialization'] = get_object_or_404(Specialization, pk=self.request.session.pop('specialization_id', None))
-        context['patient'] = get_object_or_404(Patient, pk=self.request.session.pop('patient_pk', None))
-        context['earliest_date'] = datetime.strptime(self.request.session.pop('earliest_date'), '%Y-%m-%d').date()
-        context['latest_date'] = datetime.strptime(self.request.session.pop('latest_date'), '%Y-%m-%d').date()
+        context['specialization'] = get_object_or_404(Specialization, pk=self.request.session['specialization_id'])
+        context['patient'] = get_object_or_404(Patient, pk=self.request.session['patient_pk'])
+        context['earliest_date'] = datetime.strptime(self.request.session['earliest_date'], '%Y-%m-%d').date()
+        context['latest_date'] = datetime.strptime(self.request.session['latest_date'], '%Y-%m-%d').date()
 
-        doctor_id = self.request.session.pop('doctor_id', None)
+        doctor_id = self.request.session['doctor_id']
         if doctor_id:
             context['doctor'] = get_object_or_404(Doctor, pk=doctor_id)
 
