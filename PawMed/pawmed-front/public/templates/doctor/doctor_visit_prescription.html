@@ -1,5 +1,4 @@
 {% extends 'doctor/doctor_visit.html' %}
-<<<<<<< HEAD
 {% load widget_tweaks %}
 {% load static %}
 
@@ -11,17 +10,6 @@
             <li><a href="{% url "doctor_order_test" visit.id %}" class="pm-button-secondary">Order Test</a></li>
             <li><a href="{% url "doctor_patient_history" visit.id %}" class="pm-button-secondary">History</a></li>
             <li class="uk-active"><a href="#" class="pm-button-secondary">Prescription</a></li>
-=======
-{% load static %}
-
-{% block left_side %}
-<div class="uk-width-1-1">
-        <ul class="uk-subnav uk-subnav-pill" uk-margin>
-            <li><a href="#" class="pm-button-secondary">Examine</a></li>
-            <li class="uk-active"><a href="#" class="pm-button-secondary">Prescription</a></li>
-            <li><a href="#" class="pm-button-secondary">Order Test</a></li>
-            <li><a href="#" class="pm-button-secondary">History</a></li>
->>>>>>> master
         </ul>
         <ul uk-accordion>
             <li>
@@ -36,7 +24,6 @@
                     <ul class="uk-switcher uk-margin">
                         <li>
                             <div class="uk-width-1-1" uk-grid>
-<<<<<<< HEAD
                                 
                                 <div class="uk-inline uk-width-1-2">
                                     <div class="uk-text-left">
@@ -50,36 +37,14 @@
                                     <div class="uk-margin-small-top uk-text-left">
                                         <span>Number of packages</span>
                                         {% render_field form.num_of_packages|attr:"autofocus" class="uk-input pm-input" type="text" placeholder="Amount" %}
-=======
-                                <div class="uk-inline uk-width-1-2">
-                                    <div class="uk-text-left">
-                                        <span class=>Name</span><input class="uk-input pm-input" type="text" placeholder="Name/Active substance"/>
-                                    </div>
-                                    <div class="uk-margin-small-top uk-text-left">
-                                        <span>Drug form</span><input class="uk-input pm-input" type="text" placeholder="Form of drug application"/>
-                                    </div>
-                                    <div class="uk-margin-small-top uk-text-left">
-                                        <span>Number of packages</span><input class="uk-input pm-input" type="text" placeholder="Amount"/>
->>>>>>> master
                                     </div>
                                 </div>
                                 <div class="uk-inline uk-width-expand uk-text-left">
                                     <span>Percent of refund</span>
-<<<<<<< HEAD
                                     {% render_field form.refound_percentage|attr:"autofocus" class="uk-input pm-input" placeholder="Amount" %}
                                     <button type="submit" style="font-size: 14px" class="uk-button pm-button-primary uk-position-bottom-right">Add</button>
                                 </div>
                             </div>
-=======
-                                    <select class="uk-select pm-input">
-                                        <option>Option 01</option>
-                                        <option>Option 02</option>
-                                    </select>
-                                    <a href="{% url "homepage" %}"><button style="font-size: 14px" class="uk-button pm-button-primary uk-position-bottom-right">Add</button></a>
-                                </div>
-                            </div>
-
->>>>>>> master
                         </li>
                          <li>
                             <table class="uk-table uk-table-striped uk-text-left">
@@ -93,7 +58,6 @@
                                 </tr>
                             </thead>
                             <tbody>
-<<<<<<< HEAD
                                 {% for presc in prev_presc %}
                                 <tr>
                                     <td>{{presc.date_of_issue}}</td>
@@ -103,29 +67,6 @@
                                     <td>{{presc.refound_percentage}}%</td>
                                 </tr>
                                 {% endfor %}
-=======
-                                <tr>
-                                    <td>2022-03-01</td>
-                                    <td>Raphacholin Forte</td>
-                                    <td>syrup</td>
-                                    <td>250 mg</td>
-                                    <td>5%</td>
-                                </tr>
-                                <tr>
-                                    <td>2022-02-01</td>
-                                    <td>Methocarbamol</td>
-                                    <td>pill</td>
-                                    <td>300 mg</td>
-                                    <td>5%</td>
-                                </tr>
-                                <tr>
-                                    <td>2018-01-11</td>
-                                    <td>Methocarbamol</td>
-                                    <td>pill</td>
-                                    <td>150 mg</td>
-                                    <td>5%</td>
-                                </tr>
->>>>>>> master
                             </tbody>
                         </table>
                         </li>

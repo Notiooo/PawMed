@@ -21,16 +21,16 @@
                 <div class="uk-accordion-content">
                     <div class="uk-text-left">
                         <span class=>Medical interview</span>
-                        {% render_field visit_form.medical_interview|attr:"autofocus" class+="uk-textarea  uk-flex-wrap-middle pm-input uk-margin-small-bottom" style+="border-width: 2px" rows="3" placeholder="..." %}
+                        {% render_field form.medical_interview|attr:"autofocus" class+="uk-textarea  uk-flex-wrap-middle pm-input uk-margin-small-bottom" style+="border-width: 2px" rows="3" placeholder="..." %}
                         <!-- <textarea class="uk-textarea  uk-flex-wrap-middle pm-input uk-margin-small-bottom" style="border-width: 2px" rows="3" placeholder="..."></textarea> -->
                     </div>
                     <div class="uk-text-left">
                         <span>Examination</span>
-                        {% render_field visit_form.examination|attr:"autofocus" class="uk-textarea  uk-flex-wrap-middle pm-input uk-margin-small-bottom" style="border-width: 2px" rows="3" placeholder="...">%}
+                        {% render_field form.examination|attr:"autofocus" class="uk-textarea  uk-flex-wrap-middle pm-input uk-margin-small-bottom" style="border-width: 2px" rows="3" placeholder="...">%}
                     </div>
                     <div class="uk-text-left">
                         <span>Recommendation</span>
-                        {% render_field visit_form.recommendation|attr:"autofocus" class="uk-textarea  uk-flex-wrap-middle pm-input uk-margin-small-bottom" style="border-width: 2px" rows="3" placeholder="...">%}
+                        {% render_field form.recommendation|attr:"autofocus" class="uk-textarea  uk-flex-wrap-middle pm-input uk-margin-small-bottom" style="border-width: 2px" rows="3" placeholder="...">%}
                     </div>
                 </div>
                 
@@ -49,10 +49,10 @@
                             <div class="uk-width-1-1" uk-grid>
                                 <div class="uk-inline uk-width-5-6">
                                     <div>
-                                        {% render_field visit_form.diagnosis|attr:"autofocus" class="uk-input pm-input" rows="1" placeholder="Name of disease" %}
+                                        {% render_field form.diagnosis|attr:"autofocus" class="uk-input pm-input" rows="1" placeholder="Name of disease" %}
                                     </div>
                                     <div class="uk-margin-small-top">
-                                        {% render_field visit_form.remarks|attr:"autofocus" class="uk-input pm-input" placeholder="Remarks" %}
+                                        {% render_field form.remarks|attr:"autofocus" class="uk-input pm-input" placeholder="Remarks" %}
                                     </div>
                                 </div>
                             </div>

@@ -68,10 +68,11 @@ class DoctorAppointmentView(LoginRequiredMixin, UserPassesTestMixin, UpdateView)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        visit = get_object_or_404(Visit, pk=self.kwargs['pk'])
+        # visit = get_object_or_404(Visit, pk=self.kwargs['pk'])
+        # visit = Visit.objects.get(pk=self.kwargs['pk'])
 
+        visit = self.get_object()
         context["visit"] = visit
-        context["visit_form"] = forms.VisitForm(instance=visit)
         context["prev_visits"] = Visit.objects.filter(took_place=True, patient=visit.patient).order_by('date')
         context["prev_lab_tests"] = Test.objects.filter(status='a', visit__patient = visit.patient).order_by('execution_date')
         return context
