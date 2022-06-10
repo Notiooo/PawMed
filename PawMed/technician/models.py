@@ -15,6 +15,7 @@ class Technician(models.Model):
     id = models.IntegerField(primary_key=True)
     name = models.CharField(max_length=50)
     surname = models.CharField(max_length=50)
+    custom_user_id = models.IntegerField(blank=True, null=True)
 
     class Meta:
         managed = False

@@ -24,13 +24,15 @@ class DoctorHomepageView(LoginRequiredMixin, UserPassesTestMixin, ListView):
         # Call the base implementation first to get a context
         context = super().get_context_data(**kwargs)
 
+        doctor = self.request.user.role_object()
+
         today = datetime.today()
         year = today.year
         month = today.month
         day = today.day
 
         # Define a query for visits that are scheduled today and haven't took place, order by time 
-        self.query = Visit.objects.filter(took_place=False, date__year = year,
+        self.query = Visit.objects.filter(took_place=False, doctor=doctor, date__year = year,
                                                 date__month=month, date__day=day).order_by('date__time')
 
         #current patient is the first query result
