@@ -11,3 +11,4 @@ django-widget-tweaks==1.4.12
 phonenumbers==8.12.48
 django-test-without-migrations==0.6
 django-macros==0.4.0
+python-dateutil==2.8.2
