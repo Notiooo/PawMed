@@ -118,7 +118,7 @@
                             <a class="pm-color-darkblue uk-padding-small uk-margin-remove" href={% url "appointment_info" patient.pk %}><span uk-icon="info"  class="pm-color-darkblue" style='margin-right:0.5em; display:inline-block;'></span>Info</a>
                         {% else %}
                             <div style="border-right: solid 1px #EEE5E9" class="uk-padding-small uk-margin-remove">Upcoming</div>
-                            <a class="pm-color-darkblue uk-padding-small uk-margin-remove" href={% url "modify_appointment" patient.pk %}><span uk-icon="pencil"  class="pm-color-darkblue" style='margin-right:0.5em; display:inline-block;'></span>Modify</a>
+                            <a id="js-modal-confirm" method="get" delete-visit-url="{% url 'ajax_delete_visit' visit.id %}" class="pm-color-darkblue uk-padding-small uk-margin-remove" href='#'><span uk-icon="pencil"  class="pm-color-darkblue" style='margin-right:0.5em; display:inline-block;'></span>Delete</a>
                         {% endif %}
                 </div>
             </div>
@@ -128,4 +128,31 @@
         {% endif %}
     </div>
 </div>
+
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script>
+   UIkit.util.on('#js-modal-confirm', 'click', function (e) {
+       e.preventDefault();
+       e.target.blur();
+       UIkit.modal.confirm('Are you sure you want to delete this visit?').then(function ()
+       {
+           var url = $("#js-modal-confirm").attr("delete-visit-url");
+           console.log(url)
+
+            $.ajax({
+                url: url,
+                success: function (response) {
+                if (response.status === 'deleted')
+                {
+                    location.reload();
+                }
+                }
+            });
+
+           console.log('Confirmed.')
+       }, function () {
+           console.log('Rejected.')
+       });
+   });
+</script>
 {% endblock content %}

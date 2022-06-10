@@ -1,8 +1,8 @@
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from django.http import Http404
+from django.http import Http404, JsonResponse
 from django.shortcuts import redirect, render, get_object_or_404
 from django.utils.datetime_safe import datetime
-from django.views.generic import TemplateView, FormView, DetailView, UpdateView
+from django.views.generic import TemplateView, FormView, DetailView, UpdateView, View
 from .forms import PatientBoardForm, AppointmentForm
 from .models import Patient, Visit
 from doctor.models import Doctor, DoctorSpecialization, Specialization
@@ -152,18 +152,9 @@ class EditPatientView(RegistrarOnlyAuthorizedPatientView, UpdateView):
     fields = '__all__'
 
 
-class ModifyVisitView(RegistrarOnlyAuthorizedView, UpdateView):
-    """View in which the registrant can modify the visit data"""
-    model = Visit
-    template_name = 'registrar/modify_appointment.html'
-    login_url = 'login'
-    context_object_name = 'visit'
-    fields = '__all__'
-
-    def test_func(self):
-        return super(ModifyVisitView, self).test_func() \
-               and 'patient-submitted-id' in self.request.session\
-               and self.request.session['patient-submitted-id'] == self.get_object().patient.pk
+def delete_visit(request, **kwargs):
+    get_object_or_404(Visit, id=kwargs['visit_id']).delete()
+    return JsonResponse({'status': "deleted"})
 
 
 class InfoVisitView(RegistrarOnlyAuthorizedView, DetailView):
