@@ -1,8 +1,8 @@
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from django.http import Http404, JsonResponse
+from django.http import JsonResponse
 from django.shortcuts import redirect, render, get_object_or_404
 from django.utils.datetime_safe import datetime
-from django.views.generic import TemplateView, FormView, DetailView, UpdateView, View
+from django.views.generic import TemplateView, FormView, DetailView, UpdateView, CreateView
 from .forms import PatientBoardForm, AppointmentForm
 from .models import Patient, Visit
 from doctor.models import Doctor, DoctorSpecialization, Specialization
@@ -102,11 +102,6 @@ class AppointmentDoctorFreeVisitsView(LoginRequiredMixin, UserPassesTestMixin, T
         return context
 
 
-class AddPatientView(TemplateView):
-    """View in which the registrant can add a new patient to the database"""
-    template_name = 'registrar/add_patient.html'
-
-
 class RegistrarOnlyAuthorizedView(LoginRequiredMixin, UserPassesTestMixin):
     """View in which a role of registrant is tested"""
     login_url = 'login'
@@ -122,6 +117,28 @@ class RegistrarOnlyAuthorizedPatientView(RegistrarOnlyAuthorizedView):
         return super(RegistrarOnlyAuthorizedPatientView, self).test_func() \
                and 'patient-submitted-id' in self.request.session\
                and self.request.session['patient-submitted-id'] == self.kwargs[self.patient_pk]
+
+
+class AddPatientView(RegistrarOnlyAuthorizedView, CreateView):
+    """View in which the registrant can add a new patient to the database"""
+    template_name = 'registrar/add_patient.html'
+    model = Patient
+    fields = ['name', 'surname', 'personid', 'birth_date', 'gender', 'phone_number', 'city', 'zip_code']
+
+    def form_valid(self, form):
+        new_patient = form.save(commit=False)
+
+        new_id = 0
+        last_object = Patient.objects.all().last()
+        if last_object:
+            new_id = last_object.id + 1
+
+        new_patient.id = new_id
+        form.save()
+        return redirect('registrar_patient_board')
+
+    def test_func(self):
+        return self.request.user.role == 'REGISTRAR'
 
 
 class PatientView(RegistrarOnlyAuthorizedPatientView, DetailView):
@@ -147,9 +164,7 @@ class EditPatientView(RegistrarOnlyAuthorizedPatientView, UpdateView):
     """View in which the registrant can edit the patients data"""
     model = Patient
     template_name = 'registrar/edit_patient.html'
-    login_url = 'login'
-    context_object_name = 'patient'
-    fields = '__all__'
+    fields = ['name', 'surname', 'personid', 'birth_date', 'gender', 'phone_number', 'city', 'zip_code']
 
 
 def delete_visit(request, **kwargs):

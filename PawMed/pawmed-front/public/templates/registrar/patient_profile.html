@@ -20,12 +20,14 @@
                                 <div class="uk-width-1-2">
                                     <div>
                                         <div>Personal ID</div>
+                                        <div>Gender</div>
                                         <div>Birthday</div>
                                     </div>
                                 </div>
                                 <div class="uk-width-1-2">
                                     <div class="uk-text-right">
                                         <div>{{ patient.personid }}</div>
+                                        <div>{{ patient.get_gender_display }}</div>
                                         <div>{{ patient.birth_date }}</div>
                                     </div>
                                 </div>
