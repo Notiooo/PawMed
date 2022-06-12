@@ -13,7 +13,6 @@ class RegistrarTest(TestCase):
             id=1,
             name="Name",
             surname="Surname",
-            age=22,
             phone_number="511722711",
             birth_date=datetime.now(),
             city="Chrzanow",
@@ -173,3 +172,71 @@ class AppointmentDoctorFreeVisitsLoggedInTest(RegistrarTest):
 
         response = self.client.get(reverse('registrar_appointment_doctor_list'))
         self.assertEqual(response.status_code, 302)
+
+
+class AddPatientCreateViewLoggedIn(TestCase):
+    def setUp(self):
+        super(AddPatientCreateViewLoggedIn, self).setUp()
+        user = CustomUser.objects.create_user(username='username', password='password', role='REGISTRAR')
+        self.client.login(username='username', password='password')
+
+    def testAddPatientViewStatusCode(self):
+        response = self.client.get('/registrar/add_patient/')
+        self.assertEqual(response.status_code, 200)
+
+    def testAddPatientViewUrlByName(self):
+        response = self.client.get(reverse('registrar_patient_board'))
+        self.assertEqual(response.status_code, 200)
+
+
+class AddPatientCreateViewNotLoggedIn(TestCase):
+    def setUp(self):
+        super(AddPatientCreateViewNotLoggedIn, self).setUp()
+
+    def testAddPatientViewStatusCode(self):
+        response = self.client.get('/registrar/add_patient/')
+        self.assertEqual(response.status_code, 302)
+
+    def testAddPatientViewUrlByName(self):
+        response = self.client.get(reverse('registrar_patient_board'))
+        self.assertEqual(response.status_code, 302)
+
+
+class EditPatientUpdateViewLoggedInWithoutSession(RegistrarTest):
+    def setUp(self):
+        super(EditPatientUpdateViewLoggedInWithoutSession, self).setUp()
+        user = CustomUser.objects.create_user(username='username', password='password', role='REGISTRAR')
+        self.client.login(username='username', password='password')
+
+    def testAddPatientViewStatusCode(self):
+        response = self.client.get('/registrar/edit_patient/1/')
+        self.assertEqual(response.status_code, 403)
+
+    def testAddPatientViewUrlByName(self):
+        response = self.client.get(reverse('registrar_patient', kwargs={'pk': 1}))
+        self.assertEqual(response.status_code, 403)
+
+
+class EditPatientUpdateViewLoggedInWithSession(RegistrarTest):
+    def setUp(self):
+        super(EditPatientUpdateViewLoggedInWithSession, self).setUp()
+        user = CustomUser.objects.create_user(username='username', password='password', role='REGISTRAR')
+        self.client.login(username='username', password='password')
+
+    def testEditPatientViewStatusCode(self):
+        session = self.client.session
+        session['patient-submitted-id'] = 1
+        session["patient_pk"] = 1
+        session.save()
+
+        response = self.client.get('/registrar/edit_patient/1/')
+        self.assertEqual(response.status_code, 200)
+
+    def testEditPatientViewUrlByName(self):
+        session = self.client.session
+        session['patient-submitted-id'] = 1
+        session["patient_pk"] = 1
+        session.save()
+
+        response = self.client.get(reverse('registrar_patient', kwargs={'pk': 1}))
+        self.assertEqual(response.status_code, 200)
