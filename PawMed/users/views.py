@@ -1,5 +1,6 @@
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, JsonResponse
+from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy, reverse
 from django.utils.decorators import method_decorator
 from django.views import generic, View
@@ -10,7 +11,7 @@ from .models import CustomUser
 from .serializers import CustomUserSerializer
 from django.contrib.auth.decorators import login_required
 
-from doctor.models import Doctor, Technician
+from doctor.models import Doctor, Technician, DoctorSpecialization, Specialization
 
 
 class RegisterView(generic.CreateView):
@@ -63,6 +64,74 @@ class AdminAssigningRolesListView(LoginRequiredMixin, UserPassesTestMixin, gener
 
     def get_queryset(self):
         return CustomUser.objects.filter(role__isnull=True, is_superuser=False)
+
+
+class AdminDoctorListView(LoginRequiredMixin, UserPassesTestMixin, generic.ListView):
+    """Displays a list of all doctors."""
+    model = Doctor
+    template_name = 'users/admin-doctor.html'
+    login_url = 'login'
+    ordering = ['name', 'surname']
+
+    def test_func(self):
+        return self.request.user.is_superuser
+
+
+class AdminDoctorUpdateView(LoginRequiredMixin, UserPassesTestMixin, generic.UpdateView):
+    """Allow to change doctor's information."""
+    model = Doctor
+    template_name = 'users/admin-doctor-update.html'
+    login_url = 'login'
+    fields = ('name', 'surname', 'phone_number', 'room')
+
+    def get_success_url(self):
+        return reverse('admin_doctors')
+
+    def test_func(self):
+        return self.request.user.is_superuser
+
+
+class AdminDoctorSpecializationUpdateView(LoginRequiredMixin, UserPassesTestMixin, generic.DetailView):
+    """Allow to change doctor's specialization."""
+    model = Doctor
+    template_name = 'users/admin-doctor-specialization-update.html'
+    login_url = 'login'
+
+    def get_context_data(self, **kwargs):
+        context = super(AdminDoctorSpecializationUpdateView, self).get_context_data(**kwargs)
+        context['specializations'] = DoctorSpecialization.objects.filter(doctorid=self.get_object().id)
+        context['all_specializations'] = Specialization.objects.all()
+        return context
+
+    def test_func(self):
+        return self.request.user.is_superuser
+
+
+def delete_doctor_specialization(request, **kwargs):
+    get_object_or_404(DoctorSpecialization, id=kwargs['doctor_specialization_id']).delete()
+    return JsonResponse({'status': "deleted"})
+
+
+def add_doctor_specialization(request, **kwargs):
+    new_id = 0
+    last_object = DoctorSpecialization.objects.all().last()
+
+    if last_object:
+        new_id = last_object.id + 1
+
+    doctor = Doctor.objects.get(id=kwargs['doctor_id'])
+    specialization = Specialization.objects.get(id=kwargs['specialization_id'])
+    objectsLikeThis = DoctorSpecialization.objects.filter(doctorid=doctor, specialization=specialization)
+
+    if objectsLikeThis.count() != 0:
+        return JsonResponse({'status': "already_exist"})
+
+    DoctorSpecialization.objects.create(
+        doctorid=doctor,
+        specialization=specialization,
+        id=new_id
+    )
+    return JsonResponse({'status': "added"})
 
 
 class AdminAssigningRolesUpdateView(LoginRequiredMixin, UserPassesTestMixin, generic.UpdateView):
