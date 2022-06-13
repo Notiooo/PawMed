@@ -47,7 +47,7 @@
                 <!-- End Table Headers -->
                 <!-- Start row -->
                 {% for visit in possible_visits %}
-                <div class="uk-margin-small uk-width-1-1 uk-grid-collapse uk-background-default" uk-grid>
+                <div class="uk-margin-small uk-width-1-1 uk-grid-collapse uk-background-default" style="border-radius: 12px;" uk-grid>
                     <div class="pm-indicator pm-background-darkblue"></div>
                     <div class="uk-padding-small uk-flex uk-flex-center uk-flex-middle uk-width-1-1 uk-child-width-1-5@m" uk-grid>
                         <div class="uk-flex-middle uk-grid-collapse" uk-grid>
@@ -56,7 +56,6 @@
                             </div>
                             <div>
                                 <p class="pm-color-darkblue uk-text-bold pm-font-size-medium uk-margin-remove-bottom">{{ visit.doctor.name }} {{ visit.doctor.surname }}</p>
-                                <p class="uk-text-meta uk-margin-remove-top">Male, 46 yr</p>
                             </div>
                         </div>
                         <div class="uk-flex-middle uk-grid-collapse" uk-grid>
@@ -64,7 +63,7 @@
                                 <p>Speciality:</p>
                             </div>
                             <div>
-                                <p class="uk-text-meta uk-margin-remove-top">Unknown</p>
+                                <p class="uk-text-meta uk-margin-remove-top">{{ specialization.name }}</p>
                             </div>
                         </div>
                         <div class="uk-flex-middle uk-grid-collapse" uk-grid>
@@ -72,7 +71,7 @@
                                 <p>Contact:</p>
                             </div>
                             <div>
-                                <p class="uk-text-meta uk-margin-remove-top">Unknown</p>
+                                <p class="uk-text-meta uk-margin-remove-top">{{ visit.doctor.phone_number }}</p>
                             </div>
                         </div>
                         <div class="uk-flex-middle uk-grid-collapse" uk-grid>
@@ -85,7 +84,11 @@
                             </div>
                         </div>
                         <div class="uk-text-center">
-                            <button class="uk-button uk-button-small pm-button-primary">Make an appointment</button>
+                         <a create-visit-url="{% url 'ajax_create_visit' doctor.id patient.id visit.visit_start visit.doctor.room%}" class="create-visit pm-color-darkblue uk-padding-small uk-margin-remove">
+                             <button class="uk-button uk-button-small pm-button-primary">
+                                 Make an appointment
+                             </button>
+                         </a>
                         </div>
                     </div>
                 </div>
@@ -94,7 +97,9 @@
             </div>
         </div>
         <div class="uk-margin uk-flex uk-flex-right">
-            <button class="uk-button pm-button-primary">Change filters</button>
+            <a href="{% url 'registrar_add_appointment' patient.id %}">
+                <button class="uk-button pm-button-primary">Change filters</button>
+            </a>
         </div>
         {% if is_paginated %}
         <div class="uk-flex uk-flex-center">
@@ -120,4 +125,28 @@
         </div>
         {% endif %}
     </div>
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script>
+   $('.create-visit').on('click', function(e) {
+       e.preventDefault();
+
+       var button = $(this).find('button');
+       button.prop('disabled',true);
+       button.addClass('uk-button-default');
+       button.removeClass('pm-button-primary');
+       button.text('Appointment scheduled');
+
+       var url = $(this).attr("create-visit-url");
+
+        $.ajax({
+            url: url,
+           success: function (response) {
+                if (response.status === 'created')
+                {
+                    console.log(url)
+                }
+            }
+        });
+   });
+</script>
 {% endblock content %}

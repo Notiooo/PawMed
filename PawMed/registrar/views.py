@@ -3,10 +3,8 @@ from datetime import timedelta
 from dateutil.rrule import rrule, DAILY, MINUTELY
 from datetime import timedelta
 
-
-
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from django.http import JsonResponse
+from django.http import Http404, JsonResponse
 from django.shortcuts import redirect, render, get_object_or_404
 from django.utils.datetime_safe import datetime
 from django.views.generic import TemplateView, FormView, DetailView, UpdateView, ListView, CreateView
@@ -53,7 +51,6 @@ class AddAppointmentView(LoginRequiredMixin, UserPassesTestMixin, FormView):
     def form_valid(self, form):
         """Data is passed to the next view via a session"""
 
-        self.request.session["add_appointment_view_redirect"] = True
         self.request.session["specialization_id"] = int(form.cleaned_data['specialization'])
         self.request.session["patient_pk"] = self.kwargs['patient_pk']
         self.request.session["earliest_date"] = form.cleaned_data['earliest_date'].strftime('%Y-%m-%d')
@@ -72,6 +69,22 @@ def load_doctors(request):
     doctor_specializations = DoctorSpecialization.objects.filter(specialization=specialization_id)
     doctors = [doctor.doctorid for doctor in doctor_specializations]
     return render(request, 'registrar/hr/doctors_dropdown_list_options.html', {'doctors': doctors})
+
+
+def create_visit(self, **kwargs):
+    """Creates a new visit record in the database"""
+    new_id = 0
+    last_object = Visit.objects.all().last()
+    if last_object:
+        new_id = last_object.id + 1
+
+    start_date = kwargs['start_date']
+    room = kwargs['doctor_room']
+    doctor = get_object_or_404(Doctor, id=kwargs['doctor_id'])
+    patient = get_object_or_404(Patient, id=kwargs['patient_id'])
+
+    Visit.objects.create(id=new_id, doctor=doctor, patient=patient, date=start_date, took_place=False, room=room)
+    return JsonResponse({'status': "created"})
 
 
 class AppointmentDoctorFreeVisitsView(LoginRequiredMixin, UserPassesTestMixin, ListView):
@@ -125,16 +138,14 @@ class AppointmentDoctorFreeVisitsView(LoginRequiredMixin, UserPassesTestMixin, L
         The form passes it through sessions.
         """
         context = super(AppointmentDoctorFreeVisitsView, self).get_context_data(**kwargs)
-        del self.request.session['add_appointment_view_redirect']
 
         context['specialization'] = get_object_or_404(Specialization, pk=self.request.session['specialization_id'])
         context['patient'] = get_object_or_404(Patient, pk=self.request.session['patient_pk'])
         context['earliest_date'] = datetime.strptime(self.request.session['earliest_date'], '%Y-%m-%d').date()
         context['latest_date'] = datetime.strptime(self.request.session['latest_date'], '%Y-%m-%d').date()
 
-        doctor_id = self.request.session['doctor_id']
-        if doctor_id:
-            context['doctor'] = get_object_or_404(Doctor, pk=doctor_id)
+        if 'doctor_id' in self.request.session:
+            context['doctor'] = get_object_or_404(Doctor, pk=self.request.session['doctor_id'])\
 
         return context
 
