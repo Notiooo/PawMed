@@ -1,4 +1,4 @@
-from django.test import TestCase
+from django.test import TestCase, RequestFactory
 from django.urls import reverse
 from django.utils.datetime_safe import datetime
 from .models import Visit, Patient
@@ -135,15 +135,7 @@ class AppointmentDoctorFreeVisitsLoggedInTest(RegistrarTest):
         user = CustomUser.objects.create_user(username='username', password='password', role='REGISTRAR')
         self.client.login(username='username', password='password')
 
-    def testAppointmentViewStatusCode(self):
-        response = self.client.get('/registrar/appointment/doctor_list/')
-        self.assertEqual(response.status_code, 403)
-
-    def testAppointmentViewUrlByName(self):
-        response = self.client.get(reverse('registrar_appointment_doctor_list'))
-        self.assertEqual(response.status_code, 403)
-
-    def testAppointmentCorrectSession(self):
+    def createSession(self):
         Specialization.objects.create(
             id=1,
             name="TestSpec"
@@ -153,12 +145,33 @@ class AppointmentDoctorFreeVisitsLoggedInTest(RegistrarTest):
         session["specialization_id"] = 1
         session["patient-submitted-id"] = 1
         session["patient_pk"] = 1
+        session["doctor_id"] = None
         session["earliest_date"] = datetime(year=2022, month=1, day=1).strftime('%Y-%m-%d')
         session["latest_date"] = datetime(year=2022, month=1, day=28).strftime('%Y-%m-%d')
         session.save()
 
+    def testAppointmentViewStatusCode(self):
+        response = self.client.get('/registrar/appointment/doctor_list/')
+        self.assertEqual(response.status_code, 403)
+
+    def testAppointmentViewUrlByName(self):
+        response = self.client.get(reverse('registrar_appointment_doctor_list'))
+        self.assertEqual(response.status_code, 403)
+
+    def testAppointmentCorrectSession(self):
+        self.createSession()
         response = self.client.get(reverse('registrar_appointment_doctor_list'))
         self.assertEqual(response.status_code, 200)
+
+    def testPossibleVisitsAreNotEmpty(self):
+        self.createSession()
+        response = self.client.get(reverse('registrar_appointment_doctor_list'))
+        self.assertIsNotNone(response.context['possible_visits'])
+
+    def testCorrectTemplate(self):
+        self.createSession()
+        response = self.client.get(reverse('registrar_appointment_doctor_list'))
+        self.assertTemplateUsed(response, 'registrar/appointment_doctor_list.html')
 
 
 class AddPatientCreateViewLoggedIn(TestCase):
@@ -229,9 +242,9 @@ class EditPatientUpdateViewLoggedInWithSession(RegistrarTest):
         self.assertEqual(response.status_code, 200)
 
 
-class CreateVisitTestLoggedIn(RegistrarTest):
+class CreateVisitTest(RegistrarTest):
     def setUp(self):
-        super(CreateVisitTestLoggedIn, self).setUp()
+        super(CreateVisitTest, self).setUp()
         user = CustomUser.objects.create_user(username='username', password='password', role='REGISTRAR')
         self.client.login(username='username', password='password')
 
@@ -247,10 +260,20 @@ class CreateVisitTestLoggedIn(RegistrarTest):
         session["latest_date"] = datetime(year=2022, month=1, day=28).strftime('%Y-%m-%d')
         session.save()
 
-    def testCreateVisitUrlByName(self):
+    def testCreateVisitStatusCode(self):
+        response = self.client.get("/registrar/ajax/create-visit/1/1/2022-01-01%2008:00:00/123a/")
+        self.assertEqual(response.status_code, 200)
+
+    def createResponse(self):
         response = self.client.get(reverse(
             'ajax_create_visit',
             kwargs={'doctor_id': 1, 'patient_id': 1,
                     'start_date': datetime(year=2022, month=1, day=1).strftime('%Y-%m-%d'),
                     'doctor_room': '59'}))
-        self.assertEqual(response.status_code, 200)
+        return response
+
+    def testCreateVisitUrlByName(self):
+        self.assertEqual(self.createResponse().status_code, 200)
+
+    def testTemplateNotUsed(self):
+        self.assertTemplateNotUsed(self.createResponse())

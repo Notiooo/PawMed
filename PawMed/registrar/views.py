@@ -4,7 +4,7 @@ from dateutil.rrule import rrule, DAILY, MINUTELY
 from datetime import timedelta
 
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from django.http import Http404, JsonResponse
+from django.http import Http404, JsonResponse, HttpResponse
 from django.shortcuts import redirect, render, get_object_or_404
 from django.utils.datetime_safe import datetime
 from django.views.generic import TemplateView, FormView, DetailView, UpdateView, ListView, CreateView
@@ -58,6 +58,8 @@ class AddAppointmentView(LoginRequiredMixin, UserPassesTestMixin, FormView):
 
         if form.cleaned_data['doctor']:
             self.request.session["doctor_id"] = form.cleaned_data['doctor']
+        else:
+            self.request.session["doctor_id"] = None
 
         return redirect('registrar_appointment_doctor_list')
 
@@ -84,7 +86,7 @@ def create_visit(self, **kwargs):
     patient = get_object_or_404(Patient, id=kwargs['patient_id'])
 
     Visit.objects.create(id=new_id, doctor=doctor, patient=patient, date=start_date, took_place=False, room=room)
-    return JsonResponse({'status': "created"})
+    return HttpResponse("Visit added to db")
 
 
 class AppointmentDoctorFreeVisitsView(LoginRequiredMixin, UserPassesTestMixin, ListView):
@@ -105,11 +107,11 @@ class AppointmentDoctorFreeVisitsView(LoginRequiredMixin, UserPassesTestMixin, L
             doctor__in=found_doctor_ids
         )
 
-        if 'doctor_id' in self.request.session:
+        if self.request.session['doctor_id'] is not None:
             found_doctor_ids = self.request.session['doctor_id']
             found_visits = found_visits.filter(doctor=self.request.session['doctor_id'])
 
-        possible_visits = ()
+        possible_visits = []
 
         for day in rrule(freq=DAILY, dtstart=earliest_date, until=latest_date):
 
@@ -121,9 +123,10 @@ class AppointmentDoctorFreeVisitsView(LoginRequiredMixin, UserPassesTestMixin, L
                             doctor=doctor_id,
                             date=visit_time,
                             took_place=False).count() == 0:
-                        possible_visits += ({'doctor': get_object_or_404(Doctor, pk=doctor_id),
-                                             'visit_start': visit_time,
-                                             'visit_end': (visit_time + timedelta(minutes=30))}, )
+                        possible_visits.append({'doctor': get_object_or_404(Doctor, pk=doctor_id),
+                                                'visit_start': visit_time,
+                                                'visit_end': (visit_time + timedelta(minutes=30))})
+        possible_visits = sorted(possible_visits, key=lambda x: x['visit_start'])
         return possible_visits
 
     def test_func(self):
@@ -144,8 +147,9 @@ class AppointmentDoctorFreeVisitsView(LoginRequiredMixin, UserPassesTestMixin, L
         context['earliest_date'] = datetime.strptime(self.request.session['earliest_date'], '%Y-%m-%d').date()
         context['latest_date'] = datetime.strptime(self.request.session['latest_date'], '%Y-%m-%d').date()
 
-        if 'doctor_id' in self.request.session:
-            context['doctor'] = get_object_or_404(Doctor, pk=self.request.session['doctor_id'])\
+        doctor_id = self.request.session['doctor_id']
+        if doctor_id is not None:
+            context['doctor'] = get_object_or_404(Doctor, pk=self.request.session['doctor_id'])
 
         return context
 
@@ -203,7 +207,7 @@ class PatientView(RegistrarOnlyAuthorizedPatientView, DetailView):
         to display it will also return a 404.
         """
         context = super(PatientView, self).get_context_data(**kwargs)
-        context['visit_list'] = Visit.objects.filter(patient__id=self.get_object().id)
+        context['visit_list'] = Visit.objects.filter(patient__id=self.get_object().id).order_by('date')
 
         return context
 

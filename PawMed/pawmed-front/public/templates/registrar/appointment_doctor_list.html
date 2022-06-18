@@ -84,7 +84,7 @@
                             </div>
                         </div>
                         <div class="uk-text-center">
-                         <a create-visit-url="{% url 'ajax_create_visit' doctor.id patient.id visit.visit_start visit.doctor.room%}" class="create-visit pm-color-darkblue uk-padding-small uk-margin-remove">
+                          <a create-visit-url="{% url 'ajax_create_visit' visit.doctor.id patient.id visit.visit_start visit.doctor.room %}" class="create-visit pm-color-darkblue uk-padding-small uk-margin-remove">
                              <button class="uk-button uk-button-small pm-button-primary">
                                  Make an appointment
                              </button>
@@ -139,13 +139,7 @@
        var url = $(this).attr("create-visit-url");
 
         $.ajax({
-            url: url,
-           success: function (response) {
-                if (response.status === 'created')
-                {
-                    console.log(url)
-                }
-            }
+            url: url
         });
    });
 </script>

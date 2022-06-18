@@ -34,7 +34,7 @@ class RedirectView(View):
         elif role == 'LAB_MANAGER':
             return HttpResponseRedirect(reverse('lab_manager'))
         elif role == 'REGISTRAR':
-            return HttpResponseRedirect(reverse('homepage'))
+            return HttpResponseRedirect(reverse('registrar_patient_board'))
 
         return HttpResponseRedirect(reverse('no_role'))
 
