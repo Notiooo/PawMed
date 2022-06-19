@@ -2,6 +2,7 @@
 
 {% block content %}
     <div class="uk-container uk-container-small uk-margin-large-top" uk-scrollspy="cls: uk-animation-slide-bottom-medium; target: > h2, li; delay: 200; repeat: true">
+        {% if object_list %}
         <h2>Users without role</h2>
         <ul class="uk-list uk-list-striped">
         {% for user in object_list %}
@@ -17,5 +18,8 @@
             </li>
         {% endfor %}
         </ul>
+        {% else %}
+        <h3 class="uk-position-center">There are no users without role</h3>
+        {% endif %}
     </div>
 {% endblock content %}

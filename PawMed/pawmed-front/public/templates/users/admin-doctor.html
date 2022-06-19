@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="uk-container uk-container-small uk-margin-large-top" uk-scrollspy="cls: uk-animation-slide-bottom-medium; target: > h2, li; delay: 200; repeat: true">
+        {% if object_list %}
+        <h2>All doctors</h2>
+        <ul class="uk-list uk-list-striped">
+        {% for doctor in object_list %}
+            <li>
+                <h3>{{ doctor.name }} {{ doctor.surname }}</h3>
+                <div><b>Room: </b>{{ doctor.room }}</div>
+                <div><b>Public Phone Number: </b>{{ doctor.phone_number }}</div>
+                <div class="uk-margin">
+                    <a href="{% url 'admin_doctor_update' doctor.id %}">
+                        <button class="uk-button pm-button-primary">Change Data</button>
+                    </a>
+                    <a href="{% url 'admin_doctor_specialization_update' doctor.id %}">
+                        <button class="uk-button pm-button-primary">Change Specialization</button>
+                    </a>
+                </div>
+            </li>
+        {% endfor %}
+        </ul>
+        {% else %}
+        <h3 class="uk-position-center">There are no users without role</h3>
+        {% endif %}
+    </div>
+{% endblock content %}

@@ -30,6 +30,7 @@
                             <li class="uk-nav-header">Admin options</li>
                             <li><a href="{% url 'admin_roles' %}">Assign roles panel</a></li>
                             <li><a href="{% url 'admin_roles_update' user.pk %}">Change your role</a></li>
+                            <li><a href="{% url 'admin_doctors' %}">Manage doctors</a></li>
                         <li class="uk-nav-divider"></li>
                         {% endif %}
                         <li><a href="{% url 'logout' %}">Logout</a></li>

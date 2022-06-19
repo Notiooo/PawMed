@@ -1,0 +1,98 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <style>
+    body
+    {
+        overflow-x: hidden;
+    }
+    </style>
+    <div>
+        <div class="tk-blob uk-position-absolute" style="--fill: #d7dcdf; --time: 120s; z-index: -999; width: 1500px; top: -600px; left: -800px">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 412.3 354.7">
+            <path d="m 334 47 c 57 28 97 39 85.2 111.6 s -33 63 -93 93 c -75.2 30.4 -100.2 26.4 -186.4 26.5 c -66.8 -10.1 -128.8 -29.1 -132.8 -74.1 c -3 -40 12 -54 74 -131 c 22 -20 21 -46 110 -53 c 62 1 41 11 92 17 z"></path>
+          </svg>
+        </div>
+    </div>
+    <div class="uk-position-center">
+        <h4>Manage the specializations for {{ object.name }} {{ object.surname }}</h4>
+        <table class="uk-table">
+            <thead>
+                <tr>
+                    <th class="uk-width-small">Specialization</th>
+                    <th class="uk-width-small">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for specialization in specializations %}
+                <tr>
+                    <td>{{ specialization.specialization.name }}</td>
+                    <td><a class="js-specialization-delete uk-button pm-button-secondary" delete-specialization-url="{% url 'ajax_doctor_specialization_delete' specialization.id %}">Remove</a></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <hr/>
+        <h4>Add new specializations for {{ object.name }} {{ object.surname }}</h4>
+        <table class="uk-table">
+            <thead>
+                <tr>
+                    <th class="uk-width-small">Specialization</th>
+                    <th class="uk-width-small">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for specialization in all_specializations %}
+                <tr>
+                    <td>{{ specialization.name }}</td>
+                    <td><a class="js-specialization-add uk-button pm-button-primary" add-specialization-url="{% url 'ajax_doctor_specialization_add' specialization.id object.id %}">Add</a></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script>
+   UIkit.util.on('.js-specialization-delete', 'click', function (e) {
+       var thisButton = $(this)
+       e.preventDefault();
+       e.target.blur();
+       UIkit.modal.confirm('Are you sure you want to delete this specialization?').then(function ()
+       {
+           var url = thisButton.attr("delete-specialization-url");
+
+            $.ajax({
+                url: url,
+                success: function (response) {
+                    if (response.status === 'deleted')
+                    {
+                        location.reload();
+                    }
+                }
+            });
+       });
+   });
+</script>
+<script>
+   UIkit.util.on('.js-specialization-add', 'click', function (e) {
+       var thisButton = $(this)
+       e.preventDefault();
+       e.target.blur();
+       UIkit.modal.confirm('Are you sure you want to add new specialization?').then(function ()
+       {
+           var url = thisButton.attr("add-specialization-url");
+
+            $.ajax({
+                url: url,
+                success: function (response) {
+                    if (response.status === 'added')
+                    {
+                        location.reload();
+                    }
+                }
+            });
+       });
+   });
+</script>
+{% endblock content %}
