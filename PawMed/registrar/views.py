@@ -238,16 +238,3 @@ class DeleteVisitView(RegistrarOnlyAuthorizedView, generic.View):
     def delete_visit(self, request, **kwargs):
         get_object_or_404(Visit, id=kwargs['visit_id']).delete()
         return JsonResponse({'status': "deleted"})
-
-
-class InfoVisitView(RegistrarOnlyAuthorizedView, DetailView):
-    """View in which the registrant can check the details of the visit"""
-    model = Visit
-    template_name = 'registrar/appointment_info.html'
-    login_url = 'login'
-    context_object_name = 'visit'
-
-    def test_func(self):
-        return super(InfoVisitView, self).test_func() \
-               and 'patient-submitted-id' in self.request.session\
-               and self.request.session['patient-submitted-id'] == self.get_object().patient.pk
