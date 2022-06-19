@@ -117,7 +117,7 @@
                         <div style="border-right: solid 1px #EEE5E9" class="uk-padding-small uk-margin-remove">{{ visit.room }}</div>
                         {% if visit.took_place %}
                              <div style="border-right: solid 1px #EEE5E9" class="uk-padding-small uk-margin-remove">Took place</div>
-                            <a class="pm-color-darkblue uk-padding-small uk-margin-remove" href={% url "appointment_info" patient.pk %}><span uk-icon="info"  class="pm-color-darkblue" style='margin-right:0.5em; display:inline-block;'></span>Info</a>
+                            <div style="border-right: solid 1px #EEE5E9" class="uk-padding-small uk-margin-remove">No action</div>
                         {% else %}
                             <div style="border-right: solid 1px #EEE5E9" class="uk-padding-small uk-margin-remove">Upcoming</div>
                             <a id="js-modal-confirm" method="get" delete-visit-url="{% url 'ajax_delete_visit' visit.id %}" class="pm-color-darkblue uk-padding-small uk-margin-remove" href='#'><span uk-icon="pencil"  class="pm-color-darkblue" style='margin-right:0.5em; display:inline-block;'></span>Delete</a>
