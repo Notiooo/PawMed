@@ -1,8 +1,14 @@
+from datetime import timedelta
+
+from dateutil.rrule import rrule, DAILY, MINUTELY
+from datetime import timedelta
+
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 from django.shortcuts import redirect, render, get_object_or_404
 from django.utils.datetime_safe import datetime
-from django.views.generic import TemplateView, FormView, DetailView, UpdateView, CreateView
+from django.views import generic
+from django.views.generic import FormView, DetailView, UpdateView, ListView, CreateView
 from .forms import PatientBoardForm, AppointmentForm
 from .models import Patient, Visit
 from doctor.models import Doctor, DoctorSpecialization, Specialization
@@ -46,7 +52,6 @@ class AddAppointmentView(LoginRequiredMixin, UserPassesTestMixin, FormView):
     def form_valid(self, form):
         """Data is passed to the next view via a session"""
 
-        self.request.session["add_appointment_view_redirect"] = True
         self.request.session["specialization_id"] = int(form.cleaned_data['specialization'])
         self.request.session["patient_pk"] = self.kwargs['patient_pk']
         self.request.session["earliest_date"] = form.cleaned_data['earliest_date'].strftime('%Y-%m-%d')
@@ -54,33 +59,57 @@ class AddAppointmentView(LoginRequiredMixin, UserPassesTestMixin, FormView):
 
         if form.cleaned_data['doctor']:
             self.request.session["doctor_id"] = form.cleaned_data['doctor']
+        else:
+            self.request.session["doctor_id"] = None
 
         return redirect('registrar_appointment_doctor_list')
 
 
-def load_doctors(request):
-    """Reads a list of doctors in a particular specialty. Returns as an option for the <select> field."""
-
-    specialization_id = request.GET.get('specialization')
-    doctor_specializations = DoctorSpecialization.objects.filter(specialization=specialization_id)
-    doctors = [doctor.doctorid for doctor in doctor_specializations]
-    return render(request, 'registrar/hr/doctors_dropdown_list_options.html', {'doctors': doctors})
-
-
-class AppointmentDoctorFreeVisitsView(LoginRequiredMixin, UserPassesTestMixin, TemplateView):
+class AppointmentDoctorFreeVisitsView(LoginRequiredMixin, UserPassesTestMixin, ListView):
     """Displays free visits based on specified filters"""
     template_name = 'registrar/appointment_doctor_list.html'
+    paginate_by = 10
+    context_object_name = 'possible_visits'
 
-    def dispatch(self, request, *args, **kwargs):
-        """If someone has refreshed the page it will go back to adding appointment view"""
+    def get_queryset(self):
+        earliest_date = datetime.strptime(self.request.session['earliest_date'], '%Y-%m-%d').date()
+        latest_date = datetime.strptime(self.request.session['latest_date'], '%Y-%m-%d').date()
+        specialization_id = self.request.session['specialization_id']
+        found_doctor_ids = DoctorSpecialization.objects.filter(specialization_id=specialization_id).values_list('doctorid', flat=True)
 
-        if 'add_appointment_view_redirect' not in self.request.session and 'patient-submitted-id' in self.request.session:
-            return redirect('registrar_add_appointment', patient_pk=self.request.session['patient-submitted-id'])
+        found_visits = Visit.objects.filter(
+            date__gte=earliest_date,
+            date__lte=latest_date,
+            doctor__in=found_doctor_ids
+        )
 
-        return super(AppointmentDoctorFreeVisitsView, self).dispatch(request, *args, **kwargs)
+        if self.request.session['doctor_id'] is not None:
+            found_doctor_ids = self.request.session['doctor_id']
+            found_visits = found_visits.filter(doctor=self.request.session['doctor_id'])
+
+        possible_visits = []
+
+        for day in rrule(freq=DAILY, dtstart=earliest_date, until=latest_date):
+
+            start_day = day.replace(hour=8, minute=0)
+            end_day = day.replace(hour=16, minute=0)
+            for visit_time in rrule(freq=MINUTELY, interval=30, dtstart=start_day, until=end_day):
+                for doctor_id in found_doctor_ids:
+                    if found_visits.filter(
+                            doctor=doctor_id,
+                            date=visit_time,
+                            took_place=False).count() == 0:
+                        possible_visits.append({'doctor': get_object_or_404(Doctor, pk=doctor_id),
+                                                'visit_start': visit_time,
+                                                'visit_end': (visit_time + timedelta(minutes=30))})
+        possible_visits = sorted(possible_visits, key=lambda x: x['visit_start'])
+        return possible_visits
 
     def test_func(self):
-        return self.request.user.role == 'REGISTRAR' and 'add_appointment_view_redirect' in self.request.session
+        return self.request.user.role == 'REGISTRAR' \
+               and all(elem in self.request.session
+                       for elem in ['patient-submitted-id', 'specialization_id', 'patient_pk',
+                                    'earliest_date', 'latest_date'])
 
     def get_context_data(self, **kwargs):
         """
@@ -88,16 +117,15 @@ class AppointmentDoctorFreeVisitsView(LoginRequiredMixin, UserPassesTestMixin, T
         The form passes it through sessions.
         """
         context = super(AppointmentDoctorFreeVisitsView, self).get_context_data(**kwargs)
-        del self.request.session['add_appointment_view_redirect']
 
-        context['specialization'] = get_object_or_404(Specialization, pk=self.request.session.pop('specialization_id', None))
-        context['patient'] = get_object_or_404(Patient, pk=self.request.session.pop('patient_pk', None))
-        context['earliest_date'] = datetime.strptime(self.request.session.pop('earliest_date'), '%Y-%m-%d').date()
-        context['latest_date'] = datetime.strptime(self.request.session.pop('latest_date'), '%Y-%m-%d').date()
+        context['specialization'] = get_object_or_404(Specialization, pk=self.request.session['specialization_id'])
+        context['patient'] = get_object_or_404(Patient, pk=self.request.session['patient_pk'])
+        context['earliest_date'] = datetime.strptime(self.request.session['earliest_date'], '%Y-%m-%d').date()
+        context['latest_date'] = datetime.strptime(self.request.session['latest_date'], '%Y-%m-%d').date()
 
-        doctor_id = self.request.session.pop('doctor_id', None)
-        if doctor_id:
-            context['doctor'] = get_object_or_404(Doctor, pk=doctor_id)
+        doctor_id = self.request.session['doctor_id']
+        if doctor_id is not None:
+            context['doctor'] = get_object_or_404(Doctor, pk=self.request.session['doctor_id'])
 
         return context
 
@@ -155,7 +183,7 @@ class PatientView(RegistrarOnlyAuthorizedPatientView, DetailView):
         to display it will also return a 404.
         """
         context = super(PatientView, self).get_context_data(**kwargs)
-        context['visit_list'] = Visit.objects.filter(patient__id=self.get_object().id)
+        context['visit_list'] = Visit.objects.filter(patient__id=self.get_object().id).order_by('date')
 
         return context
 
@@ -167,9 +195,49 @@ class EditPatientView(RegistrarOnlyAuthorizedPatientView, UpdateView):
     fields = ['name', 'surname', 'personid', 'birth_date', 'gender', 'phone_number', 'city', 'zip_code']
 
 
-def delete_visit(request, **kwargs):
-    get_object_or_404(Visit, id=kwargs['visit_id']).delete()
-    return JsonResponse({'status': "deleted"})
+class LoadDoctorsView(RegistrarOnlyAuthorizedView, generic.View):
+    """Loads all doctors with the selected specialization"""
+    def get(self, request, *args, **kwargs):
+        return self.load_doctors(request, **kwargs)
+
+    def load_doctors(self, request, **kwargs):
+        """Reads a list of doctors in a particular specialty. Returns as an option for the <select> field."""
+
+        specialization_id = request.GET.get('specialization')
+        doctor_specializations = DoctorSpecialization.objects.filter(specialization=specialization_id)
+        doctors = [doctor.doctorid for doctor in doctor_specializations]
+        return render(request, 'registrar/hr/doctors_dropdown_list_options.html', {'doctors': doctors})
+
+
+class CreateVisitView(RegistrarOnlyAuthorizedView, generic.View):
+    """This view creates a new visit"""
+    def get(self, request, *args, **kwargs):
+        return self.create_visit(request, **kwargs)
+
+    def create_visit(self, request, **kwargs):
+        """Creates a new visit record in the database"""
+        new_id = 0
+        last_object = Visit.objects.all().last()
+        if last_object:
+            new_id = last_object.id + 1
+
+        start_date = kwargs['start_date']
+        room = kwargs['doctor_room']
+        doctor = get_object_or_404(Doctor, id=kwargs['doctor_id'])
+        patient = get_object_or_404(Patient, id=kwargs['patient_id'])
+
+        Visit.objects.create(id=new_id, doctor=doctor, patient=patient, date=start_date, took_place=False, room=room)
+        return HttpResponse("Visit added to db")
+
+
+class DeleteVisitView(RegistrarOnlyAuthorizedView, generic.View):
+    """This view deletes selected visit"""
+    def get(self, request, *args, **kwargs):
+        return self.delete_visit(request, **kwargs)
+
+    def delete_visit(self, request, **kwargs):
+        get_object_or_404(Visit, id=kwargs['visit_id']).delete()
+        return JsonResponse({'status': "deleted"})
 
 
 class InfoVisitView(RegistrarOnlyAuthorizedView, DetailView):

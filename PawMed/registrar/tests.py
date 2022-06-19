@@ -1,4 +1,4 @@
-from django.test import TestCase
+from django.test import TestCase, RequestFactory
 from django.urls import reverse
 from django.utils.datetime_safe import datetime
 from .models import Visit, Patient
@@ -135,6 +135,21 @@ class AppointmentDoctorFreeVisitsLoggedInTest(RegistrarTest):
         user = CustomUser.objects.create_user(username='username', password='password', role='REGISTRAR')
         self.client.login(username='username', password='password')
 
+    def createSession(self):
+        Specialization.objects.create(
+            id=1,
+            name="TestSpec"
+        )
+
+        session = self.client.session
+        session["specialization_id"] = 1
+        session["patient-submitted-id"] = 1
+        session["patient_pk"] = 1
+        session["doctor_id"] = None
+        session["earliest_date"] = datetime(year=2022, month=1, day=1).strftime('%Y-%m-%d')
+        session["latest_date"] = datetime(year=2022, month=1, day=28).strftime('%Y-%m-%d')
+        session.save()
+
     def testAppointmentViewStatusCode(self):
         response = self.client.get('/registrar/appointment/doctor_list/')
         self.assertEqual(response.status_code, 403)
@@ -144,34 +159,19 @@ class AppointmentDoctorFreeVisitsLoggedInTest(RegistrarTest):
         self.assertEqual(response.status_code, 403)
 
     def testAppointmentCorrectSession(self):
-        Specialization.objects.create(
-            id=1,
-            name="TestSpec"
-        )
-
-        session = self.client.session
-        session["add_appointment_view_redirect"] = True
-        session["specialization_id"] = 1
-        session["patient_pk"] = 1
-        session["earliest_date"] = datetime(year=2022, month=1, day=1).strftime('%Y-%m-%d')
-        session["latest_date"] = datetime(year=2022, month=1, day=28).strftime('%Y-%m-%d')
-        session.save()
-
+        self.createSession()
         response = self.client.get(reverse('registrar_appointment_doctor_list'))
         self.assertEqual(response.status_code, 200)
 
-    def testAppointmentRefreshedSession(self):
-        Specialization.objects.create(
-            id=1,
-            name="TestSpec"
-        )
-
-        session = self.client.session
-        session['patient-submitted-id'] = 1
-        session.save()
-
+    def testPossibleVisitsAreNotEmpty(self):
+        self.createSession()
         response = self.client.get(reverse('registrar_appointment_doctor_list'))
-        self.assertEqual(response.status_code, 302)
+        self.assertIsNotNone(response.context['possible_visits'])
+
+    def testCorrectTemplate(self):
+        self.createSession()
+        response = self.client.get(reverse('registrar_appointment_doctor_list'))
+        self.assertTemplateUsed(response, 'registrar/appointment_doctor_list.html')
 
 
 class AddPatientCreateViewLoggedIn(TestCase):
@@ -240,3 +240,40 @@ class EditPatientUpdateViewLoggedInWithSession(RegistrarTest):
 
         response = self.client.get(reverse('registrar_patient', kwargs={'pk': 1}))
         self.assertEqual(response.status_code, 200)
+
+
+class CreateVisitTest(RegistrarTest):
+    def setUp(self):
+        super(CreateVisitTest, self).setUp()
+        user = CustomUser.objects.create_user(username='username', password='password', role='REGISTRAR')
+        self.client.login(username='username', password='password')
+
+        Specialization.objects.create(
+            id=1,
+            name="TestSpec"
+        )
+        session = self.client.session
+        session["specialization_id"] = 1
+        session["patient-submitted-id"] = 1
+        session["patient_pk"] = 1
+        session["earliest_date"] = datetime(year=2022, month=1, day=1).strftime('%Y-%m-%d')
+        session["latest_date"] = datetime(year=2022, month=1, day=28).strftime('%Y-%m-%d')
+        session.save()
+
+    def testCreateVisitStatusCode(self):
+        response = self.client.get("/registrar/ajax/create-visit/1/1/2022-01-01%2008:00:00/123a/")
+        self.assertEqual(response.status_code, 200)
+
+    def createResponse(self):
+        response = self.client.get(reverse(
+            'ajax_create_visit',
+            kwargs={'doctor_id': 1, 'patient_id': 1,
+                    'start_date': datetime(year=2022, month=1, day=1).strftime('%Y-%m-%d'),
+                    'doctor_room': '59'}))
+        return response
+
+    def testCreateVisitUrlByName(self):
+        self.assertEqual(self.createResponse().status_code, 200)
+
+    def testTemplateNotUsed(self):
+        self.assertTemplateNotUsed(self.createResponse())
