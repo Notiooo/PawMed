@@ -1,7 +1,7 @@
 from django.urls import path
 
 from .views import PatientBoardView, AddAppointmentView, AddPatientView, PatientView, EditPatientView, \
-    InfoVisitView, load_doctors, delete_visit, create_visit
+    InfoVisitView, LoadDoctorsView, CreateVisitView, DeleteVisitView
 from .views import AppointmentDoctorFreeVisitsView
 
 urlpatterns = [
@@ -12,7 +12,8 @@ urlpatterns = [
     path('patient/<int:pk>/', PatientView.as_view(), name="registrar_patient"),
     path('info/<int:pk>/', InfoVisitView.as_view(), name="appointment_info"),
     path('edit_patient/<int:pk>/', EditPatientView.as_view(), name="edit_patient"),
-    path('ajax/load-doctors/', load_doctors, name='ajax_load_doctors'),
-    path('ajax/create-visit/<int:doctor_id>/<int:patient_id>/<start_date>/<doctor_room>/', create_visit, name='ajax_create_visit'),
-    path('ajax/delete-visit/<int:visit_id>/', delete_visit, name='ajax_delete_visit')
+    path('ajax/load-doctors/', LoadDoctorsView.as_view(), name='ajax_load_doctors'),
+    path('ajax/create-visit/<int:doctor_id>/<int:patient_id>/<start_date>/<doctor_room>/',
+         CreateVisitView.as_view(), name='ajax_create_visit'),
+    path('ajax/delete-visit/<int:visit_id>/', DeleteVisitView.as_view(), name='ajax_delete_visit')
 ]

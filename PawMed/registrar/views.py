@@ -4,10 +4,11 @@ from dateutil.rrule import rrule, DAILY, MINUTELY
 from datetime import timedelta
 
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from django.http import Http404, JsonResponse, HttpResponse
+from django.http import JsonResponse, HttpResponse
 from django.shortcuts import redirect, render, get_object_or_404
 from django.utils.datetime_safe import datetime
-from django.views.generic import TemplateView, FormView, DetailView, UpdateView, ListView, CreateView
+from django.views import generic
+from django.views.generic import FormView, DetailView, UpdateView, ListView, CreateView
 from .forms import PatientBoardForm, AppointmentForm
 from .models import Patient, Visit
 from doctor.models import Doctor, DoctorSpecialization, Specialization
@@ -62,31 +63,6 @@ class AddAppointmentView(LoginRequiredMixin, UserPassesTestMixin, FormView):
             self.request.session["doctor_id"] = None
 
         return redirect('registrar_appointment_doctor_list')
-
-
-def load_doctors(request):
-    """Reads a list of doctors in a particular specialty. Returns as an option for the <select> field."""
-
-    specialization_id = request.GET.get('specialization')
-    doctor_specializations = DoctorSpecialization.objects.filter(specialization=specialization_id)
-    doctors = [doctor.doctorid for doctor in doctor_specializations]
-    return render(request, 'registrar/hr/doctors_dropdown_list_options.html', {'doctors': doctors})
-
-
-def create_visit(self, **kwargs):
-    """Creates a new visit record in the database"""
-    new_id = 0
-    last_object = Visit.objects.all().last()
-    if last_object:
-        new_id = last_object.id + 1
-
-    start_date = kwargs['start_date']
-    room = kwargs['doctor_room']
-    doctor = get_object_or_404(Doctor, id=kwargs['doctor_id'])
-    patient = get_object_or_404(Patient, id=kwargs['patient_id'])
-
-    Visit.objects.create(id=new_id, doctor=doctor, patient=patient, date=start_date, took_place=False, room=room)
-    return HttpResponse("Visit added to db")
 
 
 class AppointmentDoctorFreeVisitsView(LoginRequiredMixin, UserPassesTestMixin, ListView):
@@ -219,9 +195,49 @@ class EditPatientView(RegistrarOnlyAuthorizedPatientView, UpdateView):
     fields = ['name', 'surname', 'personid', 'birth_date', 'gender', 'phone_number', 'city', 'zip_code']
 
 
-def delete_visit(request, **kwargs):
-    get_object_or_404(Visit, id=kwargs['visit_id']).delete()
-    return JsonResponse({'status': "deleted"})
+class LoadDoctorsView(RegistrarOnlyAuthorizedView, generic.View):
+    """Loads all doctors with the selected specialization"""
+    def get(self, request, *args, **kwargs):
+        return self.load_doctors(request, **kwargs)
+
+    def load_doctors(self, request, **kwargs):
+        """Reads a list of doctors in a particular specialty. Returns as an option for the <select> field."""
+
+        specialization_id = request.GET.get('specialization')
+        doctor_specializations = DoctorSpecialization.objects.filter(specialization=specialization_id)
+        doctors = [doctor.doctorid for doctor in doctor_specializations]
+        return render(request, 'registrar/hr/doctors_dropdown_list_options.html', {'doctors': doctors})
+
+
+class CreateVisitView(RegistrarOnlyAuthorizedView, generic.View):
+    """This view creates a new visit"""
+    def get(self, request, *args, **kwargs):
+        return self.create_visit(request, **kwargs)
+
+    def create_visit(self, request, **kwargs):
+        """Creates a new visit record in the database"""
+        new_id = 0
+        last_object = Visit.objects.all().last()
+        if last_object:
+            new_id = last_object.id + 1
+
+        start_date = kwargs['start_date']
+        room = kwargs['doctor_room']
+        doctor = get_object_or_404(Doctor, id=kwargs['doctor_id'])
+        patient = get_object_or_404(Patient, id=kwargs['patient_id'])
+
+        Visit.objects.create(id=new_id, doctor=doctor, patient=patient, date=start_date, took_place=False, room=room)
+        return HttpResponse("Visit added to db")
+
+
+class DeleteVisitView(RegistrarOnlyAuthorizedView, generic.View):
+    """This view deletes selected visit"""
+    def get(self, request, *args, **kwargs):
+        return self.delete_visit(request, **kwargs)
+
+    def delete_visit(self, request, **kwargs):
+        get_object_or_404(Visit, id=kwargs['visit_id']).delete()
+        return JsonResponse({'status': "deleted"})
 
 
 class InfoVisitView(RegistrarOnlyAuthorizedView, DetailView):
