@@ -27,7 +27,7 @@
                 {% for specialization in specializations %}
                 <tr>
                     <td>{{ specialization.specialization.name }}</td>
-                    <td><a class="js-modal-confirm uk-button pm-button-secondary" delete-specialization-url="{% url 'ajax_doctor_specialization_delete' specialization.id %}">Remove</a></td>
+                    <td><a class="js-specialization-delete uk-button pm-button-secondary" delete-specialization-url="{% url 'ajax_doctor_specialization_delete' specialization.id %}">Remove</a></td>
                 </tr>
                 {% endfor %}
             </tbody>
@@ -54,7 +54,7 @@
 
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 <script>
-   UIkit.util.on('.js-modal-confirm', 'click', function (e) {
+   UIkit.util.on('.js-specialization-delete', 'click', function (e) {
        var thisButton = $(this)
        e.preventDefault();
        e.target.blur();
@@ -65,16 +65,12 @@
             $.ajax({
                 url: url,
                 success: function (response) {
-                if (response.status === 'deleted')
-                {
-                    location.reload();
-                }
+                    if (response.status === 'deleted')
+                    {
+                        location.reload();
+                    }
                 }
             });
-
-           console.log('Confirmed.')
-       }, function () {
-           console.log('Rejected.')
        });
    });
 </script>
@@ -90,16 +86,12 @@
             $.ajax({
                 url: url,
                 success: function (response) {
-                if (response.status === 'added')
-                {
-                    location.reload();
-                }
+                    if (response.status === 'added')
+                    {
+                        location.reload();
+                    }
                 }
             });
-
-           console.log('Confirmed.')
-       }, function () {
-           console.log('Rejected.')
        });
    });
 </script>

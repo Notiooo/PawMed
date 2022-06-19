@@ -107,31 +107,48 @@ class AdminDoctorSpecializationUpdateView(LoginRequiredMixin, UserPassesTestMixi
         return self.request.user.is_superuser
 
 
-def delete_doctor_specialization(request, **kwargs):
-    get_object_or_404(DoctorSpecialization, id=kwargs['doctor_specialization_id']).delete()
-    return JsonResponse({'status': "deleted"})
+class DeleteDoctorSpecializationView(LoginRequiredMixin, UserPassesTestMixin, generic.View):
+    """Deletes a specialization from a selected doctor"""
+
+    def get(self, request, *args, **kwargs):
+        return self.delete_doctor_specialization(request, **kwargs)
+
+    def test_func(self):
+        return self.request.user.is_superuser
+
+    def delete_doctor_specialization(self, request, **kwargs):
+        get_object_or_404(DoctorSpecialization, id=kwargs['doctor_specialization_id']).delete()
+        return JsonResponse({'status': "deleted"})
 
 
-def add_doctor_specialization(request, **kwargs):
-    new_id = 0
-    last_object = DoctorSpecialization.objects.all().last()
+class AddDoctorSpecializationView(LoginRequiredMixin, UserPassesTestMixin, generic.View):
+    """Adds a specialization to a selected doctor"""
+    def get(self, request, *args, **kwargs):
+        return self.add_doctor_specialization(request, **kwargs)
 
-    if last_object:
-        new_id = last_object.id + 1
+    def test_func(self):
+        return self.request.user.is_superuser
 
-    doctor = Doctor.objects.get(id=kwargs['doctor_id'])
-    specialization = Specialization.objects.get(id=kwargs['specialization_id'])
-    objectsLikeThis = DoctorSpecialization.objects.filter(doctorid=doctor, specialization=specialization)
+    def add_doctor_specialization(self, request, **kwargs):
+        new_id = 0
+        last_object = DoctorSpecialization.objects.all().last()
 
-    if objectsLikeThis.count() != 0:
-        return JsonResponse({'status': "already_exist"})
+        if last_object:
+            new_id = last_object.id + 1
 
-    DoctorSpecialization.objects.create(
-        doctorid=doctor,
-        specialization=specialization,
-        id=new_id
-    )
-    return JsonResponse({'status': "added"})
+        doctor = Doctor.objects.get(id=kwargs['doctor_id'])
+        specialization = Specialization.objects.get(id=kwargs['specialization_id'])
+        doctor_specialization = DoctorSpecialization.objects.filter(doctorid=doctor, specialization=specialization)
+
+        if doctor_specialization.count() != 0:
+            return JsonResponse({'status': "already_exist"})
+
+        DoctorSpecialization.objects.create(
+            doctorid=doctor,
+            specialization=specialization,
+            id=new_id
+        )
+        return JsonResponse({'status': "added"})
 
 
 class AdminAssigningRolesUpdateView(LoginRequiredMixin, UserPassesTestMixin, generic.UpdateView):

@@ -14,9 +14,8 @@ urlpatterns = [
     path('admin-doctor-update/<int:pk>/', views.AdminDoctorUpdateView.as_view(), name='admin_doctor_update'),
     path('admin-doctor-specialization-update/<int:pk>/', views.AdminDoctorSpecializationUpdateView.as_view(),
          name='admin_doctor_specialization_update'),
-    path('ajax/delete-doctor-specialization/<int:doctor_specialization_id>/', views.delete_doctor_specialization,
+    path('ajax/delete-doctor-specialization/<int:doctor_specialization_id>/', views.DeleteDoctorSpecializationView.as_view(),
          name="ajax_doctor_specialization_delete"),
-    path('ajax/add-doctor-specialization/<int:specialization_id>/<int:doctor_id>/', views.add_doctor_specialization,
+    path('ajax/add-doctor-specialization/<int:specialization_id>/<int:doctor_id>/', views.AddDoctorSpecializationView.as_view(),
          name="ajax_doctor_specialization_add")
-
 ]
