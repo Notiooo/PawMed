@@ -76,6 +76,7 @@ CREATE TABLE public.test (
     execution_date timestamp with time zone,
     executive integer,
     remarks text,
+    lab_remarks text,
     laboratory_room integer,
     visit integer NOT NULL,
     status char NOT NULL,

@@ -1,4 +1,5 @@
 {% extends 'technician/patient_information.html' %}
+{% load widget_tweaks %}
 {% load static %}
 
 {% block navbar %}
@@ -7,7 +8,7 @@
 
 {% block left_side_title %}{{test.type}}{% endblock left_side_title %}
 {% block left_side %}
-
+<form action="" method="post">  {% csrf_token %}
 <div class="uk-text-center" uk-grid>
         <div class="uk-width-1-2@m uk-width-1-1@s">
             <div class="uk-text-center">
@@ -42,7 +43,7 @@
                 <p class="uk-text-lead  uk-text-bolder pm-color-lightblue">Lab technician remarks</p>
             </div>
             <div class="uk-text-left">
-                <div class="pm-color-lightblue">Lab or lab technician remarks.</div>
+                {%render_field form.lab_remarks|attr:"autofocus" class="uk-textarea  uk-flex-wrap-middle pm-input" style="border-width: 2px" rows="5" placeholder="Additional notes from lab technician" %}
             </div>
         </div>
 
@@ -57,19 +58,11 @@
                     </div>
             </div>
             <progress id="js-progressbar" class="uk-progress" value="0" max="100" hidden></progress>
-            <div>
-                <div class="uk-margin">
-                    <textarea class="uk-textarea  uk-flex-wrap-middle pm-input" style="border-width: 2px" rows="5" placeholder="Additional notes from lab technician"></textarea> 
-                    
-
-                </div>
-            </div>
         </div>
 </div>
 <div class="uk-flex uk-flex-right">
-    <form action="" method="post">  {% csrf_token %}
-       {{form}}
-    <button style="font-size: 14px" class="uk-button pm-button-darkblue uk-button-large uk-width-small" type="submit" >Submit</button>
+        
+    <button type="submit" style="font-size: 14px" class="uk-button pm-button-darkblue uk-button-large uk-width-small" type="submit" >Submit</button>
     <a href="{% url 'technician_home' %}"><button style="font-size: 14px" class="uk-button pm-button-darkblue uk-button-large uk-width-small">Back</button> </a>
 </div>
 {% endblock left_side %}

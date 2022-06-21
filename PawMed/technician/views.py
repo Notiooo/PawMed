@@ -11,7 +11,7 @@ class SubmitResultView(UpdateView):
     """View where technician can add and then submit the result"""
     model = models.Test
     template_name = 'technician/submit_results.html'
-    fields = ['status']
+    fields = ['lab_remarks']
     success_url = reverse_lazy('technician_home')
 
 
@@ -30,11 +30,9 @@ class SubmitResultView(UpdateView):
         return context
 
     def form_valid(self, form):
-        #now this for some reason doesn't work
-        #I suspect it has something to do with the choise choosing
-        # cus otherwiese the form doesn't get validation on sending
-        # form.instance.status = ('c', 'Closed')
-        # form.instance.execution_date = datetime.today()
+        #now it works too good, even with back button
+        form.instance.status = 'c'
+        form.instance.execution_date = datetime.today()
         return super(SubmitResultView, self).form_valid(form)
 
 
