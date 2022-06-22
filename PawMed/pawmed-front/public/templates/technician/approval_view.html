@@ -7,6 +7,7 @@
 
 {% block left_side_title %}{{test.type}}{% endblock left_side_title %}
 {% block left_side %}
+<form action="" method="post">  {% csrf_token %}
 <div class="uk-text-center" uk-grid>
         <div class="uk-width-1-2@m">
             <div class="uk-text-center">
@@ -41,9 +42,16 @@
                 <p class="uk-text-lead  uk-text-bolder pm-color-lightblue">Lab technician remarks</p>
             </div>
             <div class="uk-text-left">
-                <div class="pm-color-lightblue">Lab or lab technician remarks.</div>
+                <div class="pm-color-lightblue">{{test.lab_remarks}}</div>
+            </div>
+            <div class="uk-text-center uk-margin-medium">
+                <p class="uk-text-lead  uk-text-bolder pm-color-lightblue">Change status</p>
+            </div>
+            <div class="uk-text-left">
+                <div class="pm-color-lightblue">{{form.status}}</div>
             </div>
         </div>
+
 
         <div class="uk-width-expand">
             <div class="js-upload uk-placeholder uk-height-large uk-flex uk-flex-middle uk-flex-column uk-flex-center" style="border-color: #6B818C; border-width: 2px; border-radius: 8px">
@@ -61,15 +69,12 @@
 </div>
 
 <hr>
-<div class="uk-margin">
-    <textarea class="uk-textarea  uk-flex-wrap-middle pm-input" style="border-width: 2px" rows="3" placeholder="This needs to be filled if you want to decline report"></textarea>
-</div>
 <div class="uk-flex-right" uk-grid>
     <div>
-        <a href="{% url 'head_home' %}"><button style="font-size: 14px" class="uk-button pm-button-primary uk-button-large uk-width-small">Accept</button></a>
+        <<button type="submit" style="font-size: 14px" class="uk-button pm-button-primary uk-button-large uk-width-small">Submit</button></a>
     </div>
     <div>
-        <a href="{% url 'head_home' %}"><button style="font-size: 14px" class="uk-button pm-button-secondary uk-button-large uk-width-small">Decline</button></a>
+        <a href="{% url 'head_home' %}"><button style="font-size: 14px" class="uk-button pm-button-secondary uk-button-large uk-width-small">Back</button></a>
     </div>
 </div>
 {% endblock left_side %}

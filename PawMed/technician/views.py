@@ -41,6 +41,7 @@ class HeadTechnicianApprovalView(UpdateView):
     template_name = 'technician/approval_view.html'
     fields = ['status']
     model = models.Test
+    success_url = reverse_lazy('head_home')
 
     def testdex(request, template_name = 'technician/patient_information.html'):
         args = {}
@@ -54,6 +55,7 @@ class HeadTechnicianApprovalView(UpdateView):
         context["visit"] = self.get_object().visit
         context["doctor"] = self.get_object().visit.doctor
         return context
+
 
 class TechnicianHomepageView(ListView):
     """View where technicians can see tests of all states """
