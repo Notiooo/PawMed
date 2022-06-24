@@ -1,4 +1,5 @@
 from django.views.generic import TemplateView, ListView, UpdateView, FormView
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.urls import reverse_lazy
 from datetime import datetime
 from django.template.response import TemplateResponse
@@ -7,13 +8,15 @@ from . import models
 from registrar.models import Visit, Patient
 from doctor.models import Doctor
 
-class SubmitResultView(UpdateView):
+class SubmitResultView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     """View where technician can add and then submit the result"""
     model = models.Test
     template_name = 'technician/submit_results.html'
     fields = ['lab_remarks']
     success_url = reverse_lazy('technician_home')
 
+    def test_func(self):
+        return self.request.user.role == 'LAB_TECHNICIAN' or self.request.user.role == 'LAB_MANAGER'
 
     def testdex(request, template_name = 'technician/patient_information.html'):
         args = {}
@@ -36,12 +39,15 @@ class SubmitResultView(UpdateView):
         return super(SubmitResultView, self).form_valid(form)
 
 
-class HeadTechnicianApprovalView(UpdateView):
+class HeadTechnicianApprovalView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     """View where technician can add and then submit the result"""
     template_name = 'technician/approval_view.html'
     fields = ['status']
     model = models.Test
     success_url = reverse_lazy('head_home')
+
+    def test_func(self):
+        return self.request.user.role == 'LAB_MANAGER'
 
     def testdex(request, template_name = 'technician/patient_information.html'):
         args = {}
@@ -57,10 +63,13 @@ class HeadTechnicianApprovalView(UpdateView):
         return context
 
 
-class TechnicianHomepageView(ListView):
+class TechnicianHomepageView(LoginRequiredMixin, UserPassesTestMixin, ListView):
     """View where technicians can see tests of all states """
     template_name = 'technician/technician_homepage.html'
     model = models.Test
+
+    def test_func(self):
+        return self.request.user.role == 'LAB_TECHNICIAN' or self.request.user.role == 'LAB_MANAGER'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -70,12 +79,16 @@ class TechnicianHomepageView(ListView):
     
 
 
-class HeadTechnicianHomepageView(ListView):
+class HeadTechnicianHomepageView(LoginRequiredMixin, UserPassesTestMixin, ListView):
     """ view where technician head can see all closed but not approved tests """
     template_name = 'technician/technician_head_homepage.html'
     model = models.Test
 
+    def test_func(self):
+        return self.request.user.role == 'LAB_MANAGER'
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["closed_tests"] = models.Test.objects.filter(status='c')
+        context["recent_tests"] = models.Test.objects.filter().order_by("execution_date")
         return context

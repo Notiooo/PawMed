@@ -37,4 +37,38 @@
             </div>
         </div>
     {% endfor %}
+
+    {%for test in recent_tests %}
+    <div class="uk-animation-toggle uk-animation-slide-top-medium uk-container uk-margin-medium-top pm-background-white uk-border-rounded">
+        <div class="uk-padding">
+            <p class="uk-text-bold pm-color-darkblue pm-font-size-medium">Recently evaluated tests:</p>
+        </div>
+            <div class="uk-width-expand uk-grid-collapse uk-background-default uk-padding-remove pm-border-solid" uk-grid>
+                <div class="pm-background-darkblue uk-visible@m pm-indicator"></div>
+                <div class="uk-width-2-5@m uk-width-1-1@s uk-margin-small uk-margin-small-left uk-margin-small-right uk-margin-auto-vertical">
+                    <table class="uk-margin-small-left uk-table-small uk-width-expand uk-padding-small uk-margin-top">
+                        <caption class="uk-margin-remove pm-color-darkblue uk-text-bold uk-text-justify pm-font-size-medium">{{test.visit.patient.name}} {{test.visit.patient.surname}} - {{test.type}}</caption>
+                        <tr>
+                            <td class="uk-padding-remove">ID: </td>
+                            <td class="uk-padding-remove uk-text-right">{{ test.visit.patient.personid}}</td>
+                        </tr>
+                        <tr>
+                            <td class="uk-padding-remove">Age: </td>
+                            <td class="uk-padding-remove uk-text-right">{{ test.visit.patient.age}}</td>
+                        </tr>
+                        <tr>
+                            <td class="uk-padding-remove">Contact: </td>
+                            <td class="uk-padding-remove uk-text-right">{{ test.visit.patient.phone_number}}</td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="uk-width-1-5@m uk-width-expand@s uk-text-center uk-margin-auto-vertical uk-margin-small uk-margin-small-left uk-margin-small-right ">
+                    <a href="{% url "head_technician_approval_view" test.id %}"><button style="font-size: 16px" class="uk-button pm-button-primary">View</button></a>
+                </div>
+               
+                
+            </div>
+        </div>
+
+    {% endfor %}
 {% endblock content %}
