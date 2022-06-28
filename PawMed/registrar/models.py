@@ -1,4 +1,6 @@
+import pytz
 from django.db import models
+from django.urls import reverse
 from doctor.models import Doctor
 
 
@@ -7,9 +9,8 @@ class Patient(models.Model):
     name = models.CharField(max_length=50)
     surname = models.CharField(max_length=50)
     registration_date = models.DateTimeField(auto_now_add=True, blank=True)
-    age = models.IntegerField()
     phone_number = models.CharField(max_length=30)
-    birth_date = models.DateTimeField()
+    birth_date = models.DateField()
     city = models.CharField(max_length=85)
     zip_code = models.CharField(max_length=10)
     personid = models.CharField(max_length=50)
@@ -20,6 +21,9 @@ class Patient(models.Model):
     )
 
     gender = models.CharField(max_length=1, choices=GENDER)
+
+    def get_absolute_url(self):
+        return reverse('registrar_patient', args=[str(self.id)])
 
     def __str__(self):
         return self.name + " " + self.surname

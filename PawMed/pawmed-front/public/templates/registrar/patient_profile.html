@@ -20,12 +20,14 @@
                                 <div class="uk-width-1-2">
                                     <div>
                                         <div>Personal ID</div>
+                                        <div>Gender</div>
                                         <div>Birthday</div>
                                     </div>
                                 </div>
                                 <div class="uk-width-1-2">
                                     <div class="uk-text-right">
                                         <div>{{ patient.personid }}</div>
+                                        <div>{{ patient.get_gender_display }}</div>
                                         <div>{{ patient.birth_date }}</div>
                                     </div>
                                 </div>
@@ -100,13 +102,13 @@
             <div class="uk-grid-column-collapse" uk-grid>
                 <div class="uk-flex uk-flex-middle uk-flex-center uk-grid-collapse pm-color-darkblue uk-width-1-5@m" uk-grid>
                     <div class="uk-width-2-3@s uk-width-1-1 uk-text-center">
-                        <p class="uk-padding-remove uk-visible@m uk-margin-remove uk-text-break">{{ visit.date }}</p>
+                        <p class="uk-padding-remove uk-visible@m uk-margin-remove uk-text-break">{{ visit.date|date:"d.m.y (D)" }} <br> {{ visit.date|date:"H:i a" }}</p>
                         <p class="uk-padding-small uk-text-center uk-text-middle uk-text-bold uk-hidden@m uk-margin-remove uk-text-break">{{ visit.date }}</p>
                     </div>
                     <div class="uk-padding-small uk-visible@m uk-width-1-3">
                         <span class="pm-dot-small pm-background-darkblue"></span>
                          {% if not forloop.last %}
-                            <div style="height: 70px; border-left: 1px solid; margin-left: 2px" class="uk-position-absolute uk-height-small"></div>
+                            <div style="height: 60px; border-left: 1px solid; margin-left: 2px" class="uk-position-absolute uk-height-small"></div>
                         {% endif %}
                     </div>
                 </div>
@@ -115,10 +117,10 @@
                         <div style="border-right: solid 1px #EEE5E9" class="uk-padding-small uk-margin-remove">{{ visit.room }}</div>
                         {% if visit.took_place %}
                              <div style="border-right: solid 1px #EEE5E9" class="uk-padding-small uk-margin-remove">Took place</div>
-                            <a class="pm-color-darkblue uk-padding-small uk-margin-remove" href={% url "appointment_info" patient.pk %}><span uk-icon="info"  class="pm-color-darkblue" style='margin-right:0.5em; display:inline-block;'></span>Info</a>
+                            <div style="border-right: solid 1px #EEE5E9" class="uk-padding-small uk-margin-remove">No action</div>
                         {% else %}
                             <div style="border-right: solid 1px #EEE5E9" class="uk-padding-small uk-margin-remove">Upcoming</div>
-                            <a class="pm-color-darkblue uk-padding-small uk-margin-remove" href={% url "modify_appointment" patient.pk %}><span uk-icon="pencil"  class="pm-color-darkblue" style='margin-right:0.5em; display:inline-block;'></span>Modify</a>
+                            <a id="js-modal-confirm" method="get" delete-visit-url="{% url 'ajax_delete_visit' visit.id %}" class="pm-color-darkblue uk-padding-small uk-margin-remove" href='#'><span uk-icon="pencil"  class="pm-color-darkblue" style='margin-right:0.5em; display:inline-block;'></span>Delete</a>
                         {% endif %}
                 </div>
             </div>
@@ -128,4 +130,31 @@
         {% endif %}
     </div>
 </div>
+
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script>
+   UIkit.util.on('#js-modal-confirm', 'click', function (e) {
+       e.preventDefault();
+       e.target.blur();
+       UIkit.modal.confirm('Are you sure you want to delete this visit?').then(function ()
+       {
+           var url = $("#js-modal-confirm").attr("delete-visit-url");
+           console.log(url)
+
+            $.ajax({
+                url: url,
+                success: function (response) {
+                if (response.status === 'deleted')
+                {
+                    location.reload();
+                }
+                }
+            });
+
+           console.log('Confirmed.')
+       }, function () {
+           console.log('Rejected.')
+       });
+   });
+</script>
 {% endblock content %}

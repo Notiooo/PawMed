@@ -13,7 +13,6 @@ class DoctorTest(TestCase):
             id=1,
             name="Name",
             surname="Surname",
-            age=22,
             phone_number="511722711",
             birth_date=datetime.now(),
             city="Chrzanow",
