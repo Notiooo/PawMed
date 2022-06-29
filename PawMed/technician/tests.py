@@ -7,7 +7,6 @@ from users.models import CustomUser
 
 from .models import Test, Technician, Laboratory
 
-# Create your tests here.
 
 class TechnicianTest(TestCase):
     def setUp(self):
@@ -15,7 +14,6 @@ class TechnicianTest(TestCase):
             id=1,
             name="Name",
             surname="Surname",
-            age=22,
             phone_number="511722711",
             birth_date=datetime.now(),
             city="Chrzanow",
@@ -86,7 +84,7 @@ class TechnicianTest(TestCase):
 
         user = CustomUser.objects.create_user(username='username1', password='password1', email='user1@user.com', role='LAB_TECHNICIAN')
         CustomUser.objects.create_user(username='username2', password='password2', email='user2@user.com', role='LAB_MANAGER')
-        self.client.login(username='username1', password='password')
+        self.client.login(username='username1', password='password1')
 
 
 class TechnicianHomepageViewTest(TechnicianTest):
@@ -102,6 +100,7 @@ class TechnicianHomepageViewTest(TechnicianTest):
         response = self.client.get(reverse('technician_home'))
         self.assertTemplateUsed(response, 'technician/technician_homepage.html')
 
+
 class TechnicianSubmitResultViewTest(TechnicianTest):
     def testSubmitResultViewStatusCode(self):
         response = self.client.get('/technician/1/submit')
@@ -115,9 +114,13 @@ class TechnicianSubmitResultViewTest(TechnicianTest):
         response = self.client.get(reverse("technician_submit_result", args=[1]))
         self.assertTemplateUsed(response, 'technician/submit_results.html')
 
+
 class HeadHomepageViewTest(TechnicianTest):
+    def setUp(self):
+        super(HeadHomepageViewTest, self).setUp()
+        self.client.login(username='username2', password='password2')
+
     def testHomepageViewStatusCode(self):
-        self.client.login(username='username2', password='password')
         response = self.client.get('/technician/head/')
         self.assertAlmostEqual(response.status_code, 200)
 
@@ -129,7 +132,12 @@ class HeadHomepageViewTest(TechnicianTest):
         response = self.client.get('/technician/head/')
         self.assertTemplateUsed(response, 'technician/technician_head_homepage.html')
 
+
 class HeadApprovalViewTest(TechnicianTest):
+    def setUp(self):
+        super(HeadApprovalViewTest, self).setUp()
+        self.client.login(username='username2', password='password2')
+
     def testApprovalViewStatusCode(self):
         response = self.client.get('/technician/1/approval')
         self.assertEqual(response.status_code, 301)

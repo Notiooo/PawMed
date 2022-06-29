@@ -14,6 +14,7 @@ from django.contrib.auth.decorators import login_required
 
 from doctor.models import Doctor
 from technician.models import Technician
+from doctor.models import DoctorSpecialization, Specialization
 
 
 class RegisterView(generic.CreateView):
