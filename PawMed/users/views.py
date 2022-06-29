@@ -11,7 +11,10 @@ from .models import CustomUser
 from .serializers import CustomUserSerializer
 from django.contrib.auth.decorators import login_required
 
-from doctor.models import Doctor, Technician, DoctorSpecialization, Specialization
+
+from doctor.models import Doctor
+from technician.models import Technician
+from doctor.models import DoctorSpecialization, Specialization
 
 
 class RegisterView(generic.CreateView):
@@ -29,7 +32,7 @@ class RedirectView(View):
     def dispatch(self, request, *args, **kwargs):
         role = CustomUser.objects.filter(username=request.user.username).get().role
         if role == 'DOCTOR':
-            return HttpResponseRedirect(reverse('doctor'))
+            return HttpResponseRedirect(reverse('doctor_homepage'))
         elif role == 'LAB_TECHNICIAN':
             return HttpResponseRedirect(reverse('lab_technician'))
         elif role == 'LAB_MANAGER':

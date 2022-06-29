@@ -24,22 +24,25 @@ class DoctorSpecialization(models.Model):
         db_table = 'doctor_specialization'
 
 
-class Laboratory(models.Model):
-    id = models.IntegerField(primary_key=True)
-    room = models.CharField(max_length=10)
-    type = models.CharField(max_length=50)
-
-    class Meta:
-        managed = False
-        db_table = 'laboratory'
-
-
 class Prescription(models.Model):
     id = models.IntegerField(primary_key=True)
     visit = models.ForeignKey('registrar.Visit', models.DO_NOTHING, db_column='visit')
     date_of_issue = models.DateTimeField()
     expiration_date = models.DateTimeField()
+    name = models.CharField(max_length=30, blank=True, null=True)
+    drug_form = models.CharField(max_length=30, blank=True, null=True)
+    num_of_packages = models.CharField(max_length=10, blank=True, null=True)
     remarks = models.TextField(blank=True, null=True)
+
+    REFOUND=(
+        (5, '5%'),
+        (10, '10%'),
+        (15, '15%'),
+        (50, '50%'),
+        (100, '100%')
+    )
+    refound_percentage = models.IntegerField(blank=True, null=True, choices=REFOUND)
+
 
     class Meta:
         managed = False
@@ -58,26 +61,3 @@ class Specialization(models.Model):
         db_table = 'specialization'
 
 
-class Technician(models.Model):
-    id = models.IntegerField(primary_key=True)
-    name = models.CharField(max_length=50)
-    surname = models.CharField(max_length=50)
-    custom_user_id = models.IntegerField(blank=True, null=True)
-
-    class Meta:
-        managed = False
-        db_table = 'technician'
-
-
-class Test(models.Model):
-    id = models.IntegerField(primary_key=True)
-    type = models.CharField(max_length=50)
-    execution_date = models.DateTimeField()
-    executive = models.ForeignKey(Technician, models.DO_NOTHING, db_column='executive')
-    remarks = models.TextField(blank=True, null=True)
-    laboratory_room = models.ForeignKey(Laboratory, models.DO_NOTHING, db_column='laboratory_room', blank=True, null=True)
-    visit = models.ForeignKey('registrar.Visit', models.DO_NOTHING, db_column='visit')
-
-    class Meta:
-        managed = False
-        db_table = 'test'

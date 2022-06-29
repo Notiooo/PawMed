@@ -6,6 +6,6 @@
 
 {% block content %}
     <form action="" method="post">  {% csrf_token %}
-        {{ form.as_p }}
     <button class="btn" type="submit"> End Visit </button>
+    <a href="{% url 'doctor_homepage' %}"><button> Back </button> </a>
 {% endblock content%}

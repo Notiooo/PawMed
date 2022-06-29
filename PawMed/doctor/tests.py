@@ -2,7 +2,9 @@ from django.test import TestCase
 from django.urls import reverse
 from django.utils.datetime_safe import datetime
 from registrar.models import Visit, Patient
-from .models import Doctor
+from .models import Doctor, DoctorSpecialization, Specialization
+
+from users.models import CustomUser
 
 
 class DoctorTest(TestCase):
@@ -44,8 +46,10 @@ class DoctorTest(TestCase):
             room="123a",
             took_place=False
         )
+        user = CustomUser.objects.create_user(username='username', password='password', role='DOCTOR')
+        self.client.login(username='username', password='password')
 
-class DoctorHomepageViewTest(TestCase):
+class DoctorHomepageViewTest(DoctorTest):
     def testHomepageStatusCode(self):
         response = self.client.get('/')
         self.assertEqual(response.status_code, 200)
@@ -58,21 +62,6 @@ class DoctorHomepageViewTest(TestCase):
         response = self.client.get(reverse('doctor_homepage'))
         self.assertTemplateUsed(response, 'doctor/doctor_homepage.html')
 
-
-class DoctorEndVisitViewTest(DoctorTest):
-    def testEndVisitStatusCode(self):
-        response = self.client.get('/doctor/1/end/')
-        self.assertEqual(response.status_code, 200)
-
-    def testEndVisitUrlByName(self):
-        response = self.client.get(reverse('doctor_endvisit', args=[1]))
-        self.assertEqual(response.status_code, 200)
-
-    def testEndVisitCorrectTemplate(self):
-        response = self.client.get('/doctor/1/end/')
-        self.assertTemplateUsed(response, 'doctor/doctor_endvisit.html')
-
-
 class DoctorAppointmentViewTest(DoctorTest):
     def testAppointmentViewStatusCode(self):
         response = self.client.get('/doctor/1/visit/')
@@ -83,5 +72,44 @@ class DoctorAppointmentViewTest(DoctorTest):
         self.assertEqual(response.status_code, 200)
 
     def testAppointmentViewCorrectTemplate(self):
-        response = self.client.get('/doctor/1/visit/')
-        self.assertTemplateUsed(response, 'doctor/doctor_visit.html')
+        response = self.client.get('/doctor/2/visit/')
+        self.assertTemplateUsed(response, 'doctor/doctor_visit_exam.html')
+
+class DoctorOrderTestViewTest(DoctorTest):
+    def testOrderViewStatusCode(self):
+        response = self.client.get('/doctor/2/test/')
+        self.assertEqual(response.status_code, 200)
+
+    def testOrderViewUrlByName(self):
+        response = self.client.get(reverse('doctor_order_test', args=[2]))
+        self.assertEqual(response.status_code, 200)
+
+    def testOrderViewCorrectTemplate(self):
+        response = self.client.get(reverse('doctor_order_test', args=[2]))
+        self.assertTemplateUsed(response, 'doctor/doctor_visit_test.html')
+
+class DoctorPatientHistoryViewTest(DoctorTest):
+    def testHistoryViewStatusCode(self):
+        response = self.client.get('/doctor/2/history/')
+        self.assertEqual(response.status_code, 200)
+
+    def testHistoryViewUrlByName(self):
+        response = self.client.get(reverse('doctor_patient_history', args=[2]))
+        self.assertAlmostEqual(response.status_code, 200)
+
+    def testHistoryViewCorrectTemplate(self):
+        response = self.client.get('/doctor/2/history/')
+        self.assertTemplateUsed(response, 'doctor/doctor_visit_history.html')
+
+class DoctorCreatePrescriptionViewTest(DoctorTest):
+    def testCreatePresciptionViewStatusCode(self):
+        response = self.client.get('/doctor/2/prescription/')
+        self.assertEqual(response.status_code, 200)
+
+    def testCreatePrescriptionViewUrlByName(self):
+        response = self.client.get(reverse('doctor_prescription', args=[2]))
+        self.assertEqual(response.status_code, 200)
+
+    def testCreatePresciptionViewCorrectTemplate(self):
+        response = self.client.get('/doctor/2/prescription/')
+        self.assertTemplateUsed(response, 'doctor/doctor_visit_prescription.html')

@@ -1,33 +1,39 @@
 {% extends 'doctor/doctor_visit.html' %}
+{% load widget_tweaks %}
 {% load static %}
 
 {% block left_side %}
+<form action="" method="post">
+    {% csrf_token %}
     <div class="uk-width-1-1">
         <ul class="uk-subnav uk-subnav-pill" uk-margin>
             <li class="uk-active"><a href="#" class="pm-button-secondary">Examine</a></li>
-            <li><a href="#" class="pm-button-secondary">Prescription</a></li>
-            <li><a href="#" class="pm-button-secondary">Order Test</a></li>
-            <li><a href="#" class="pm-button-secondary">History</a></li>
+            <li><a href="{% url "doctor_order_test" visit.id %}" class="pm-button-secondary">Order Test</a></li>
+            <li><a href="{% url "doctor_patient_history" visit.id %}" class="pm-button-secondary">History</a></li>
+            <li><a href="{% url "doctor_prescription" visit.id%}" class="pm-button-secondary">Prescription</a></li>
         </ul>
         <ul uk-accordion="multiple: true">
             <li>
                 <div class="uk-text-left pm-background-white uk-accordion-title">
                     <p href="#" style="font-size: 24px;" class="uk-text-bold pm-color-darkblue uk-margin-medium-left uk-margin-remove-bottom">General examination</p>
                 </div>
+
                 <div class="uk-accordion-content">
                     <div class="uk-text-left">
                         <span class=>Medical interview</span>
-                        <textarea class="uk-textarea  uk-flex-wrap-middle pm-input uk-margin-small-bottom" style="border-width: 2px" rows="3" placeholder="..."></textarea>
+                        {% render_field form.medical_interview|attr:"autofocus" class+="uk-textarea  uk-flex-wrap-middle pm-input uk-margin-small-bottom" style+="border-width: 2px" rows="3" placeholder="..." %}
+                        <!-- <textarea class="uk-textarea  uk-flex-wrap-middle pm-input uk-margin-small-bottom" style="border-width: 2px" rows="3" placeholder="..."></textarea> -->
                     </div>
                     <div class="uk-text-left">
                         <span>Examination</span>
-                        <textarea class="uk-textarea  uk-flex-wrap-middle pm-input uk-margin-small-bottom" style="border-width: 2px" rows="3" placeholder="..."></textarea>
+                        {% render_field form.examination|attr:"autofocus" class="uk-textarea  uk-flex-wrap-middle pm-input uk-margin-small-bottom" style="border-width: 2px" rows="3" placeholder="...">%}
                     </div>
                     <div class="uk-text-left">
                         <span>Recommendation</span>
-                        <textarea class="uk-textarea  uk-flex-wrap-middle pm-input uk-margin-small-bottom" style="border-width: 2px" rows="3" placeholder="..."></textarea>
+                        {% render_field form.recommendation|attr:"autofocus" class="uk-textarea  uk-flex-wrap-middle pm-input uk-margin-small-bottom" style="border-width: 2px" rows="3" placeholder="...">%}
                     </div>
                 </div>
+                
             </li>
             <li>
                 <div class="uk-text-left pm-background-white uk-accordion-title">
@@ -43,17 +49,15 @@
                             <div class="uk-width-1-1" uk-grid>
                                 <div class="uk-inline uk-width-5-6">
                                     <div>
-                                        <input class="uk-input pm-input" type="text" placeholder="Name of disease"/>
+                                        {% render_field form.diagnosis|attr:"autofocus" class="uk-input pm-input" rows="1" placeholder="Name of disease" %}
                                     </div>
                                     <div class="uk-margin-small-top">
-                                        <input class="uk-input pm-input" type="text" placeholder="Remarks"/>
+                                        {% render_field form.remarks|attr:"autofocus" class="uk-input pm-input" placeholder="Remarks" %}
                                     </div>
-                                </div>
-                                <div class="uk-inline  uk-width-expand">
-                                    <a href="{% url "homepage" %}"><button style="font-size: 14px" class="uk-button pm-button-primary uk-position-bottom-right">Add</button></a>
                                 </div>
                             </div>
                         </li>
+                   
                         <li>
                             <table class="uk-table uk-table-striped uk-text-left">
                             <thead>
@@ -64,21 +68,13 @@
                                 </tr>
                             </thead>
                             <tbody>
+                                {%for visit in prev_visits%}
                                 <tr>
-                                    <td>2022-03-01</td>
-                                    <td>Brucellosis</td>
-                                    <td>Patient has a high temperature, loss of appetite, sweating, headaches, extreme tiredness.</td>
+                                    <td>{{visit.date}}</td>
+                                    <td>{{visit.diagnosis}}</td>
+                                    <td>{{visit.remarks}}</td>
                                 </tr>
-                                <tr>
-                                    <td>2022-02-01</td>
-                                    <td>Coronavirus disease</td>
-                                    <td>Patient not looking good, lost sense of smell and taste. Lungs in good condition.</td>
-                                </tr>
-                                <tr>
-                                    <td>2022-01-11</td>
-                                    <td>Lassa fever</td>
-                                    <td>Big headaches and body temperature up to 39.6C</td>
-                                </tr>
+                                {% endfor %}
                             </tbody>
                         </table>
                         </li>
@@ -91,45 +87,34 @@
                 </div>
                 <div class="uk-accordion-content">
                     <table class="uk-table uk-table-striped uk-text-left">
-                        <thead>
-                            <tr>
-                                <th class="uk-width-small">Date of visit</th>
-                                <th>Test name</th>
-                                <th class="uk-table-expand">Lab technician remarks</th>
-                                <th class="uk-width-small">Link</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>2022-03-01</td>
-                                <td>Bone marrow examination</td>
-                                <td>Patient has everything within norm</td>
-                                <td><a href=""><button style="font-size: 14px" class="uk-button pm-button-primary uk-button-small uk-align-center">View</button></a></td>
-                            </tr>
-                            <tr>
-                                <td>2022-02-01</td>
-                                <td>Lungs X-Ray</td>
-                                <td>Not visible any changes</td>
-                                 <td><a href=""><button style="font-size: 14px" class="uk-button pm-button-primary uk-button-small uk-align-center">View</button></a></td>
-                            </tr>
-                            <tr>
-                                <td>2018-01-11</td>
-                                <td>Leg X-Ray</td>
-                                <td>Fibula in tact. Tibia bone fracture detection as oblique fracture. </td>
-                                 <td><a href=""><button style="font-size: 14px" class="uk-button pm-button-primary uk-button-small uk-align-center">View</button></a></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <hr class="pm-color-darkblue">
+                            <thead>
+                                <tr>
+                                    <th class="uk-width-small">Date of execution</th>
+                                    <th>Test name</th>
+                                    <th class="uk-table-expand">Lab technician remarks</th>
+                                    <th class="uk-width-small">Link</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for test in prev_lab_tests%}
+                                <tr>
+                                    <td>{{test.execution_date}}</td>
+                                    <td>{{test.type}} </td>
+                                    <td>{{test.remarks}}</td>
+                                    <td><a href=""><button style="font-size: 14px" class="uk-button pm-button-primary uk-button-small uk-align-center">View</button></a></td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
                 </div>
-            </li>
+            </li>                    
         </ul>
-        <div class="uk-flex-center@s uk-flex-right@m uk-child-width-1-3@s uk-child-width-auto@m" uk-grid>
+        <div class="uk-flex-right uk-child-width-auto" uk-grid>
             <div class="uk-margin-small-top">
-                <a href="{% url "homepage" %}"><button style="font-size: 14px" class="uk-button pm-button-primary uk-button-large">Clear</button></a>
+                <button style="font-size: 14px" class="uk-button pm-button-primary uk-button-large">Clear</button></a>
             </div>
             <div class="uk-margin-small-top">
-                <a href="{% url "homepage" %}"><button style="font-size: 14px" class="uk-button pm-button-primary uk-button-large">Submit</button></a>
+                <a href="{% url "homepage" %}"><button type="submit" style="font-size: 14px" class="uk-button pm-button-primary uk-button-large">Submit</button>
             </div>
             <div  class="uk-margin-small-top">
                   <a href="#modal-end-appointment" uk-toggle><button style="font-size: 14px" class="uk-button pm-button-secondary uk-button-large">End visit</button></a>

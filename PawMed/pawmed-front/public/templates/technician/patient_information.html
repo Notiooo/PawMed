@@ -14,25 +14,25 @@
             <div class="uk-width-expand uk-flex uk-flex-center">
                 <div class="uk-width-1-1">
                     <div class="uk-text-center">
-                        <p style="font-size: 36px;" class="uk-width-1-1 pm-background-white uk-text-bold pm-color-darkblue">Jan Kowalski</p>
+                        <p style="font-size: 36px;" class="uk-width-1-1 pm-background-white uk-text-bold pm-color-darkblue">{{test.visit.patient.name}} {{test.visit.patient.surname}}</p>
                         <p class="uk-text-lead uk-margin-small-bottom uk-text-bolder pm-color-lightblue">Patient information</p>
                     </div>
                     <div class="uk-text-left pm-color-lightblue" style="font-size: 18px">
                         <div class="uk-display-block uk-margin">
                             <div class="uk-text-bold">Personal ID number</div>
-                            <div>99082205934</div>
+                            <div>{{test.visit.patient.personid}}</div>
                         </div>
                         <div class="uk-display-block uk-margin">
                             <div class="uk-text-bold">Age</div>
-                            <div>25 years</div>
+                            <div>{{test.visit.patient.age}}</div>
                         </div>
                         <div class="uk-display-block uk-margin">
                             <div class="uk-text-bold">Address</div>
-                            <div>62-302 Konin, ul. Agatowa 12</div>
+                            <div>{{test.visit.patient.zip_code}} {{test.visit.patient.city}}</div>
                         </div>
                         <div class="uk-display-block uk-margin">
                             <div class="uk-text-bold">Contact</div>
-                            <div>+48 799456789</div>
+                            <div>{{test.visit.patient.phone_number}}</div>
                         </div>
                     </div>
                     <hr class="pm-color-darkblue">

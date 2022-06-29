@@ -39,6 +39,10 @@ CREATE TABLE public.prescription (
     visit integer NOT NULL,
     date_of_issue timestamp with time zone NOT NULL,
     expiration_date timestamp with time zone NOT NULL,
+    name VarChar(30),
+    drug_form VarChar(30),
+    num_of_packages VarChar(10),
+    refound_percentage integer,
     remarks text,
     PRIMARY KEY (id)
 );
@@ -68,11 +72,13 @@ CREATE TABLE public.specialization (
 CREATE TABLE public.test (
     id integer NOT NULL,
     type Varchar(50) NOT NULL,
-    execution_date timestamp with time zone NOT NULL,
-    executive integer NOT NULL,
+    execution_date timestamp with time zone,
+    executive integer,
     remarks text,
+    lab_remarks text,
     laboratory_room integer,
     visit integer NOT NULL,
+    status char NOT NULL,
     PRIMARY KEY (id)
 );
 
